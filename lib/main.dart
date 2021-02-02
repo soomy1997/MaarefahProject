@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
-        //onPressed: () {},
+        onPressed: () {},
         child: Text("Get started",
             textAlign: TextAlign.center,
             style: style.copyWith(
