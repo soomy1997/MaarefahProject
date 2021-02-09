@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'constants.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,6 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter login',
       theme: ThemeData(
         // This is the theme of your application.
@@ -34,15 +36,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -55,23 +48,15 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final emailField = TextField(
-      obscureText: false,
-      style: TextStyle(fontSize: 18),
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
-          hintText: "Email",
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
-    );
+        obscureText: false,
+        style: h5,
+        decoration: textInputDecoratuon.copyWith(
+            hintText: 'Email', prefixIcon: Icon(Icons.email)));
     final passwordField = TextField(
-      obscureText: true,
-      style: TextStyle(fontSize: 18),
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
-          hintText: "******",
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
-    );
+        obscureText: true,
+        style: h5,
+        decoration: textInputDecoratuon.copyWith(
+            hintText: '******', prefixIcon: Icon(Icons.lock)));
     final loginButon = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(10.0),
@@ -81,17 +66,18 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
         onPressed: () {},
         child: Text("Get started",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.normal)),
+            textAlign: TextAlign.center, style: yellowButtonsTextStyle),
       ),
     );
-
+//arrow_back_ios
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff14213C),
-      ),
-      body: Center(
+          backgroundColor: Color(0xff14213C),
+          actions: [
+            IconButton(icon: Icon(Icons.close_rounded), onPressed: () => {})
+          ],
+          leading: Icon(Icons.arrow_back_ios)),
+      body: SingleChildScrollView(
         child: Container(
           color: Colors.white,
           child: Padding(
@@ -103,9 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   height: 35.0,
                   child: Text("Welcome Back :)",
-                      textAlign: TextAlign.center,
-                      style: style.copyWith(
-                          color: Colors.black, fontWeight: FontWeight.bold)),
+                      textAlign: TextAlign.center, style: h1),
                 ),
                 SizedBox(
                   height: 50.0,
