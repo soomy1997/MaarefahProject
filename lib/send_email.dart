@@ -82,11 +82,7 @@ class _SendEmailPage extends State<SendEmailPage> {
                       style: h5),
                 ),
                 SizedBox(
-<<<<<<< HEAD
                   height: 20.0,
-=======
-                  height: 15.0,
->>>>>>> master
                   width: double.infinity,
                   child: Text("Email", textAlign: TextAlign.left, style: h4),
                 ),
