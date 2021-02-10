@@ -31,7 +31,7 @@ class VerificationPage extends StatefulWidget {
 
 class _ResetPageState extends State<VerificationPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat');
-  int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
+  int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 60;
   //bool _isButtonDisabled;
 
   @override
@@ -44,9 +44,11 @@ class _ResetPageState extends State<VerificationPage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
         onPressed: () => (0),
-        child: Text("Verify",
-            textAlign: TextAlign.center,
-            style: yellowButtonsTextStyle,),
+        child: Text(
+          "Verify",
+          textAlign: TextAlign.center,
+          style: yellowButtonsTextStyle,
+        ),
       ),
     );
 
