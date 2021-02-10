@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'verification_code_input.dart';
+import 'constants.dart';
 
 void main() {
   runApp(VerificationScreen());
@@ -45,10 +46,7 @@ class _ResetPageState extends State<VerificationPage> {
         onPressed: () => (0),
         child: Text("Verify",
             textAlign: TextAlign.center,
-            style: style.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.normal,
-            )),
+            style: yellowButtonsTextStyle,),
       ),
     );
 
@@ -79,24 +77,18 @@ class _ResetPageState extends State<VerificationPage> {
               children: <Widget>[
                 SizedBox(
                   height: 45.0,
-                  child: Text("Verification",
-                      textAlign: TextAlign.center,
-                      style: style.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 28,
-                      )),
+                  child: Text(
+                    "Verification",
+                    textAlign: TextAlign.center,
+                    style: h1,
+                  ),
                 ),
                 SizedBox(
                   height: 50.0,
                   child: Text(
                       "Enter the verification code we just sent you on your email address.",
                       textAlign: TextAlign.center,
-                      style: style.copyWith(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 17,
-                      )),
+                      style: h5),
                 ),
                 SizedBox(
                   height: 35.0,
