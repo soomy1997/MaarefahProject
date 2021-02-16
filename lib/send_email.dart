@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
+import 'utils/constants.dart';
+import './reset.dart';
 
 void main() {
   runApp(SendEmail());
@@ -44,7 +45,12 @@ class _SendEmailPage extends State<SendEmailPage> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ResetHomePage()),
+          );
+        },
         child: Text(
           "Send",
           textAlign: TextAlign.center,
@@ -75,10 +81,10 @@ class _SendEmailPage extends State<SendEmailPage> {
                       textAlign: TextAlign.center, style: h1),
                 ),
                 SizedBox(
-                    height: 200.0,
+                    height: MediaQuery.of(context).size.height * (200.0 / 812),
                     child: Image(image: AssetImage('images/pic1.png'))),
                 SizedBox(
-                  height: 80.0,
+                  height: MediaQuery.of(context).size.height * (80.0 / 812),
                   child: Text(
                       "\nDon't worry, enter your email address and we'll send you a link to reset your password ",
                       textAlign: TextAlign.center,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
-import 'verification_code_input.dart';
-import 'constants.dart';
+import 'utils/verification_code_input.dart';
+import 'utils/constants.dart';
 
 void main() {
   runApp(VerificationScreen());
@@ -32,7 +32,6 @@ class VerificationPage extends StatefulWidget {
 class _ResetPageState extends State<VerificationPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat');
   int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 60;
-  //bool _isButtonDisabled;
 
   @override
   Widget build(BuildContext context) {
@@ -65,11 +64,14 @@ class _ResetPageState extends State<VerificationPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           tooltip: 'return to previous screen',
-          onPressed: () => (0),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: SingleChildScrollView(
         child: Container(
+          //  height: MediaQuery.of(context).size.height,
           color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.all(36.0),
@@ -86,7 +88,7 @@ class _ResetPageState extends State<VerificationPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 50.0,
+                  height: MediaQuery.of(context).size.height * (50.0 / 812),
                   child: Text(
                       "Enter the verification code we just sent you on your email address.",
                       textAlign: TextAlign.center,

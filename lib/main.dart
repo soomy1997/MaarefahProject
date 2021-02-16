@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
+import 'utils/constants.dart';
 
 void main() {
   runApp(MyApp());
@@ -55,17 +55,11 @@ class _MyHomePageState extends State<MyHomePage> {
             textAlign: TextAlign.center, style: yellowButtonsTextStyle),
       ),
     );
-//arrow_back_ios
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Color(0xff14213C),
-          actions: [
-            IconButton(icon: Icon(Icons.close_rounded), onPressed: () => {})
-          ],
-          leading: Icon(Icons.arrow_back_ios)),
       body: SingleChildScrollView(
         child: Container(
           color: Colors.white,
+          height: MediaQuery.of(context).size.height,
           child: Padding(
             padding: const EdgeInsets.all(36.0),
             child: Column(
@@ -78,7 +72,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       textAlign: TextAlign.center, style: h1),
                 ),
                 SizedBox(
-                  height: 50.0,
+                  height: 35.0,
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * (50.0 / 812),
                   child: Text(
                       "Enter your email and password for signing in. Thanks ",
                       textAlign: TextAlign.center,

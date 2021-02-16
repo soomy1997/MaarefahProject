@@ -11,7 +11,7 @@ const style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
 //page headlines
 const h1 =
-    TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 22);
+    TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 28);
 
 //black bold labels
 const h4 =
@@ -19,7 +19,7 @@ const h4 =
 
 //grey thin texts
 const h5 =
-    TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 13);
+    TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 17);
 
 //yellow buttons text
 const yellowButtonsTextStyle = TextStyle(
