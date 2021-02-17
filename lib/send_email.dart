@@ -24,19 +24,34 @@ class SendEmail extends StatelessWidget {
 class SendEmailPage extends StatefulWidget {
   SendEmailPage({Key key, this.title}) : super(key: key);
   final String title;
-
   @override
   _SendEmailPage createState() => _SendEmailPage();
 }
 
 class _SendEmailPage extends State<SendEmailPage> {
+  final TextEditingController emailController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  var email = "";
+
   @override
   Widget build(BuildContext context) {
-    final emailField = TextField(
+    final emailField = TextFormField(
         obscureText: false,
+        validator: (input) {
+          email = input;
+          if (input.isEmpty) {
+            return "this field is required";
+          }
+          if (!validateStructure(input)) {
+            return "Please enter your email address in theis format \nyourname@exampl.com";
+          }
+          return null;
+        },
+        controller: emailController,
         style: h5,
         decoration: textInputDecoratuon.copyWith(
             hintText: 'Email', prefixIcon: Icon(Icons.email)));
+
     final sendEmailButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(10.0),
@@ -44,7 +59,7 @@ class _SendEmailPage extends State<SendEmailPage> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
+        onPressed: _submit,
         child: Text(
           "Send",
           textAlign: TextAlign.center,
@@ -107,5 +122,25 @@ class _SendEmailPage extends State<SendEmailPage> {
         ),
       ),
     );
+  }
+
+  _submit() {
+    if (formKey.currentState.validate()) {
+      formKey.currentState.save();
+      // here code
+    }
+    if (emailController.text.length < 7) {
+      /*setState(() {
+        password="Password Must be at least 7 numbers";
+        textColor=Colors.red;
+      });*/
+    }
+  }
+
+  bool validateStructure(String value) {
+    String pattern =
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+    RegExp regExp = new RegExp(pattern);
+    return regExp.hasMatch(value);
   }
 }

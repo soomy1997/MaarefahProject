@@ -110,7 +110,6 @@ class _MyHomePageState extends State<ResetHomePage> {
         if (!validateStructure(input)) {
           return "The Password must be at least 7 character and include a combination of uppercase , lowercase letters & numbers";
         }
-
         return null;
       },
       style: TextStyle(fontSize: 18),
