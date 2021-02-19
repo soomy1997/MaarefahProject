@@ -83,8 +83,13 @@ class _JoinTutorPage extends State<JoinTutorPage> {
               onPressed: () => {})
         ],
         leading: Icon(Icons.arrow_back_ios, color: Colors.white),
-        title: Text("Request to Join as a Tutor",
-            style: TextStyle(color: Colors.white)),
+        title: Text(
+          "Request to Join as a Tutor",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
