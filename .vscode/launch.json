@@ -7,7 +7,7 @@
         
         {
             "name": "MaarefahProject",
-            "program": "lib/congrats_system_msg.dart",
+            "program": "lib/edit_account.dart",
             "request": "launch",
             "type": "dart"
         }
