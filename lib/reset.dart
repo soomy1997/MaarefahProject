@@ -2,25 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/verification.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter login',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: ResetHomePage(title: 'Flutter Login'),
-    );
-  }
-}
-
 class ResetHomePage extends StatefulWidget {
   ResetHomePage({Key key, this.title}) : super(key: key);
   final String title;
