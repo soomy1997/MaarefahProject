@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "MaarefahProject",
-            "program": "lib/main.dart",
+            "program": "lib/edit_account.dart",
             "request": "launch",
             "type": "dart"
         }
