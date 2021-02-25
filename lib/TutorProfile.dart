@@ -161,26 +161,27 @@ class _myTutorProfile extends State<myTutorProfile> {
         email: 'flutter.khi@gmail.com',
       ),
       Story(
-        name: 'Dart',
+        name: 'Object-Oriented Programming 1',
         storyUrl:
-            'https://images.unsplash.com/photo-1535370976884-f4376736ab06?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+            'https://image.ebooks.com/previews/209/209521/209521301/209521301-hq-168-80.jpg',
         email: 'flutterkarachi@gmail.com',
       ),
       Story(
-        name: 'Dart',
-        storyUrl: 'https://wallpaperplay.com/walls/full/7/c/f/34782.jpg',
+        name: 'Object-Oriented Programming 1',
+        storyUrl:
+            'https://image.ebooks.com/previews/209/209521/209521301/209521301-hq-168-80.jpg',
         email: 'helloworld@gmail.com',
       ),
       Story(
-        name: 'Dart',
+        name: 'Object-Oriented Programming 1',
         storyUrl:
-            'https://pbs.twimg.com/profile_images/779305023507271681/GJJhYpD2_400x400.jpg',
+            'https://image.ebooks.com/previews/209/209521/209521301/209521301-hq-168-80.jpg',
         email: 'google@google.com',
       ),
       Story(
-        name: 'Dart',
+        name: 'Object-Oriented Programming 1',
         storyUrl:
-            'https://d33wubrfki0l68.cloudfront.net/495c5afa46922a41983f6442f54491c862bdb275/67c35/static/images/wallpapers/playground-07.png',
+            'https://image.ebooks.com/previews/209/209521/209521301/209521301-hq-168-80.jpg',
         email: 'gmail@google.com',
       ),
     ];
@@ -188,7 +189,7 @@ class _myTutorProfile extends State<myTutorProfile> {
 
   Widget _buildCardListView() {
     return SizedBox(
-      height: 200.0,
+      height: 250.0,
       child: ListView.builder(
         padding: const EdgeInsets.all(8),
         scrollDirection: Axis.horizontal,
