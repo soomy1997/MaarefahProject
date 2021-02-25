@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/TutorCard.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -32,6 +33,11 @@ class TutorsList extends StatelessWidget {
                 width: 150.0,
                 color: Colors.grey,
                 margin: EdgeInsets.all(20.0),
+              ),
+              TutorCard(
+                child: Column(
+                  children: [Text('ggvgvg')],
+                ),
               )
             ],
           ),

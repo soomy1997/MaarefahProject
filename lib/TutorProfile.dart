@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/utils/constants.dart';
+//import 'package:flutter_rating_bar/flutter_rating_bar';
 
 void main() {
   runApp(TutorProfile());
@@ -142,6 +143,15 @@ class _myTutorProfile extends State<myTutorProfile> {
               ],
             ),
           ),
+//           FlutterRatingBar(
+//       initialRating: 3,
+//       fillColor: Colors.amber,
+//       borderColor: Colors.amber.withAlpha(50),
+//       allowHalfRating: true,
+//       onRatingUpdate: (rating) {
+//            print(rating);
+//       },
+// ),
         ],
       ),
     );
