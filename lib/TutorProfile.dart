@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/utils/constants.dart';
 
 void main() {
   runApp(TutorProfile());
@@ -9,11 +10,11 @@ class TutorProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Tutor profile',
+      title: 'Tutor Details',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: myTutorProfile(title: 'Tutor Profile'),
+      home: myTutorProfile(title: 'Tutor Details'),
     );
   }
 }
@@ -29,6 +30,12 @@ class _myTutorProfile extends State<myTutorProfile> {
   List<Story> _cards;
 
   @override
+  void initState() {
+    super.initState();
+    _populateData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -40,35 +47,93 @@ class _myTutorProfile extends State<myTutorProfile> {
           leading: Icon(Icons.arrow_back_ios)),
       body: Column(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.grey,
-                  radius: 50,
-                  backgroundImage: AssetImage('images/logo.jpg'),
-                ),
-                Column(
-                  children: <Widget>[
-                    Text(
-                      'Faizah Saeed',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+          Row(
+            children: [
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.grey,
+                    radius: 50,
+                    backgroundImage: AssetImage('images/logo.jpg'),
+                  ),
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  Text(
+                    'Faizah Saeed',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Text(
-                      '     CIS Student Level 10',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.normal,
-                      ),
+                  ),
+                  Text(
+                    'CIS Student Level 10',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
                     ),
-                  ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey[300],
+                      width: 3.0,
+                    ),
+                  ),
                 ),
-              ],
-            ),
+                width: 130.0,
+                height: 80.0,
+                child: Text(
+                  'Courses',
+                  style: style,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      //                   <--- left side
+                      color: Colors.grey[300],
+                      width: 3.0,
+                    ),
+                  ),
+                ),
+                width: 130.0,
+                height: 80.0,
+                child: Text(
+                  'Reviews',
+                  style: style,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey[300],
+                      width: 3.0,
+                    ),
+                  ),
+                ),
+                width: 130.0,
+                height: 80.0,
+                child: Text(
+                  'Rating',
+                  style: style,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
           ),
           Expanded(
             child: ListView(
@@ -80,6 +145,45 @@ class _myTutorProfile extends State<myTutorProfile> {
         ],
       ),
     );
+  }
+
+  void _populateData() {
+    _cards = <Story>[
+      Story(
+          name: 'Data Structure and algorithms Ch. 1',
+          storyUrl:
+              'https://image.ebooks.com/previews/210/210151/210151347/210151347-hq-168-80.jpg',
+          email: 'waleedarshad@gmail.com'),
+      Story(
+        name: 'Data Structure and algorithms Ch. 2',
+        storyUrl:
+            'https://image.ebooks.com/previews/210/210151/210151347/210151347-hq-168-80.jpg',
+        email: 'flutter.khi@gmail.com',
+      ),
+      Story(
+        name: 'Dart',
+        storyUrl:
+            'https://images.unsplash.com/photo-1535370976884-f4376736ab06?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+        email: 'flutterkarachi@gmail.com',
+      ),
+      Story(
+        name: 'Dart',
+        storyUrl: 'https://wallpaperplay.com/walls/full/7/c/f/34782.jpg',
+        email: 'helloworld@gmail.com',
+      ),
+      Story(
+        name: 'Dart',
+        storyUrl:
+            'https://pbs.twimg.com/profile_images/779305023507271681/GJJhYpD2_400x400.jpg',
+        email: 'google@google.com',
+      ),
+      Story(
+        name: 'Dart',
+        storyUrl:
+            'https://d33wubrfki0l68.cloudfront.net/495c5afa46922a41983f6442f54491c862bdb275/67c35/static/images/wallpapers/playground-07.png',
+        email: 'gmail@google.com',
+      ),
+    ];
   }
 
   Widget _buildCardListView() {
