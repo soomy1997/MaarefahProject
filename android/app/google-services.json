@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1032414872259",
+    "project_id": "ma-arefah-app",
+    "storage_bucket": "ma-arefah-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032414872259:android:80ab8060f00d6146c11876",
+        "android_client_info": {
+          "package_name": "com.example.flutter_app_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032414872259-9shs32no8osf59ohnsboeoqgoeoa79hb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBS2tv-srNYAWacpuxJXgREjjoFyOJjV6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032414872259-9shs32no8osf59ohnsboeoqgoeoa79hb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1032414872259-6uqdsbu9i1tnr5cvvvm1agheuud9qcdi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterApp1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
