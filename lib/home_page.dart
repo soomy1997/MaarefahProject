@@ -13,6 +13,7 @@ class _HomeScreenState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   CollectionReference session =
       FirebaseFirestore.instance.collection('session');
+      //testing
   var _selectedIndex = 2;
   TextEditingController searchController = TextEditingController();
 
