@@ -7,6 +7,15 @@ const textInputDecoratuon = InputDecoration(
 
 ///////////////////////text styles////////////////////////////////
 
+const kDefaultShadow = BoxShadow(
+  offset: Offset(0, 15),
+  blurRadius: 27,
+  color: Colors.black12, // Black color with 12% opacity
+);
+const kTextLightColor = Color(0xFF747474);
+const kSecondaryColor = Color(0xFFFFA41B);
+
+
 const style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
 //page headlines
