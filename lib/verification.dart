@@ -71,7 +71,7 @@ class _ResetPageState extends State<VerificationPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          //  height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height,
           color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.all(36.0),
