@@ -9,15 +9,6 @@ const textInputDecoratuon = InputDecoration(
 
 ///////////////////////text styles////////////////////////////////
 
-const kDefaultShadow = BoxShadow(
-  offset: Offset(0, 15),
-  blurRadius: 27,
-  color: Colors.black12, // Black color with 12% opacity
-);
-const kTextLightColor = Color(0xFF747474);
-const kSecondaryColor = Color(0xFFFFA41B);
-
-
 const style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
 //page headlines
@@ -49,7 +40,7 @@ final passwordValidation = MultiValidator([
   RequiredValidator(errorText: 'This field is required.'),
   MinLengthValidator(7, errorText: 'Password must be at least 7 characters.'),
   PatternValidator(r'(?=.*?[#?!@$%^&*-])',
-      errorText: 'Passwords must have at least one special character')
+      errorText: 'passwords must have at least one special character')
 ]);
 
 final emailValidation = MultiValidator([
@@ -84,7 +75,7 @@ const accentYellow = const Color(0xffF9A21B);
 const accentOrange = const Color(0xffF05824);
 const whiteBG = Colors.white;
 
-// title, back button and  n
+// title, back button and icon
 AppBar myAppBar1(
   context, {
   String title,
@@ -127,47 +118,5 @@ AppBar myAppBar2(
         onPressed: () {
           Navigator.pop(context);
         }),
-  );
-}
-
-// with search bar and back button
-AppBar myAppBar3(context, {String title}) {
-  return AppBar(
-    backgroundColor: secondaryDarkBlue,
-    title: Text(title,
-        style: TextStyle(
-          color: Colors.white,
-        )),
-    centerTitle: true,
-    iconTheme: IconThemeData(color: Colors.white),
-    leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios),
-        tooltip: 'return to previous screen',
-        onPressed: () {
-          Navigator.pop(context);
-        }),
-    actions: [
-      IconButton(icon: Icon(Icons.search), tooltip: 'search', onPressed: () {}),
-      IconButton(
-          icon: FaIcon(FontAwesomeIcons.filter), iconSize: 20, onPressed: () {})
-    ],
-  );
-}
-
-// search bar withoit back button (for home page)
-AppBar myAppBar4(context, {String title}) {
-  return AppBar(
-    backgroundColor: secondaryDarkBlue,
-    title: Text(title,
-        style: TextStyle(
-          color: Colors.white,
-        )),
-    centerTitle: true,
-    iconTheme: IconThemeData(color: Colors.white),
-    actions: [
-      IconButton(icon: Icon(Icons.search), tooltip: 'search', onPressed: () {}),
-      IconButton(
-          icon: FaIcon(FontAwesomeIcons.filter), iconSize: 20, onPressed: () {})
-    ],
   );
 }
