@@ -6,7 +6,11 @@
     "configurations": [
         {
             "name": "MaarefahProject",
+<<<<<<< HEAD
             "program": "lib/TutorProfile.dart",
+=======
+            "program": "lib/edit_account.dart",
+>>>>>>> e4f364dfdc45aa30e94739f934b3508e69d99701
             "request": "launch",
             "type": "dart"
         }
