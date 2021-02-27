@@ -11,12 +11,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_rating_bar: ^3.2.0+1
+  smooth_star_rating: 1.1.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
   flutter_countdown_timer: ^3.0.0
+  flutter_staggered_animations: "^0.1.2"
 
 dev_dependencies:
   flutter_test:

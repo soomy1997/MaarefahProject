@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-//import 'package:flutter_rating_bar/flutter_rating_bar';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 void main() {
   runApp(TutorProfile());
@@ -20,6 +20,7 @@ class TutorProfile extends StatelessWidget {
   }
 }
 
+// ignore: camel_case_types
 class myTutorProfile extends StatefulWidget {
   myTutorProfile({Key key, this.title}) : super(key: key);
   final String title;
@@ -27,6 +28,7 @@ class myTutorProfile extends StatefulWidget {
   _myTutorProfile createState() => _myTutorProfile();
 }
 
+// ignore: camel_case_types
 class _myTutorProfile extends State<myTutorProfile> {
   List<Story> _cards;
 
@@ -38,6 +40,9 @@ class _myTutorProfile extends State<myTutorProfile> {
 
   @override
   Widget build(BuildContext context) {
+    var rating = 0.0;
+    //var filledIconData;
+
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Color(0xff14213C),
@@ -137,21 +142,34 @@ class _myTutorProfile extends State<myTutorProfile> {
             ],
           ),
           Expanded(
-            child: ListView(
-              children: <Widget>[
-                _buildCardListView(),
-              ],
+            child: Container(
+              height: 100,
+              child: ListView(
+                children: <Widget>[
+                  _buildCardListView(),
+                ],
+              ),
             ),
           ),
-//           FlutterRatingBar(
-//       initialRating: 3,
-//       fillColor: Colors.amber,
-//       borderColor: Colors.amber.withAlpha(50),
-//       allowHalfRating: true,
-//       onRatingUpdate: (rating) {
-//            print(rating);
-//       },
-// ),
+          Padding(
+            padding: const EdgeInsets.all(150.0),
+            child: SmoothStarRating(
+                allowHalfRating: false,
+                onRated: (v) {
+                  rating = v;
+                  setState(() {});
+                },
+                starCount: 5,
+                rating: rating,
+                size: 60.0,
+                isReadOnly: true,
+                filledIconData: Icons.star,
+                halfFilledIconData: Icons.star_half,
+                defaultIconData: Icons.star_border,
+                color: Colors.yellow,
+                borderColor: Colors.yellow,
+                spacing: 5.0),
+          ),
         ],
       ),
     );
