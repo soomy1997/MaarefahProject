@@ -3,6 +3,7 @@ import 'package:flutter_app_1/utils/constants.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'services/crud.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,23 +36,25 @@ class myTutorProfile extends StatefulWidget {
 
 // ignore: camel_case_types
 class _myTutorProfile extends State<myTutorProfile> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  CollectionReference tutors = FirebaseFirestore.instance.collection('tutors');
+  // final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  // CollectionReference tutors = FirebaseFirestore.instance.collection('tutors');
+  crudMethods crudObj = new crudMethods();
   List<Story> _cards;
+  QuerySnapshot tutors;
 
   @override
   void initState() {
-    super.initState();
-    _populateData();
+    crudObj.getData().then((results) {
+      setState(() {
+        tutors = results;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     var rating = 0.0;
-    //var filledIconData;
-
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
           backgroundColor: Color(0xff14213C),
           actions: [
@@ -59,155 +62,131 @@ class _myTutorProfile extends State<myTutorProfile> {
           ],
           title: Text(widget.title),
           leading: Icon(Icons.arrow_back_ios)),
-      body: Container(
-          width: MediaQuery.of(context).size.width,
-          child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('tutors')
-                  .snapshots(includeMetadataChanges: true),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Something went wrong');
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                return Card(
-                  child: ListView(
-                    children:
-                        snapshot.data.docs.map((DocumentSnapshot document) {
-                      return new ListTile(
-                        title: new Text(document.data()['t_fname']),
-                        subtitle: new Text(document.data()['t_lname']),
-                      );
-                    }).toList(),
+      body: Column(
+        children: <Widget>[
+          Row(
+            children: [
+              Column(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.grey,
+                    radius: 50,
+                    backgroundImage: AssetImage('images/logo.jpg'),
                   ),
-                );
-              })),
-
-      //     Row(
-      //       children: [
-      //         Column(
-      //           children: [
-      //             CircleAvatar(
-      //               backgroundColor: Colors.grey,
-      //               radius: 50,
-      //               backgroundImage: AssetImage('images/logo.jpg'),
-      //             ),
-      //           ],
-      //         ),
-      //         Column(
-      //           children: <Widget>[
-      //             Text(
-      //               'Faizah Saeed',
-      //               style: TextStyle(
-      //                 fontSize: 20,
-      //                 fontWeight: FontWeight.bold,
-      //               ),
-      //             ),
-      //             Text(
-      //               'CIS Student Level 10',
-      //               style: TextStyle(
-      //                 fontSize: 16,
-      //                 fontWeight: FontWeight.normal,
-      //               ),
-      //             ),
-      //           ],
-      //         ),
-      //       ],
-      //     ),
-      //     Row(
-      //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //       children: [
-      //         Container(
-      //           decoration: BoxDecoration(
-      //             border: Border(
-      //               bottom: BorderSide(
-      //                 color: Colors.grey[300],
-      //                 width: 3.0,
-      //               ),
-      //             ),
-      //           ),
-      //           width: 110.0,
-      //           height: 80.0,
-      //           child: Text(
-      //             'Courses',
-      //             style: style,
-      //             textAlign: TextAlign.center,
-      //           ),
-      //         ),
-      //         Container(
-      //           decoration: BoxDecoration(
-      //             border: Border(
-      //               bottom: BorderSide(
-      //                 //                   <--- left side
-      //                 color: Colors.grey[300],
-      //                 width: 3.0,
-      //               ),
-      //             ),
-      //           ),
-      //           width: 110.0,
-      //           height: 80.0,
-      //           child: Text(
-      //             'Reviews',
-      //             style: style,
-      //             textAlign: TextAlign.center,
-      //           ),
-      //         ),
-      //         Container(
-      //           decoration: BoxDecoration(
-      //             border: Border(
-      //               bottom: BorderSide(
-      //                 color: Colors.grey[300],
-      //                 width: 3.0,
-      //               ),
-      //             ),
-      //           ),
-      //           width: 110.0,
-      //           height: 80.0,
-      //           child: Text(
-      //             'Rating',
-      //             style: style,
-      //             textAlign: TextAlign.center,
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //     Expanded(
-      //       child: Container(
-      //         height: 40,
-      //         child: ListView(
-      //           children: <Widget>[
-      //             _buildCardListView(),
-      //           ],
-      //         ),
-      //       ),
-      //     ),
-      //     Padding(
-      //         padding: const EdgeInsets.all(10.0),
-      //         child: SmoothStarRating(
-      //           rating: rating,
-      //           isReadOnly: false,
-      //           size: 40,
-      //           filledIconData: Icons.star,
-      //           halfFilledIconData: Icons.star_half,
-      //           defaultIconData: Icons.star_border,
-      //           starCount: 5,
-      //           allowHalfRating: true,
-      //           spacing: 2.0,
-      //           color: Colors.yellow,
-      //           borderColor: Colors.yellow,
-      //           onRated: (value) {
-      //             print("rating value -> $value");
-      //             // print("rating value dd -> ${value.truncate()}");
-      //           },
-      //         )),
-      //   ],
-      // ),
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  nameDis(),
+                ],
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey[300],
+                      width: 3.0,
+                    ),
+                  ),
+                ),
+                width: 110.0,
+                height: 80.0,
+                child: Text(
+                  'Courses',
+                  style: style,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      //                   <--- left side
+                      color: Colors.grey[300],
+                      width: 3.0,
+                    ),
+                  ),
+                ),
+                width: 110.0,
+                height: 80.0,
+                child: Text(
+                  'Reviews',
+                  style: style,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey[300],
+                      width: 3.0,
+                    ),
+                  ),
+                ),
+                width: 110.0,
+                height: 80.0,
+                child: Text(
+                  'Rating',
+                  style: style,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+          Expanded(
+            child: Container(
+              height: 40,
+              child: ListView(
+                children: <Widget>[
+                  _buildCardListView(),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SmoothStarRating(
+                rating: rating,
+                isReadOnly: false,
+                size: 40,
+                filledIconData: Icons.star,
+                halfFilledIconData: Icons.star_half,
+                defaultIconData: Icons.star_border,
+                starCount: 5,
+                allowHalfRating: true,
+                spacing: 2.0,
+                color: Colors.yellow,
+                borderColor: Colors.yellow,
+                onRated: (value) {
+                  print("rating value -> $value");
+                  // print("rating value dd -> ${value.truncate()}");
+                },
+              )),
+        ],
+      ),
     );
+  }
+
+  Widget nameDis() {
+    if (tutors != null) {
+      return ListView.builder(
+        itemCount: tutors.docs.length,
+        itemBuilder: (context, i) {
+          return ListTile(
+            title: Text(tutors.docs[i].data()['t_fname']),
+            subtitle: Text(tutors.docs[i].data()['t_lname']),
+          );
+        },
+      );
+    } else {
+      return Text('Loading.. Please wait..');
+    }
   }
 
   void _populateData() {
