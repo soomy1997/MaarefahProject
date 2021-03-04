@@ -78,21 +78,9 @@ class _EditAccountPage extends State<EditAccountPage> {
 //arrow_back_ios
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xff14213C),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.close_rounded, color: Colors.white),
-              onPressed: () => {})
-        ],
-        leading: Icon(Icons.arrow_back_ios, color: Colors.white),
-        title: Text(
-          "Edit Account",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
+      appBar: myAppBar2(
+        context,
+        title: 'Edit Account ',
       ),
       body: SingleChildScrollView(
         child: Padding(

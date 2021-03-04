@@ -91,22 +91,7 @@ class _JoinTutorPage extends State<JoinTutorPage> {
     );
 //arrow_back_ios
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xff14213C),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.close_rounded, color: Colors.white),
-              onPressed: () => {})
-        ],
-        leading: Icon(Icons.arrow_back_ios, color: Colors.white),
-        title: Text(
-          "Request to Join as a Tutor",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-      ),
+      appBar: myAppBar2(context, title: 'Request to Join as a Tutor'),
       body: SingleChildScrollView(
         child: Padding(
             padding: const EdgeInsets.all(36.0),

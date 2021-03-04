@@ -59,16 +59,24 @@ final phoneValidaton = MultiValidator([
 ]);
 
 final textAreaValidation = MultiValidator([
-  RequiredValidator(errorText: 'This field is required.'),
+  RequiredValidator(errorText: 'This field is required.78'),
   MinLengthValidator(30, errorText: 'Must be at least 30 characters.'),
 ]);
 
 //////////////////////////app theme////////////////////////////////
 
+//boxShadow
+const kDefaultShadow = BoxShadow(
+  offset: Offset(0, 15),
+  blurRadius: 27,
+  color: Colors.black12, // Black color with 12% opacity
+);
+
 //colors:
 const primaryBlack = const Color(0xff0B0B0B);
 const secondaryDarkBlue = const Color(0xff14213C);
 const secondaryLightBlue = const Color(0xff23365B);
+const kTextLightColor = Color(0xFF747474);
 const secondaryDarkGrey = const Color(0xffbcbcbc);
 const secondaryLightGrey = const Color(0xffdfdfdf);
 const accentYellow = const Color(0xffF9A21B);
