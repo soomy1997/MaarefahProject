@@ -34,12 +34,12 @@ dependencies:
   font_awesome_flutter: ^8.11.0
   form_field_validator: ^1.0.1
   auto_size_text: ^2.1.0
-
+  number_inc_dec: ^0.6.6
+  documents_picker: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
