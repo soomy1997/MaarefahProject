@@ -29,6 +29,11 @@ const yellowButtonsTextStyle = TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 17,
 );
+const whiteButtonsTextStyle = TextStyle(
+  color: accentYellow,
+  fontWeight: FontWeight.bold,
+  fontSize: 17,
+);
 
 //////////////////////////validations///////////////////////////
 final nameValidation = MultiValidator([
@@ -74,6 +79,13 @@ const secondaryLightGrey = const Color(0xffdfdfdf);
 const accentYellow = const Color(0xffF9A21B);
 const accentOrange = const Color(0xffF05824);
 const whiteBG = Colors.white;
+
+// our default Shadow
+const kDefaultShadow = BoxShadow(
+  offset: Offset(0, 15),
+  blurRadius: 27,
+  color: Colors.black12, // Black color with 12% opacity
+);
 
 // title, back button and icon
 AppBar myAppBar1(

@@ -98,7 +98,11 @@ class _JoinTutorPage extends State<JoinTutorPage> {
               icon: Icon(Icons.close_rounded, color: Colors.white),
               onPressed: () => {})
         ],
-        leading: Icon(Icons.arrow_back_ios, color: Colors.white),
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         title: Text(
           "Request to Join as a Tutor",
           textAlign: TextAlign.center,
