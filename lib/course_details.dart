@@ -15,28 +15,13 @@ class _CourseDetailsState extends State<CourseDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: secondaryDarkBlue,
-        title: Text(
-          'Session Details',
-          style: TextStyle(
-            color: Colors.white,
-          ),
+      appBar: myAppBar1(
+        context,
+        title: "Course Details",
+        iconButton: IconButton(
+          icon: Icon(Icons.ios_share),
+          onPressed: () {},
         ),
-        iconTheme: IconThemeData(color: Colors.white),
-        actions: [
-          new IconButton(
-            icon: Icon(Icons.ios_share),
-            iconSize: 30,
-            onPressed: () => (0),
-          ),
-        ],
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            tooltip: 'return to previous screen',
-            onPressed: () {
-              Navigator.pop(context);
-            }),
       ),
       body: Column(
         children: <Widget>[

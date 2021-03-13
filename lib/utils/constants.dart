@@ -135,3 +135,19 @@ AppBar myAppBar2(
         }),
   );
 }
+
+// title only
+AppBar myAppBar3(
+  context, {
+  String title,
+}) {
+  return AppBar(
+    backgroundColor: secondaryDarkBlue,
+    title: Text(title,
+        style: TextStyle(
+          color: Colors.white,
+        )),
+    centerTitle: true,
+    iconTheme: IconThemeData(color: Colors.white),
+  );
+}

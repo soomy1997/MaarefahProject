@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/TutorsList.dart';
+import 'package:flutter_app_1/award_page.dart';
 import 'package:flutter_app_1/notification.dart';
 import 'package:flutter_app_1/profile.dart';
-
-import 'home_page.dart';
+import 'package:flutter_app_1/home_page.dart';
 
 class TabbedApp extends StatefulWidget {
   @override
@@ -11,20 +12,19 @@ class TabbedApp extends StatefulWidget {
 
 class _TabbedAppState extends State<TabbedApp> {
   var _selectedIndex = 2;
-  static List<Widget> _tabViews = <Widget>[
+  List<Widget> _tabViews = <Widget>[
+    TutorsListPage(),
+    AwardPage(),
     HomePage(),
     NotificationPage(),
-    Profile()
+    ProfilePage()
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: IndexedStack(
-          index: _selectedIndex,
-          children: _tabViews,
-        ),
+      body: Center(
+        child: _tabViews.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -46,8 +46,8 @@ class _TabbedAppState extends State<TabbedApp> {
             label: 'Notification',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'settings',
+            icon: Icon(Icons.person_outline),
+            label: 'Account',
           ),
         ],
         iconSize: 30,

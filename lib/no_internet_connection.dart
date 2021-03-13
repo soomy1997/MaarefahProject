@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/utils/constants.dart';
 
 class NoIntentConnection extends StatefulWidget {
   @override
@@ -9,14 +10,12 @@ class _NoIntentConnectionState extends State<NoIntentConnection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xff14213C),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.close_rounded),
-          ),
-        ],
+      appBar: myAppBar1(
+        context,
+        iconButton: IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () {},
+        ),
       ),
       body: Container(
         color: Colors.white,

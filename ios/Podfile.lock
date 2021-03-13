@@ -222,6 +222,8 @@ PODS:
     - Firebase/Firestore (= 7.3.0)
     - firebase_core
     - Flutter
+  - documents_picker (0.0.1):
+    - Flutter
   - Firebase/Auth (7.3.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 7.3.0)
@@ -316,6 +318,7 @@ PODS:
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
+  - documents_picker (from `.symlinks/plugins/documents_picker/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
@@ -341,6 +344,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
+  documents_picker:
+    :path: ".symlinks/plugins/documents_picker/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
@@ -352,6 +357,7 @@ SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   cloud_firestore: 357b92d4778d7715d76a393db5f89e7dcc9b7401
+  documents_picker: 5af54172fc411009a331391a6264987a852fcef8
   Firebase: 26223c695fe322633274198cb19dca8cb7e54416
   firebase_auth: b55e5136528dced982022ee073ed4b48f15c055c
   firebase_core: 91b27774a52f41f8b58484a75edf71197ac01c59
