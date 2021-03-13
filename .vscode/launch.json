@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "MaarefahProject",
-            "program": "lib/add_session.dart",
+            "program": "lib/utils/tabbed_app.dart",
             "request": "launch",
             "type": "dart"
         }

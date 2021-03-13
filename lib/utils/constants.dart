@@ -29,6 +29,11 @@ const yellowButtonsTextStyle = TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 17,
 );
+const whiteButtonsTextStyle = TextStyle(
+  color: accentYellow,
+  fontWeight: FontWeight.bold,
+  fontSize: 17,
+);
 
 //////////////////////////validations///////////////////////////
 final nameValidation = MultiValidator([
@@ -83,6 +88,8 @@ const accentYellow = const Color(0xffF9A21B);
 const accentOrange = const Color(0xffF05824);
 const whiteBG = Colors.white;
 
+
+
 // title, back button and icon
 AppBar myAppBar1(
   context, {
@@ -126,5 +133,21 @@ AppBar myAppBar2(
         onPressed: () {
           Navigator.pop(context);
         }),
+  );
+}
+
+// title only
+AppBar myAppBar3(
+  context, {
+  String title,
+}) {
+  return AppBar(
+    backgroundColor: secondaryDarkBlue,
+    title: Text(title,
+        style: TextStyle(
+          color: Colors.white,
+        )),
+    centerTitle: true,
+    iconTheme: IconThemeData(color: Colors.white),
   );
 }
