@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class crudMethods {
+class CrudMethods {
   bool isLoggedIn() {
     if (FirebaseAuth.instance.currentUser != null) {
       return true;
@@ -10,7 +10,7 @@ class crudMethods {
     }
   }
 
-  Future<void> AddData(someData) async {
+  Future<void> addData(someData) async {
     if (isLoggedIn()) {
       FirebaseFirestore.instance
           .collection('testingcrud')
@@ -19,7 +19,7 @@ class crudMethods {
         print(e);
       });
     } else {
-      print('You need to belogged in');
+      print('You need to be logged in');
     }
   }
 

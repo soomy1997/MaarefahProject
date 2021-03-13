@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
-class NoIntentConnection extends StatefulWidget {
+class NoSearchFound extends StatefulWidget {
   @override
-  _NoIntentConnectionState createState() => _NoIntentConnectionState();
+  _NoSearchFoundState createState() => _NoSearchFoundState();
 }
 
-class _NoIntentConnectionState extends State<NoIntentConnection> {
+class _NoSearchFoundState extends State<NoSearchFound> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppBar1(
+        appBar: myAppBar1(
         context,
         iconButton: IconButton(
           icon: Icon(Icons.close),
@@ -28,7 +28,7 @@ class _NoIntentConnectionState extends State<NoIntentConnection> {
                   height: 50,
                 ),
                 Text(
-                  "No Internet Connection",
+                  "Oops!",
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -39,7 +39,7 @@ class _NoIntentConnectionState extends State<NoIntentConnection> {
                   height: 25,
                 ),
                 Text(
-                  "Please check your internet connection and try again",
+                  "We couldn’t find results for “Lorem” at this store.",
                   style: TextStyle(
                       color: Colors.grey,
                       fontWeight: FontWeight.normal,
@@ -49,7 +49,7 @@ class _NoIntentConnectionState extends State<NoIntentConnection> {
                   height: 30,
                 ),
                 Image(
-                  image: AssetImage("images/client.jpg"),
+                  image: AssetImage("images/oops.png"),
                   height: MediaQuery.of(context).size.height * 0.50,
                   width: MediaQuery.of(context).size.width * 0.99,
                 ),

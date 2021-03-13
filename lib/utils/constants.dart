@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 //inputs decorations (for text input feilds)
@@ -7,15 +8,6 @@ const textInputDecoratuon = InputDecoration(
     border: OutlineInputBorder());
 
 ///////////////////////text styles////////////////////////////////
-
-const kDefaultShadow = BoxShadow(
-  offset: Offset(0, 15),
-  blurRadius: 27,
-  color: Colors.black12, // Black color with 12% opacity
-);
-const kTextLightColor = Color(0xFF747474);
-const kSecondaryColor = Color(0xFFFFA41B);
-
 
 const style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
@@ -34,6 +26,11 @@ const h5 =
 //yellow buttons text
 const yellowButtonsTextStyle = TextStyle(
   color: Colors.white,
+  fontWeight: FontWeight.bold,
+  fontSize: 17,
+);
+const whiteButtonsTextStyle = TextStyle(
+  color: accentYellow,
   fontWeight: FontWeight.bold,
   fontSize: 17,
 );
@@ -67,6 +64,90 @@ final phoneValidaton = MultiValidator([
 ]);
 
 final textAreaValidation = MultiValidator([
-  RequiredValidator(errorText: 'This field is required.'),
-  MinLengthValidator(100, errorText: 'Must be at least 100 characters.'),
+  RequiredValidator(errorText: 'This field is required.78'),
+  MinLengthValidator(30, errorText: 'Must be at least 30 characters.'),
 ]);
+
+//////////////////////////app theme////////////////////////////////
+
+//boxShadow
+const kDefaultShadow = BoxShadow(
+  offset: Offset(0, 15),
+  blurRadius: 27,
+  color: Colors.black12, // Black color with 12% opacity
+);
+
+//colors:
+const primaryBlack = const Color(0xff0B0B0B);
+const secondaryDarkBlue = const Color(0xff14213C);
+const secondaryLightBlue = const Color(0xff23365B);
+const kTextLightColor = Color(0xFF747474);
+const secondaryDarkGrey = const Color(0xffbcbcbc);
+const secondaryLightGrey = const Color(0xffdfdfdf);
+const accentYellow = const Color(0xffF9A21B);
+const accentOrange = const Color(0xffF05824);
+const whiteBG = Colors.white;
+
+
+
+// title, back button and icon
+AppBar myAppBar1(
+  context, {
+  String title,
+  IconButton iconButton,
+}) {
+  return AppBar(
+    backgroundColor: secondaryDarkBlue,
+    title: Text(title,
+        style: TextStyle(
+          color: Colors.white,
+        )),
+    centerTitle: true,
+    iconTheme: IconThemeData(color: Colors.white),
+    actions: <Widget>[iconButton],
+    leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios),
+        tooltip: 'return to previous screen',
+        onPressed: () {
+          Navigator.pop(context);
+        }),
+  );
+}
+
+// title and back button only
+AppBar myAppBar2(
+  context, {
+  String title,
+}) {
+  return AppBar(
+    backgroundColor: secondaryDarkBlue,
+    title: Text(title,
+        style: TextStyle(
+          color: Colors.white,
+        )),
+    centerTitle: true,
+    iconTheme: IconThemeData(color: Colors.white),
+    leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios),
+        tooltip: 'return to previous screen',
+        onPressed: () {
+          Navigator.pop(context);
+        }),
+  );
+}
+
+// title only
+AppBar myAppBar3(
+  context, {
+  String title,
+}) {
+  return AppBar(
+    backgroundColor: secondaryDarkBlue,
+    title: Text(title,
+        style: TextStyle(
+          color: Colors.white,
+        )),
+    centerTitle: true,
+    iconTheme: IconThemeData(color: Colors.white),
+  );
+}

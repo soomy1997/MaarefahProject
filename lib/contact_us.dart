@@ -32,21 +32,9 @@ class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Contact Us",
-          style: style,
-        ),
-        leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_outlined,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
-        backgroundColor: Color(0xff14213C),
+      appBar: myAppBar2(
+        context,
+        title: 'Contact Us!',
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -118,35 +106,6 @@ class _AccountState extends State<Account> {
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Tutors',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.military_tech_outlined),
-            label: 'Award List',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_none),
-            label: 'Notification',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'settings',
-          ),
-        ],
-        iconSize: 30,
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.red,
-        onTap: onItemPressed,
       ),
     );
   }

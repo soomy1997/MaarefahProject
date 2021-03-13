@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/join_as_tutor.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
 class HomeCard extends StatelessWidget {
@@ -75,7 +76,14 @@ class HomeCard extends StatelessWidget {
                       ),
                       child: RaisedButton(
                         color: Color(0xffF9A21B),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => JoinTutorPage(),
+                            ),
+                          );
+                        },
                         padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
                         child: Text(
                           'Request for Tutor',
