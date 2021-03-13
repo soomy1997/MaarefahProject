@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'services/crud.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TutorCard extends StatefulWidget {
   final Widget child;
@@ -10,6 +12,19 @@ class TutorCard extends StatefulWidget {
 }
 
 class _TutorCardState extends State<TutorCard> {
+  crudMethods crudObj = new crudMethods();
+  QuerySnapshot tutors;
+
+  @override
+  // ignore: must_call_super
+  void initState() {
+    crudObj.getData().then((results) {
+      setState(() {
+        tutors = results;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.max,
@@ -32,7 +47,8 @@ class _TutorCardState extends State<TutorCard> {
                   SizedBox(
                     height: 8,
                   ),
-                  widget.child,
+                  infodis(),
+                  // widget.child,
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: Row(
@@ -70,5 +86,21 @@ class _TutorCardState extends State<TutorCard> {
             ),
           )
         ]);
+  }
+
+  Widget infodis() {
+    if (tutors != null) {
+      return ListView.builder(
+        itemCount: tutors.docs.length,
+        itemBuilder: (context, i) {
+          return ListTile(
+            title: Text(tutors.docs[i].data()['t_fname']),
+            subtitle: Text(tutors.docs[i].data()['t_lname']),
+          );
+        },
+      );
+    } else {
+      return Text('Loading.. Please wait..');
+    }
   }
 }

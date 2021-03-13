@@ -43,6 +43,7 @@ class _myTutorProfile extends State<myTutorProfile> {
   QuerySnapshot tutors;
 
   @override
+  // ignore: must_call_super
   void initState() {
     crudObj.getData().then((results) {
       setState(() {
@@ -176,7 +177,7 @@ class _myTutorProfile extends State<myTutorProfile> {
   Widget nameDis() {
     if (tutors != null) {
       return ListView.builder(
-        itemCount: tutors.docs.length,
+        itemCount: 2,
         itemBuilder: (context, i) {
           return ListTile(
             title: Text(tutors.docs[i].data()['t_fname']),
@@ -187,6 +188,10 @@ class _myTutorProfile extends State<myTutorProfile> {
     } else {
       return Text('Loading.. Please wait..');
     }
+  }
+
+  int getLength(QuerySnapshot documents) {
+    return documents.size;
   }
 
   void _populateData() {
