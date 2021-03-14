@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/contact_us.dart';
+import 'package:flutter_app_1/edit_account.dart';
+import 'package:flutter_app_1/join_as_tutor.dart';
 import 'About.dart';
+import 'package:flutter_app_1/utils/constants.dart';
 
-class Profile extends StatefulWidget {
+class ProfilePage extends StatefulWidget {
   @override
-  _ProfileState createState() => _ProfileState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    TextStyle appBarTitleStyle = TextStyle(
-        color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold);
-
     elevatedButton() {
       return RaisedButton.icon(
         onPressed: () {},
@@ -20,13 +20,6 @@ class _ProfileState extends State<Profile> {
         label: Text("Sign Out"),
         color: Colors.grey[300],
       );
-    }
-
-    var _selectedIndex = 0;
-    onItemPressed(index) {
-      if (index != _selectedIndex) {
-        setState(() => _selectedIndex = index);
-      }
     }
 
     containerElement() {
@@ -85,7 +78,13 @@ class _ProfileState extends State<Profile> {
                         style: TextStyle(
                           fontSize: 16,
                         )),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => JoinTutorPage()),
+                      );
+                    },
                   ),
                   Container(
                       margin: EdgeInsets.symmetric(horizontal: 20),
@@ -140,56 +139,18 @@ class _ProfileState extends State<Profile> {
 
     bodyView() {
       return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people),
-              label: 'Tutors',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.military_tech_outlined),
-              label: 'Award List',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications_none),
-              label: 'Notification',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'settings',
-            ),
-          ],
-          iconSize: 30,
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.red,
-          onTap: onItemPressed,
+        appBar: myAppBar3(
+          context,
+          title: 'Account',
         ),
-        backgroundColor: Colors.blue,
-        appBar: AppBar(
-          backgroundColor: Color(0xff14213C),
-          centerTitle: true,
-          title: Text(
-            "Profile",
-            style: appBarTitleStyle,
-          ),
-          leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back_outlined,
-                color: Colors.white,
-              ),
-              onPressed: () {}),
-        ),
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
+        body: Center(
           child: Container(
-            color: Colors.white,
-            child: containerElement(),
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Container(
+              color: Colors.white,
+              child: containerElement(),
+            ),
           ),
         ),
       );
@@ -305,26 +266,31 @@ class _ProfileState extends State<Profile> {
               Align(
                 alignment: Alignment.topRight,
                 child: FloatingActionButton(
-                  elevation: 0,
-                  backgroundColor: Colors.grey[300],
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.edit,
-                        color: Colors.orange,
-                        size: 12,
-                      ),
-                      Text(
-                        "Edit",
-                        style: TextStyle(
-                            color: Colors.orange,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  onPressed: () {},
-                ),
+                    elevation: 0,
+                    backgroundColor: Colors.grey[300],
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.edit,
+                          color: Colors.orange,
+                          size: 12,
+                        ),
+                        Text(
+                          "Edit",
+                          style: TextStyle(
+                              color: Colors.orange,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditAccountPage()),
+                      );
+                    }),
               ),
               CircleAvatar(
                 backgroundColor: Colors.grey,

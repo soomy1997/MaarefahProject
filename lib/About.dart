@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_app_1/utils/constants.dart';
 
 class AboutPage extends StatefulWidget {
   @override
@@ -9,22 +10,6 @@ class AboutPage extends StatefulWidget {
 class _AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
-    customAppBar() {
-      return AppBar(
-        automaticallyImplyLeading: true,
-        centerTitle: true,
-        title: Text(
-          "About Us",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-          ),
-        ),
-        backgroundColor: Color(0xff14213C),
-      );
-    }
-
     customContainer() {
       return Column(
         children: [
@@ -83,7 +68,10 @@ class _AboutPageState extends State<AboutPage> {
     }
 
     return Scaffold(
-      appBar: customAppBar(),
+      appBar: myAppBar2(
+        context,
+        title: 'About Us!',
+      ),
       body: Column(
         children: [
           SizedBox(
