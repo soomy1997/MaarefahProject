@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'utils/constants.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 
-import 'package:documents_picker/documents_picker.dart';
-
 void main() {
   runApp(AddSession());
 }

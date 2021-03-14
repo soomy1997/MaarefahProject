@@ -2,93 +2,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'utils/constants.dart';
 
-void main() {
-  runApp(JoinTutor());
-}
-
-class JoinTutor extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Join Us as a Tutor',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: JoinTutorPage(title: 'Join Us as a Tutor'),
-    );
-  }
-}
-
-class JoinTutorPage extends StatefulWidget {
-  JoinTutorPage({Key key, this.title}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  SignUpPage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
-  _JoinTutorPage createState() => _JoinTutorPage();
+  _SignUpPageState createState() => _SignUpPageState();
 }
 
-class _JoinTutorPage extends State<JoinTutorPage> {
+class _SignUpPageState extends State<SignUpPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   String valueChoose;
-  List listItems = ["4th", "5th", "6th", "7th", "8th", "9th", "10th"];
+  List listItems = ["3th", "4th", "5th", "6th", "7th", "8th", "9th", "10th"];
   String genderGroupValue = '';
 
-  String name, phoneNo, teachingOverview;
+  String name, email;
   //checkboxes
   bool isGenderSelected = false;
-  bool isDaySelected = false;
-  bool isTimeSelected = false;
   bool buttonDisabled = false;
-
-  Map<String, bool> suitableTutoringDays = {
-    'Sunday': false,
-    'Monday': false,
-    'Tuesday': false,
-    'Wednsday': false,
-    'Thursday': false,
-    'Friday': false,
-    'Saturday': false,
-  };
-  var tmpArray = [];
-
-  getCheckboxItems() {
-    suitableTutoringDays.forEach((key, value) {
-      if (value == true) {
-        tmpArray.add(key);
-      }
-    });
-    // Printing all selected items on Terminal screen.
-    print(tmpArray);
-    // Here you will get all your selected Checkbox items.
-
-    // Clear array after use.
-    tmpArray.clear();
-  }
-
-  Map<String, bool> suitableTimes = {
-    '6 PM': false,
-    '7 PM': false,
-    '8 PM': false,
-    '9 PM': false,
-  };
-
-  var timeArray = [];
-
-  getCheckboxTimeItems() {
-    suitableTimes.forEach((key, value) {
-      if (value == true) {
-        timeArray.add(key);
-      }
-    });
-    // Printing all selected items on Terminal screen.
-    print(timeArray);
-    // Here you will get all your selected Checkbox items.
-
-    // Clear array after use.
-    timeArray.clear();
-  }
 
   final _formKey = GlobalKey<FormState>();
 
@@ -104,19 +35,18 @@ class _JoinTutorPage extends State<JoinTutorPage> {
         name = value;
       },
     );
-    final phoneField = TextFormField(
+    final emailField = TextFormField(
       obscureText: false,
-      validator: phoneValidaton,
+      validator: emailValidation,
       keyboardType: TextInputType.number,
       style: h5,
       decoration: textInputDecoratuon.copyWith(
-          hintText: 'Phone Number',
-          prefixIcon: Icon(Icons.phone_android_outlined)),
+          hintText: 'Email', prefixIcon: Icon(Icons.email_outlined)),
       onSaved: (value) {
-        phoneNo = value;
+        email = value;
       },
     );
-    final requistButon = Material(
+    final requestButon = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(10.0),
       color: Color(0xffF9A21B),
@@ -124,13 +54,20 @@ class _JoinTutorPage extends State<JoinTutorPage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
         disabledColor: Colors.grey,
-        onPressed: _sendToServer, 
-        child: Text("Request",
+        onPressed: _sendToServer,
+        child: Text("Get Started",
             textAlign: TextAlign.center, style: yellowButtonsTextStyle),
       ),
     );
     return Scaffold(
-      appBar: myAppBar2(context, title: 'Request to Join as a Tutor'),
+      appBar: myAppBar1(
+        context,
+        title: 'Create Account',
+        iconButton: IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () {},
+        ),
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -183,8 +120,6 @@ class _JoinTutorPage extends State<JoinTutorPage> {
                         );
                       }).toList(),
                     ),
-                    SizedBox(height: 15.0),
-                    phoneField,
                     SizedBox(
                       height: 15.0,
                     ),
@@ -227,77 +162,10 @@ class _JoinTutorPage extends State<JoinTutorPage> {
                             Text('Female'),
                           ]),
                     ),
-                    SizedBox(height: 15),
-                    SizedBox(
-                      height: 20.0,
-                      width: double.infinity,
-                      child: Text("Suitable Day(s) for holding the session",
-                          textAlign: TextAlign.left, style: h4),
-                    ),
-                    SizedBox(
-                      height: 400,
-                      child: ListView(
-                        children: suitableTutoringDays.keys.map((String key) {
-                          return new CheckboxListTile(
-                            title: new Text(key),
-                            value: suitableTutoringDays[key],
-                            activeColor: Colors.orange,
-                            onChanged: (bool value) {
-                              setState(() {
-                                suitableTutoringDays[key] = value;
-                                isDaySelected = true;
-                              });
-                            },
-                          );
-                        }).toList(),
-                      ),
-                    ),
                     SizedBox(height: 15.0),
-                    SizedBox(
-                      height: 20.0,
-                      width: double.infinity,
-                      child: Text("Suitable time(s) for holding the session",
-                          textAlign: TextAlign.left, style: h4),
-                    ),
-                    SizedBox(
-                      height: 210,
-                      child: ListView(
-                        children: suitableTimes.keys.map((String key) {
-                          return new CheckboxListTile(
-                            title: new Text(key),
-                            value: suitableTimes[key],
-                            activeColor: Colors.orange,
-                            onChanged: (bool value) {
-                              setState(() {
-                                suitableTimes[key] = value;
-                                isTimeSelected = true;
-                              });
-                            },
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    SizedBox(height: 15.0),
-                    SizedBox(
-                      height: 20.0,
-                      width: double.infinity,
-                      child: Text("Overview of your teaching method",
-                          textAlign: TextAlign.left, style: h4),
-                    ),
-                    SizedBox(height: 15.0),
-                    TextFormField(
-                      maxLines: 9,
-                      style: h5,
-                      validator: textAreaValidation,
-                      decoration: textInputDecoratuon.copyWith(
-                          hintText: "Enter your text here"),
-                      keyboardType: TextInputType.multiline,
-                      onSaved: (value) {
-                        teachingOverview = value;
-                      },
-                    ),
+                    emailField,
                     SizedBox(height: 35.0),
-                    requistButon,
+                    requestButon,
                     SizedBox(
                       height: 35.0,
                     ),
@@ -323,11 +191,8 @@ class _JoinTutorPage extends State<JoinTutorPage> {
         await reference.add({
           'name': '$name',
           'academicLevel': '$valueChoose',
-          'phoneNo': '$phoneNo',
+          'email': '$email',
           'gender': '$genderGroupValue',
-          'suitableTutoringDays': '$suitableTutoringDays',
-          'suitableTimes': '$suitableTimes',
-          'teachingOverview': '$teachingOverview'
         });
       });
     } else {

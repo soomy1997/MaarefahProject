@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomeScreenState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String courseName = "";
+
   Stream _data;
   Stream getDetails() {
     return FirebaseFirestore.instance.collection('session').snapshots();
@@ -24,11 +25,13 @@ class _HomeScreenState extends State<HomePage> {
 
   navigateToCourseDetails(DocumentSnapshot post) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => CourseDetails(
-                  post: post,
-                )));
+      context,
+      MaterialPageRoute(
+        builder: (context) => CourseDetails(
+          post: post,
+        ),
+      ),
+    );
   }
 
   @override

@@ -1,12 +1,31 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-Future<bool> signIn(String email, String password) async {
+class AuthenticationService {
+  final FirebaseAuth _firebaseAuth;
+  AuthenticationService(this._firebaseAuth);
+
+  Stream<User> get authStateChanges => _firebaseAuth.authStateChanges();
+   
+Future<String> signIn({String email, String password}) async {
   try {
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
-    return true;
-  } catch (e) {
+    return 'Signed in';
+  } on FirebaseAuthException catch (e) {
     print(e);
-    return false;
+    return e.message;
   }
 }
+
+  Future<String> signUp(String email, String password) async {
+    try {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      return 'Signed Up';
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
+  }
+}
+
+

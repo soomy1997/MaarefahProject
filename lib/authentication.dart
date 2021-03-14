@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
+import 'package:provider/provider.dart';
 import 'utils/constants.dart';
 import 'net/flutterfire.dart';
 
@@ -22,21 +23,25 @@ class _AuthenticationState extends State<Authentication> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
-        onPressed: () async {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()),
+        onPressed: () {
+          context.read<AuthenticationService>().signIn(
+            email : _emailField.text.trim(),
+            password : _passwordField.text.trim(),
           );
-          bool shouldNavigate =
-              await signIn(_emailField.text, _passwordField.text);
-          if (shouldNavigate) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HomePage(),
-              ),
-            );
-          }
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => HomePage()),
+          // );
+          // bool shouldNavigate =
+          //     await signIn(_emailField.text, _passwordField.text);
+          // if (shouldNavigate) {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (context) => HomePage(),
+          //     ),
+          //   );
+          // }
         },
         child: Text("Get started",
             textAlign: TextAlign.center, style: yellowButtonsTextStyle),
