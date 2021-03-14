@@ -12,6 +12,7 @@ class _NoIntentConnectionState extends State<NoIntentConnection> {
     return Scaffold(
       appBar: myAppBar1(
         context,
+        title: 'System Message',
         iconButton: IconButton(
           icon: Icon(Icons.close),
           onPressed: () {},
@@ -20,7 +21,7 @@ class _NoIntentConnectionState extends State<NoIntentConnection> {
       body: Container(
         color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(36.0),
           child: Center(
             child: Column(
               children: [
@@ -29,17 +30,14 @@ class _NoIntentConnectionState extends State<NoIntentConnection> {
                 ),
                 Text(
                   "No Internet Connection",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
-                  ),
+                  style: h1,
                 ),
                 SizedBox(
                   height: 25,
                 ),
                 Text(
-                  "Please check your internet connection and try again",
+                  "Please check your internet connection \nand try again",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.grey,
                       fontWeight: FontWeight.normal,
@@ -50,7 +48,7 @@ class _NoIntentConnectionState extends State<NoIntentConnection> {
                 ),
                 Image(
                   image: AssetImage("images/client.jpg"),
-                  height: MediaQuery.of(context).size.height * 0.50,
+                  height: MediaQuery.of(context).size.height * 0.45,
                   width: MediaQuery.of(context).size.width * 0.99,
                 ),
               ],
