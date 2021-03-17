@@ -29,8 +29,12 @@ class TutorProfile extends StatelessWidget {
 
 // ignore: camel_case_types
 class myTutorProfile extends StatefulWidget {
-  myTutorProfile({Key key, this.title}) : super(key: key);
+  final DocumentSnapshot post;
   final String title;
+  myTutorProfile({this.post, this.title});
+
+  //myTutorProfile({Key key, this.title}) : super(key: key);
+
   @override
   _myTutorProfile createState() => _myTutorProfile();
 }
@@ -229,11 +233,11 @@ class _myTutorProfile extends State<myTutorProfile> {
     if (tutors != null) {
       return ListView.builder(
         itemCount: 1,
-        itemBuilder: (context, i) {
+        itemBuilder: (context, post) {
           return Row(
             children: [
               Text(
-                tutors.docs[i].data()['t_fname'],
+                widget.post.data()['t_fname'],
                 style: h1,
               ),
               Text(
@@ -241,7 +245,7 @@ class _myTutorProfile extends State<myTutorProfile> {
                 style: h1,
               ),
               Text(
-                tutors.docs[i].data()['t_lname'],
+                widget.post.data()['t_lname'],
                 style: h1,
               ),
             ],
