@@ -4,6 +4,7 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'services/crud.dart';
+import 'utils/constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,11 +37,10 @@ class myTutorProfile extends StatefulWidget {
 
 // ignore: camel_case_types
 class _myTutorProfile extends State<myTutorProfile> {
-  // final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  // CollectionReference tutors = FirebaseFirestore.instance.collection('tutors');
-  crudMethods crudObj = new crudMethods();
+  CrudMethods crudObj = new CrudMethods();
   List<Story> _cards;
   QuerySnapshot tutors;
+  String reviewtxt;
 
   @override
   // ignore: must_call_super
@@ -50,6 +50,7 @@ class _myTutorProfile extends State<myTutorProfile> {
         tutors = results;
       });
     });
+    _populateData();
   }
 
   @override
@@ -78,7 +79,11 @@ class _myTutorProfile extends State<myTutorProfile> {
               ),
               Column(
                 children: <Widget>[
-                  nameDis(),
+                  Container(
+                      padding: EdgeInsets.all(20),
+                      width: 300,
+                      height: 70,
+                      child: nameDis()),
                 ],
               ),
             ],
@@ -150,6 +155,7 @@ class _myTutorProfile extends State<myTutorProfile> {
               ),
             ),
           ),
+          Text("What is your rate?", style: h1),
           Padding(
               padding: const EdgeInsets.all(10.0),
               child: SmoothStarRating(
@@ -169,6 +175,51 @@ class _myTutorProfile extends State<myTutorProfile> {
                   // print("rating value dd -> ${value.truncate()}");
                 },
               )),
+          Text("Please Enter your opinio about this tutor", style: h5),
+          SizedBox(
+            width: double.infinity,
+            child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 20,
+                  horizontal: 100,
+                ),
+                child: TextFormField(
+                    maxLines: 5,
+                    obscureText: false,
+                    style: h5,
+                    validator: textAreaValidation,
+                    onSaved: (value) {
+                      reviewtxt = value;
+                    },
+                    decoration: textInputDecoratuon.copyWith(
+                      hintText: 'Your Review',
+                    ))),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 100,
+              ),
+              child: RaisedButton(
+                color: Color(0xffF9A21B),
+                onPressed: () {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => JoinTutorPage(),
+                  //   ),
+                  // );
+                },
+                padding: EdgeInsets.fromLTRB(15.0, 18.0, 15.0, 18.0),
+                child: Text(
+                  'Send Review',
+                  style: yellowButtonsTextStyle,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -177,11 +228,23 @@ class _myTutorProfile extends State<myTutorProfile> {
   Widget nameDis() {
     if (tutors != null) {
       return ListView.builder(
-        itemCount: 2,
+        itemCount: 1,
         itemBuilder: (context, i) {
-          return ListTile(
-            title: Text(tutors.docs[i].data()['t_fname']),
-            subtitle: Text(tutors.docs[i].data()['t_lname']),
+          return Row(
+            children: [
+              Text(
+                tutors.docs[i].data()['t_fname'],
+                style: h1,
+              ),
+              Text(
+                " ",
+                style: h1,
+              ),
+              Text(
+                tutors.docs[i].data()['t_lname'],
+                style: h1,
+              ),
+            ],
           );
         },
       );
