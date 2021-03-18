@@ -81,8 +81,9 @@ class _SendEmailPage extends State<SendEmailPage> {
                       textAlign: TextAlign.center, style: h1),
                 ),
                 SizedBox(
-                    height: MediaQuery.of(context).size.height * (200.0 / 812),
-                    child: Image(image: AssetImage('images/pic1.png'))),
+                  height: MediaQuery.of(context).size.height * (200.0 / 812),
+                  child: Image(image: AssetImage('images/pic1.png')),
+                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * (80.0 / 812),
                   child: Text(

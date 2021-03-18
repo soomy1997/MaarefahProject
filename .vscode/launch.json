@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "MaarefahProject",
-            "program": "lib/send_email.dart",
+            "program": "lib/edit_account.dart",
             "request": "launch",
             "type": "dart"
         }
