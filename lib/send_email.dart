@@ -60,12 +60,12 @@ class _SendEmailPage extends State<SendEmailPage> {
     );
 
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Color(0xff14213C),
-          actions: [
-            IconButton(icon: Icon(Icons.close_rounded), onPressed: () => {})
-          ],
-          leading: Icon(Icons.arrow_back_ios)),
+      appBar: myAppBar1(context,
+          title: "Send Email",
+          iconButton: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {},
+          )),
       body: SingleChildScrollView(
         child: Container(
           color: Colors.white,

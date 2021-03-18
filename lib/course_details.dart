@@ -1,222 +1,120 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_app_1/utils/constants.dart';
+import 'package:flutter_app_1/component/successful_register_dialog.dart' as a;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
-  runApp(MyApp());
+class CourseDetails extends StatefulWidget {
+  final DocumentSnapshot post;
+  CourseDetails({this.post});
+
+  @override
+  _CourseDetailsState createState() => _CourseDetailsState();
 }
 
-class MyApp extends StatelessWidget {
+class _CourseDetailsState extends State<CourseDetails> {
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-            title: Text(
-              'Session Details',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            centerTitle: true,
-            backgroundColor: Color(0xff14213C),
-            leading: GestureDetector(
-              onTap: () {},
-              child: Icon(Icons.arrow_back_ios_sharp),
-            ),
-            actions: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(right: 20.0),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Icon(Icons.ios_share),
-                ),
-              )
-            ]),
-        body: Column(children: <Widget>[
+    return Scaffold(
+      appBar: myAppBar1(
+        context,
+        title: "Course Details",
+        iconButton: IconButton(
+          icon: Icon(Icons.ios_share),
+          onPressed: () {},
+        ),
+      ),
+      body: Column(
+        children: <Widget>[
           Container(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10, left: 20, bottom: 40),
+            padding: const EdgeInsets.only(top: 10),
+            child: Center(
               child: Text(
-                "Course Name",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 28),
+                widget.post.data()['course_name'],
+                style: h4,
+                textAlign: TextAlign.center,
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              FlatButton(
+          Container(
+            padding: const EdgeInsets.only(bottom: 20, top: 10),
+            child: Image.network(
+              "https://firebasestorage.googleapis.com/v0/b/ma-arefah-app.appspot.com/o/" +
+                  widget.post.data()['image_name'] +
+                  "?alt=media&token=" +
+                  widget.post.data()['imageToken'],
+            ),
+            height: 180,
+            width: MediaQuery.of(context).size.width,
+          ),
+          Container(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                MaterialButton(
                   height: 50,
-                  minWidth: 200,
+                  minWidth: 190,
+                  color: accentYellow,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6)),
-                  onPressed: () {},
+                    borderRadius: BorderRadius.circular(6),
+                  ),
                   child: Text(
                     ' Register Session',
-                    style: TextStyle(color: Colors.white),
+                    style: yellowButtonsTextStyle,
                   ),
-                  color: Colors.orangeAccent[400]),
-              SizedBox(
-                width: 10,
-              ),
-              FlatButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return a.AlertDialog();
+                      },
+                    );
+                  },
+                ),
+                MaterialButton(
                   height: 50,
-                  minWidth: 200,
-                  onPressed: () {},
+                  minWidth: 190,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      side: BorderSide(color: Colors.black54)),
+                    borderRadius: BorderRadius.circular(6),
+                    side: BorderSide(color: Colors.black54),
+                  ),
+                  color: Colors.white,
                   child: Text(
                     ' Add to Calendar',
-                    style: TextStyle(color: Colors.orangeAccent[400]),
+                    style: whiteButtonsTextStyle,
                   ),
-                  color: Colors.white)
-            ],
+                  onPressed: () {},
+                )
+              ],
+            ),
           ),
           Expanded(
             child: _buildListView(),
           ),
-        ]),
+        ],
       ),
     );
   }
 
-  ListView _buildListView() {
-    return new ListView(
-      children: <Widget>[
-        Card(
-          child: Stack(
-            children: [
-              ListTile(
-                  contentPadding: EdgeInsets.only(top: 0, bottom: 50, left: 0),
-                  title: Text(
-                    'Description',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25),
-                  )),
-              ListTile(
-                contentPadding: EdgeInsets.only(top: 50, bottom: 0, left: 0),
-                subtitle: Text(
-                    ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 17)),
-              )
-            ],
-          ),
-        ),
-        Card(
-          child: Stack(
-            children: [
-              ListTile(
-                  contentPadding: EdgeInsets.only(top: 0, bottom: 50, left: 0),
-                  title: Text(
-                    'Agenda',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25),
-                  )),
-              ListTile(
-                contentPadding: EdgeInsets.only(top: 50, bottom: 0, left: 0),
-                subtitle: Text(
-                    ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 17)),
-              )
-            ],
-          ),
-        ),
-        Card(
-          child: Stack(
-            children: [
-              ListTile(
-                  contentPadding: EdgeInsets.only(top: 0, bottom: 50, left: 0),
-                  title: Text(
-                    'Requirements',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25),
-                  )),
-              ListTile(
-                contentPadding: EdgeInsets.only(top: 50, bottom: 0, left: 0),
-                subtitle: Text(
-                    ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 17)),
-              )
-            ],
-          ),
-        ),
-        Card(
-          child: Stack(
-            children: [
-              ListTile(
-                  contentPadding: EdgeInsets.only(top: 0, bottom: 50, left: 0),
-                  title: Text(
-                    'Attatchments',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25),
-                  )),
-              ListTile(
-                contentPadding: EdgeInsets.only(top: 50, bottom: 0, left: 0),
-                subtitle: Text(
-                    ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 17)),
-              )
-            ],
-          ),
-        ),
-        Card(
-          child: Stack(
-            children: [
-              ListTile(
-                  contentPadding: EdgeInsets.only(top: 0, bottom: 50, left: 0),
-                  title: Text(
-                    'Tutor Overview',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25),
-                  )),
-              ListTile(
-                contentPadding: EdgeInsets.only(top: 50, bottom: 0, left: 0),
-                leading: Icon(Icons.cast_for_education_sharp),
-                subtitle: Text(
-                    ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 17)),
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.only(top: 100, bottom: 15, left: 10),
-                title: Text('Read more',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(color: Colors.orangeAccent[400])),
-                trailing: Icon(Icons.arrow_forward),
-              )
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
+  Widget _buildListView() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('session')
+            .doc('9dUB3qHf13otyFLJIy51')
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+      …
