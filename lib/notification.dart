@@ -8,7 +8,7 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPage extends State<NotificationPage> {
-  Widget messageWidget() => Container(
+  Widget messageWidget() => SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
@@ -90,6 +90,8 @@ class _NotificationPage extends State<NotificationPage> {
                       )
                       .toList()),
             ),
+
+//yesterday
             Container(
                 padding: const EdgeInsets.only(top: 15),
                 child: DataTable(
@@ -144,60 +146,6 @@ class _NotificationPage extends State<NotificationPage> {
                         )
                         .toList()))
           ]);
-
-  Widget yesterdaynoti() => Container(
-//today
-        child: DataTable(
-            columnSpacing: 20,
-            dataRowHeight: 60,
-            dividerThickness: 1,
-            showBottomBorder: true,
-            columns: <DataColumn>[
-              DataColumn(
-                label: Text(
-                  ' ',
-                  style: h4,
-                ),
-                numeric: false,
-              ),
-              DataColumn(
-                label: Text(
-                  'Yesterday',
-                  style: h4,
-                ),
-                numeric: false,
-              ),
-              DataColumn(
-                label: Text(
-                  ' ',
-                ),
-                numeric: false,
-              )
-            ],
-            rows: notificationList
-                .map(
-                  (notifications) => DataRow(
-                    cells: [
-                      DataCell(
-                        Icon(Icons.notifications_none, color: accentYellow),
-                        showEditIcon: false,
-                        placeholder: false,
-                      ),
-                      DataCell(
-                        Text(notifications.text),
-                        showEditIcon: false,
-                        placeholder: true,
-                      ),
-                      DataCell(
-                        Icon(Icons.close, color: accentOrange),
-                        showEditIcon: false,
-                        placeholder: false,
-                      ),
-                    ],
-                  ),
-                )
-                .toList()),
-      );
 
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,8 +1,18 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/add_session.dart';
+import 'package:flutter_app_1/authentication.dart';
+import 'package:flutter_app_1/course_details.dart';
+import 'package:flutter_app_1/edit_account.dart';
+import 'package:flutter_app_1/admin/edit_session_details.dart';
 import 'package:flutter_app_1/home_page.dart';
 import 'package:flutter_app_1/no_internet_connection.dart';
+import 'package:flutter_app_1/no_search_found.dart';
 import 'package:flutter_app_1/notification.dart';
+import 'package:flutter_app_1/profile.dart';
+import 'package:flutter_app_1/reset.dart';
+import 'package:flutter_app_1/send_email.dart';
+import 'package:flutter_app_1/admin/session_details.dart';
 import 'package:flutter_app_1/utils/tabbed_app.dart';
 import 'package:flutter_app_1/congrats.dart';
 
@@ -19,7 +29,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => NotificationPage(),
+        '/': (context) => EditSessionDetails(),
       },
       title: 'Flutter login',
       theme: ThemeData(

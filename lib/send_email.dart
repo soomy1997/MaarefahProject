@@ -2,31 +2,7 @@ import 'package:flutter/material.dart';
 import 'utils/constants.dart';
 import './reset.dart';
 
-void main() {
-  runApp(SendEmail());
-}
-
-class SendEmail extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Send Email',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: SendEmailPage(title: 'Send Email'),
-    );
-  }
-}
-
 class SendEmailPage extends StatefulWidget {
-  SendEmailPage({Key key, this.title}) : super(key: key);
-  final String title;
-
-  @override
   _SendEmailPage createState() => _SendEmailPage();
 }
 
@@ -61,7 +37,7 @@ class _SendEmailPage extends State<SendEmailPage> {
 
     return Scaffold(
       appBar: myAppBar1(context,
-          title: "Send Email",
+          title: " ",
           iconButton: IconButton(
             icon: Icon(Icons.close),
             onPressed: () {},
