@@ -1,5 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/services/flutterfire.dart';
+import 'package:flutter_app_1/sign_in_page.dart';
+import 'package:provider/provider.dart';
 import 'utils/constants.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -11,21 +13,121 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final TextEditingController confirmPassController = TextEditingController();
+  final TextEditingController passController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+
+  var password = "";
+  var confirmPassword = "";
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   String valueChoose;
   List listItems = ["3th", "4th", "5th", "6th", "7th", "8th", "9th", "10th"];
   String genderGroupValue = '';
-
-  String name, email;
+  String name, email, pass;
   //checkboxes
   bool isGenderSelected = false;
   bool buttonDisabled = false;
 
   final _formKey = GlobalKey<FormState>();
 
+  void _signUpUser(String email, String password, BuildContext context,
+      String lAcademicLevel, String lName, String lGender) async {
+    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+    try {
+      String _returnString = await _currentUser.signUpLearner(
+          email, password, lAcademicLevel, lName, lGender);
+      if (_returnString == 'success') {
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(_returnString),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    this.confirmPassController.dispose();
+    this.passController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final passwordField = TextFormField(
+      obscureText: true,
+      validator: (input) {
+        if (input.isEmpty) {
+          return "this field is required";
+        }
+        // if (input.length < 7) {
+        //   return "The Password must be at least 7 character";
+        // }
+        if (input != passController.text) {
+          return "The Password and its confirmation do not match";
+        }
+        return null;
+      },
+      controller: confirmPassController,
+      style: TextStyle(fontSize: 18),
+      decoration: InputDecoration(
+          errorMaxLines: 3,
+          prefixIcon: Icon(
+            Icons.lock_outlined,
+            color: kTextLightColor,
+          ),
+          contentPadding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
+          hintText: 'Confirm Password',
+          border: OutlineInputBorder(
+              borderSide: BorderSide(color: kTextLightColor, width: 15.0),
+              borderRadius: BorderRadius.circular(5.0))),
+    );
+    final passwordField2 = TextFormField(
+      obscureText: true,
+      controller: passController,
+      validator: (input) {
+        password = input;
+        if (input.isEmpty) {
+          return "this field is required";
+        }
+        if (input.length < 7) {
+          return "The Password must be at least 7 character and include a combination of uppercase , lowercase letters & numbers";
+        }
+        if (!validateStructure(input)) {
+          return "The Password must be at least 7 character and include a combination of uppercase , lowercase letters & numbers";
+        }
+
+        return null;
+      },
+      onSaved: (value) {
+        pass = value;
+      },
+      style: TextStyle(fontSize: 18),
+      decoration: InputDecoration(
+        errorMaxLines: 3,
+        prefixIcon: Icon(
+          Icons.lock_outlined,
+          color: kTextLightColor,
+        ),
+        contentPadding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
+        hintText: 'Password',
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: kTextLightColor, width: 15.0),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+      ),
+    );
     final nameFeild = TextFormField(
+      controller: _nameController,
       obscureText: false,
       style: h5,
       validator: nameValidation,
@@ -38,6 +140,7 @@ class _SignUpPageState extends State<SignUpPage> {
     final emailField = TextFormField(
       obscureText: false,
       validator: emailValidation,
+      controller: _emailController,
       keyboardType: TextInputType.number,
       style: h5,
       decoration: textInputDecoratuon.copyWith(
@@ -54,7 +157,17 @@ class _SignUpPageState extends State<SignUpPage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
         disabledColor: Colors.grey,
-        onPressed: _sendToServer,
+        onPressed: () {
+          if (_formKey.currentState.validate()) {
+            _signUpUser(_emailController.text, passController.text, context,
+                _nameController.text, valueChoose, genderGroupValue);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('please fill again'),
+              duration: Duration(seconds: 2),
+            ));
+          }
+        },
         child: Text("Get Started",
             textAlign: TextAlign.center, style: yellowButtonsTextStyle),
       ),
@@ -165,12 +278,31 @@ class _SignUpPageState extends State<SignUpPage> {
                     SizedBox(height: 15.0),
                     emailField,
                     SizedBox(height: 35.0),
+                    passwordField2,
+                    SizedBox(height: 35.0),
+                    passwordField,
+                    SizedBox(height: 35.0),
                     requestButon,
                     SizedBox(
                       height: 35.0,
                     ),
                     SizedBox(
-                      height: 35.0,
+                      child: TextButton(
+                        child: Text("Already have account? Sign In.",
+                            textAlign: TextAlign.center,
+                            style: style.copyWith(
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 15)),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SignInPage(),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -180,26 +312,10 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  void _sendToServer() {
-    if (_formKey.currentState.validate()) {
-      //No error in validator
-      _formKey.currentState.save();
-      FirebaseFirestore.instance
-          .runTransaction((Transaction transaction) async {
-        CollectionReference reference =
-            FirebaseFirestore.instance.collection('tutoring_request');
-        await reference.add({
-          'name': '$name',
-          'academicLevel': '$valueChoose',
-          'email': '$email',
-          'gender': '$genderGroupValue',
-        });
-      });
-    } else {
-      // validation error
-      setState(() {
-        return AutovalidateMode.disabled;
-      });
-    }
+  bool validateStructure(String value) {
+    String pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regExp = new RegExp(pattern);
+    return regExp.hasMatch(value);
   }
 }

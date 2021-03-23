@@ -1,18 +1,45 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'package:flutter_app_1/sign_up_page.dart';
+import 'package:flutter_app_1/utils/tabbed_app.dart';
 import 'package:provider/provider.dart';
 import 'utils/constants.dart';
-import 'net/flutterfire.dart';
+import 'services/flutterfire.dart';
 
-class Authentication extends StatefulWidget {
+class SignInPage extends StatefulWidget {
   @override
-  _AuthenticationState createState() => _AuthenticationState();
+  _SignInPageState createState() => _SignInPageState();
 }
 
-class _AuthenticationState extends State<Authentication> {
+class _SignInPageState extends State<SignInPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   TextEditingController _emailField = TextEditingController();
   TextEditingController _passwordField = TextEditingController();
+
+  void _loginUser(String email, String password, BuildContext context) async {
+    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+    try {
+      String _returnString = await _currentUser.loginUser(email, password);
+
+      if (_returnString == 'success') {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TabbedApp(),
+          ),
+          (route) => false,
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Icorrect login info'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,24 +51,14 @@ class _AuthenticationState extends State<Authentication> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          context.read<AuthenticationService>().signIn(
-            email : _emailField.text.trim(),
-            password : _passwordField.text.trim(),
-          );
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => HomePage()),
-          // );
-          // bool shouldNavigate =
-          //     await signIn(_emailField.text, _passwordField.text);
-          // if (shouldNavigate) {
-          //   Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (context) => HomePage(),
-          //     ),
-          //   );
-          // }
+          // context.read<AuthenticationService>().signIn(
+          //       email: _emailField.text.trim(),
+          //       password: _passwordField.text.trim(),
+          //     );
+          // context
+          //     .read<CurrentUser>()
+          //     .loginUser(_emailField.text, _passwordField.text);
+          _loginUser(_emailField.text, _passwordField.text, context);
         },
         child: Text("Get started",
             textAlign: TextAlign.center, style: yellowButtonsTextStyle),
@@ -139,12 +156,22 @@ class _AuthenticationState extends State<Authentication> {
                 ),
                 SizedBox(
                   height: 35.0,
-                  child: Text("No account? Create one.",
-                      textAlign: TextAlign.center,
-                      style: style.copyWith(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 15)),
+                  child: TextButton(
+                    child: Text("No account? Create one.",
+                        textAlign: TextAlign.center,
+                        style: style.copyWith(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 15)),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignUpPage(),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

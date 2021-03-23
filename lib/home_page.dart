@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_app_1/TutorsList.dart';
-import 'package:flutter_app_1/award_page.dart';
 import 'package:flutter_app_1/component/home_card.dart';
 import 'package:flutter_app_1/course_details.dart';
-import 'package:flutter_app_1/notification.dart';
-import 'package:flutter_app_1/profile.dart';
-//import 'package:flutter_app_1/component/vertical_list.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
 class HomePage extends StatefulWidget {

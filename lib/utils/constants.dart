@@ -34,6 +34,12 @@ const whiteButtonsTextStyle = TextStyle(
   fontSize: 17,
 );
 
+const greyButtonsTextStyle = TextStyle(
+  color: kTextLightColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 17,
+);
+
 //////////////////////////validations///////////////////////////
 final nameValidation = MultiValidator([
   RequiredValidator(errorText: 'This field is required.'),
@@ -86,8 +92,6 @@ const secondaryLightGrey = const Color(0xffdfdfdf);
 const accentYellow = const Color(0xffF9A21B);
 const accentOrange = const Color(0xffF05824);
 const whiteBG = Colors.white;
-
-
 
 // title, back button and icon
 AppBar myAppBar1(

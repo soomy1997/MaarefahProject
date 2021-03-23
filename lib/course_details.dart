@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app_1/utils/constants.dart';
+import 'package:flutter_app_1/component/successful_register_dialog.dart' as a;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CourseDetails extends StatefulWidget {
@@ -51,31 +52,39 @@ class _CourseDetailsState extends State<CourseDetails> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                FlatButton(
+                MaterialButton(
                   height: 50,
                   minWidth: 190,
+                  color: accentYellow,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6)),
-                  onPressed: () {},
+                    borderRadius: BorderRadius.circular(6),
+                  ),
                   child: Text(
                     ' Register Session',
                     style: yellowButtonsTextStyle,
                   ),
-                  color: accentYellow,
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return a.AlertDialog();
+                      },
+                    );
+                  },
                 ),
-                FlatButton(
+                MaterialButton(
                   height: 50,
                   minWidth: 190,
-                  onPressed: () {},
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(6),
                     side: BorderSide(color: Colors.black54),
                   ),
+                  color: Colors.white,
                   child: Text(
                     ' Add to Calendar',
                     style: whiteButtonsTextStyle,
                   ),
-                  color: Colors.white,
+                  onPressed: () {},
                 )
               ],
             ),
