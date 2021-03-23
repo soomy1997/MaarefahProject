@@ -2,25 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'utils/constants.dart';
 
-void main() {
-  runApp(JoinTutor());
-}
-
-class JoinTutor extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Join Us as a Tutor',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: JoinTutorPage(title: 'Join Us as a Tutor'),
-    );
-  }
-}
-
 class JoinTutorPage extends StatefulWidget {
   JoinTutorPage({Key key, this.title}) : super(key: key);
   final String title;
@@ -42,53 +23,53 @@ class _JoinTutorPage extends State<JoinTutorPage> {
   bool isTimeSelected = false;
   bool buttonDisabled = false;
 
-  Map<String, bool> suitableTutoringDays = {
-    'Sunday': false,
-    'Monday': false,
-    'Tuesday': false,
-    'Wednsday': false,
-    'Thursday': false,
-    'Friday': false,
-    'Saturday': false,
-  };
-  var tmpArray = [];
+  // Map<String, bool> suitableTutoringDays = {
+  //   'Sunday': false,
+  //   'Monday': false,
+  //   'Tuesday': false,
+  //   'Wednsday': false,
+  //   'Thursday': false,
+  //   'Friday': false,
+  //   'Saturday': false,
+  // };
+  // var tmpArray = [];
 
-  getCheckboxItems() {
-    suitableTutoringDays.forEach((key, value) {
-      if (value == true) {
-        tmpArray.add(key);
-      }
-    });
-    // Printing all selected items on Terminal screen.
-    print(tmpArray);
-    // Here you will get all your selected Checkbox items.
+  // getCheckboxItems() {
+  //   suitableTutoringDays.forEach((key, value) {
+  //     if (value == true) {
+  //       tmpArray.add(key);
+  //     }
+  //   });
+  //   // Printing all selected items on Terminal screen.
+  //   print(tmpArray);
+  //   // Here you will get all your selected Checkbox items.
 
-    // Clear array after use.
-    tmpArray.clear();
-  }
+  //   // Clear array after use.
+  //   tmpArray.clear();
+  // }
 
-  Map<String, bool> suitableTimes = {
-    '6 PM': false,
-    '7 PM': false,
-    '8 PM': false,
-    '9 PM': false,
-  };
+  // Map<String, bool> suitableTimes = {
+  //   '6 PM': false,
+  //   '7 PM': false,
+  //   '8 PM': false,
+  //   '9 PM': false,
+  // };
 
-  var timeArray = [];
+  // var timeArray = [];
 
-  getCheckboxTimeItems() {
-    suitableTimes.forEach((key, value) {
-      if (value == true) {
-        timeArray.add(key);
-      }
-    });
-    // Printing all selected items on Terminal screen.
-    print(timeArray);
-    // Here you will get all your selected Checkbox items.
+  // getCheckboxTimeItems() {
+  //   suitableTimes.forEach((key, value) {
+  //     if (value == true) {
+  //       timeArray.add(key);
+  //     }
+  //   });
+  //   // Printing all selected items on Terminal screen.
+  //   print(timeArray);
+  //   // Here you will get all your selected Checkbox items.
 
-    // Clear array after use.
-    timeArray.clear();
-  }
+  //   // Clear array after use.
+  //   timeArray.clear();
+  // }
 
   final _formKey = GlobalKey<FormState>();
 
@@ -234,24 +215,24 @@ class _JoinTutorPage extends State<JoinTutorPage> {
                       child: Text("Suitable Day(s) for holding the session",
                           textAlign: TextAlign.left, style: h4),
                     ),
-                    SizedBox(
-                      height: 400,
-                      child: ListView(
-                        children: suitableTutoringDays.keys.map((String key) {
-                          return new CheckboxListTile(
-                            title: new Text(key),
-                            value: suitableTutoringDays[key],
-                            activeColor: Colors.orange,
-                            onChanged: (bool value) {
-                              setState(() {
-                                suitableTutoringDays[key] = value;
-                                isDaySelected = true;
-                              });
-                            },
-                          );
-                        }).toList(),
-                      ),
-                    ),
+                    // SizedBox(
+                    //   height: 400,
+                    //   child: ListView(
+                    //     children: suitableTutoringDays.keys.map((String key) {
+                    //       return new CheckboxListTile(
+                    //         title: new Text(key),
+                    //         value: suitableTutoringDays[key],
+                    //         activeColor: Colors.orange,
+                    //         onChanged: (bool value) {
+                    //           setState(() {
+                    //             suitableTutoringDays[key] = value;
+                    //             isDaySelected = true;
+                    //           });
+                    //         },
+                    //       );
+                    //     }).toList(),
+                    //   ),
+                    // ),
                     SizedBox(height: 15.0),
                     SizedBox(
                       height: 20.0,
@@ -259,24 +240,24 @@ class _JoinTutorPage extends State<JoinTutorPage> {
                       child: Text("Suitable time(s) for holding the session",
                           textAlign: TextAlign.left, style: h4),
                     ),
-                    SizedBox(
-                      height: 210,
-                      child: ListView(
-                        children: suitableTimes.keys.map((String key) {
-                          return new CheckboxListTile(
-                            title: new Text(key),
-                            value: suitableTimes[key],
-                            activeColor: Colors.orange,
-                            onChanged: (bool value) {
-                              setState(() {
-                                suitableTimes[key] = value;
-                                isTimeSelected = true;
-                              });
-                            },
-                          );
-                        }).toList(),
-                      ),
-                    ),
+                    // SizedBox(
+                    //   height: 210,
+                    //   child: ListView(
+                    //     children: suitableTimes.keys.map((String key) {
+                    //       return new CheckboxListTile(
+                    //         title: new Text(key),
+                    //         value: suitableTimes[key],
+                    //         activeColor: Colors.orange,
+                    //         onChanged: (bool value) {
+                    //           setState(() {
+                    //             suitableTimes[key] = value;
+                    //             isTimeSelected = true;
+                    //           });
+                    //         },
+                    //       );
+                    //     }).toList(),
+                    //   ),
+                    // ),
                     SizedBox(height: 15.0),
                     SizedBox(
                       height: 20.0,
@@ -325,13 +306,10 @@ class _JoinTutorPage extends State<JoinTutorPage> {
           'academicLevel': '$valueChoose',
           'phoneNo': '$phoneNo',
           'gender': '$genderGroupValue',
-          'suitableTutoringDays': '$suitableTutoringDays',
-          'suitableTimes': '$suitableTimes',
           'teachingOverview': '$teachingOverview'
         });
       });
     } else {
-      // validation error
       setState(() {
         return AutovalidateMode.disabled;
       });

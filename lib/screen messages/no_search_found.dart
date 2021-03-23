@@ -10,8 +10,9 @@ class _NoSearchFoundState extends State<NoSearchFound> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: myAppBar1(
+      appBar: myAppBar1(
         context,
+        title: '',
         iconButton: IconButton(
           icon: Icon(Icons.close),
           onPressed: () {},
