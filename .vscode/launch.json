@@ -6,9 +6,10 @@
     "configurations": [
         {
             "name": "MaarefahProject",
-            "program": "lib/add_session.dart",
+            "program": "lib/main.dart",
             "request": "launch",
             "type": "dart"
         }
     ]
 }
+

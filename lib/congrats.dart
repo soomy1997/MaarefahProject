@@ -1,22 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/reset.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
-class NoIntentConnection extends StatefulWidget {
+class Congrats extends StatefulWidget {
   @override
-  _NoIntentConnectionState createState() => _NoIntentConnectionState();
+  _Congrats createState() => _Congrats();
 }
 
-class _NoIntentConnectionState extends State<NoIntentConnection> {
+class _Congrats extends State<Congrats> {
   @override
   Widget build(BuildContext context) {
+    final gotItButton = Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(10.0),
+      color: Color(0xffF9A21B),
+      child: MaterialButton(
+        minWidth: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
+        onPressed: () {},
+        child: Text(
+          "Got it",
+          textAlign: TextAlign.center,
+          style: yellowButtonsTextStyle,
+        ),
+      ),
+    );
+
     return Scaffold(
-      appBar: myAppBar1(
+      appBar: myAppBar2(
         context,
         title: 'System Message',
-        iconButton: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () {},
-        ),
       ),
       body: Container(
         color: Colors.white,
@@ -28,15 +41,12 @@ class _NoIntentConnectionState extends State<NoIntentConnection> {
                 SizedBox(
                   height: 50,
                 ),
-                Text(
-                  "No Internet Connection",
-                  style: h1,
-                ),
+                Text("Congratulations!", style: h1),
                 SizedBox(
                   height: 25,
                 ),
                 Text(
-                  "Please check your internet connection \nand try again",
+                  "Your request to Join as a tutor is sent successfully, please wait for approval",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.grey,
@@ -44,13 +54,17 @@ class _NoIntentConnectionState extends State<NoIntentConnection> {
                       fontSize: 16),
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 10,
                 ),
                 Image(
-                  image: AssetImage("images/client.jpg"),
+                  image: AssetImage("images/pic6.png"),
                   height: MediaQuery.of(context).size.height * 0.45,
                   width: MediaQuery.of(context).size.width * 0.99,
                 ),
+                gotItButton,
+                SizedBox(
+                  height: 30,
+                )
               ],
             ),
           ),

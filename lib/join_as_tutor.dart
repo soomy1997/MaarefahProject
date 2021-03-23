@@ -1,25 +1,6 @@
 import 'package:flutter/material.dart';
 import 'utils/constants.dart';
 
-void main() {
-  runApp(JoinTutor());
-}
-
-class JoinTutor extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Join Us as a Tutor',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: JoinTutorPage(title: 'Join Us as a Tutor'),
-    );
-  }
-}
-
 class JoinTutorPage extends StatefulWidget {
   JoinTutorPage({Key key, this.title}) : super(key: key);
   final String title;
@@ -33,26 +14,12 @@ class _JoinTutorPage extends State<JoinTutorPage> {
   String valueChoose;
   List listItems = ["4th", "5th", "6th", "7th", "8th", "9th", "10th"];
   String genderGroupValue = '';
-  //checkboxes
 
   bool isGenderSelected = false;
   bool isDaySelected = false;
   bool isTimeSelected = false;
 
   bool buttonDisabled = false;
-
-  bool _sunChecked = false;
-  bool _monChecked = false;
-  bool _tueChecked = false;
-  bool _wedChecked = false;
-  bool _thuChecked = false;
-  bool _friChecked = false;
-  bool _satChecked = false;
-
-  bool _sixChecked = false;
-  bool _sevenChecked = false;
-  bool _eightChecked = false;
-  bool _nineChecked = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -64,6 +31,7 @@ class _JoinTutorPage extends State<JoinTutorPage> {
         validator: nameValidation,
         decoration: textInputDecoratuon.copyWith(
             hintText: 'Full Name', prefixIcon: Icon(Icons.person)));
+
     final phoneField = TextFormField(
         obscureText: false,
         validator: phoneValidaton,
@@ -72,6 +40,7 @@ class _JoinTutorPage extends State<JoinTutorPage> {
         decoration: textInputDecoratuon.copyWith(
             hintText: 'Phone Number',
             prefixIcon: Icon(Icons.phone_android_outlined)));
+
     final requistButon = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(10.0),
@@ -182,136 +151,6 @@ class _JoinTutorPage extends State<JoinTutorPage> {
                           Text('Female'),
                         ]),
                   ),
-                  SizedBox(height: 15),
-                  SizedBox(
-                    height: 20.0,
-                    width: double.infinity,
-                    child: Text(
-                      "Suitable Tutoring Days",
-                      textAlign: TextAlign.left,
-                      style: h4,
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  new CheckboxListTile(
-                      title: Text("Sunday"),
-                      value: _sunChecked,
-                      activeColor: Colors.orange,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _sunChecked = value;
-                          isDaySelected = true;
-                        });
-                      }),
-                  new CheckboxListTile(
-                      title: Text("Monday"),
-                      value: _monChecked,
-                      activeColor: Colors.orange,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _monChecked = value;
-                          isDaySelected = true;
-                        });
-                      }),
-                  new CheckboxListTile(
-                      title: Text("Tuesday"),
-                      value: _tueChecked,
-                      activeColor: Colors.orange,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _tueChecked = value;
-                          isDaySelected = true;
-                        });
-                      }),
-                  new CheckboxListTile(
-                      title: Text("Wednesday"),
-                      value: _wedChecked,
-                      activeColor: Colors.orange,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _wedChecked = value;
-                          isDaySelected = true;
-                        });
-                      }),
-                  new CheckboxListTile(
-                      title: Text("Thursday"),
-                      value: _thuChecked,
-                      activeColor: Colors.orange,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _thuChecked = value;
-                          isDaySelected = true;
-                        });
-                      }),
-                  new CheckboxListTile(
-                      title: Text("Friday"),
-                      value: _friChecked,
-                      activeColor: Colors.orange,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _friChecked = value;
-                          isDaySelected = true;
-                        });
-                      }),
-                  new CheckboxListTile(
-                      title: Text("Saturday"),
-                      value: _satChecked,
-                      activeColor: Colors.orange,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _satChecked = value;
-                          isDaySelected = true;
-                        });
-                      }),
-                  SizedBox(height: 15.0),
-                  SizedBox(
-                    height: 20.0,
-                    width: double.infinity,
-                    child: Text("Suitable time(s) for holding the session",
-                        textAlign: TextAlign.left, style: h4),
-                  ),
-                  SizedBox(height: 15.0),
-                  new CheckboxListTile(
-                      title: Text("6 PM"),
-                      value: _sixChecked,
-                      activeColor: Colors.orange,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _sixChecked = value;
-                          isTimeSelected = true;
-                        });
-                      }),
-                  new CheckboxListTile(
-                      title: Text("7 PM"),
-                      value: _sevenChecked,
-                      activeColor: Colors.orange,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _sevenChecked = value;
-                          isTimeSelected = true;
-                        });
-                      }),
-                  new CheckboxListTile(
-                      title: Text("8 PM"),
-                      value: _eightChecked,
-                      activeColor: Colors.orange,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _eightChecked = value;
-                          isTimeSelected = true;
-                        });
-                      }),
-                  new CheckboxListTile(
-                      title: Text("9 PM"),
-                      value: _nineChecked,
-                      activeColor: Colors.orange,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _nineChecked = value;
-                          isTimeSelected = true;
-                        });
-                      }),
-                  SizedBox(height: 15.0),
                   SizedBox(
                     height: 20.0,
                     width: double.infinity,

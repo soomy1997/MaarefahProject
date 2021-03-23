@@ -8,24 +8,25 @@ class VerticalCards extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('session')
-            .snapshots(includeMetadataChanges: true),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('Something went wrong');
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+          stream: FirebaseFirestore.instance
+              .collection('session')
+              .snapshots(includeMetadataChanges: true),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Text('Something went wrong');
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
             return ListView(
               children: snapshot.data.docs.map((DocumentSnapshot document) {
                 return Card(
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 8,
+                    height: MediaQuery.of(context).size.height / 9,
                     child: new ListTile(
                       title: new Text(document.data()['course_name']),
                       subtitle: new Text(document.data()['ses_name']),
@@ -41,8 +42,7 @@ class VerticalCards extends StatelessWidget {
                 );
               }).toList(),
             );
-          }
-      ),
+          }),
     );
   }
 }
