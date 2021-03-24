@@ -1,28 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/screen%20messages/join_as_tutor_congrats.dart';
 import 'package:flutter_app_1/screen%20messages/tutor_add_session_congrats.dart';
 import '../utils/constants.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
-
-void main() {
-  runApp(AddSession());
-}
-
-class AddSession extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Add Session',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: AddSessionPage(title: 'Add Session'),
-    );
-  }
-}
 
 class AddSessionPage extends StatefulWidget {
   AddSessionPage({Key key, this.title}) : super(key: key);
