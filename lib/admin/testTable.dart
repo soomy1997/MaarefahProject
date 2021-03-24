@@ -35,7 +35,7 @@ class _TestTableState extends State<TestTablePage> {
     return Scaffold(
       appBar: myAppBar3(
         context,
-        title: 'test table',
+        title: 'test Data table',
       ),
       body: Container(
         child: SingleChildScrollView(
