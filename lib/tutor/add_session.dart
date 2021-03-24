@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'utils/constants.dart';
+import 'package:flutter_app_1/screen%20messages/join_as_tutor_congrats.dart';
+import 'package:flutter_app_1/screen%20messages/tutor_add_session_congrats.dart';
+import '../utils/constants.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 
 void main() {
@@ -30,7 +33,18 @@ class AddSessionPage extends StatefulWidget {
 }
 
 bool visibilityValue = false;
-String valueChoose;
+String sessionName,
+    valueChoose,
+    sessionDescription,
+    sessionAgenda,
+    sessionRequirements,
+    academicLevelChoose,
+    tutorName;
+
+final sessionNumController = TextEditingController();
+
+num sessionNumber;
+
 List sessionTypes = ["College Courses", "Additional Skills Courses"];
 List levelsList = ["4th", "5th", "6th", "7th", "8th", "9th", "10th"];
 
@@ -40,14 +54,6 @@ List coursesList = [
   "Discreate Math",
   "Operating Systems"
 ];
-
-final sessionNameField = TextFormField(
-    obscureText: false,
-    style: h5,
-    validator: nameValidation,
-    decoration: textInputDecoratuon.copyWith(
-      hintText: 'Session Name',
-    ));
 
 String locationGroupValue = '';
 String daysGroupValue = '';
@@ -73,7 +79,7 @@ class _AddSessionPage extends State<AddSessionPage> {
           disabledColor: Colors.grey,
           onPressed: isLocationSelected && isDaySelected && isTimeSelected
               ? () {
-                  _formKey.currentState.validate();
+                  _sendToServer();
                 }
               : null,
           child: Text("Add Now",
@@ -101,7 +107,17 @@ class _AddSessionPage extends State<AddSessionPage> {
                 SizedBox(
                   height: 20.0,
                 ),
-                sessionNameField,
+                TextFormField(
+                  obscureText: false,
+                  style: h5,
+                  validator: nameValidation,
+                  decoration: textInputDecoratuon.copyWith(
+                    hintText: 'Session Name',
+                  ),
+                  onSaved: (value) {
+                    sessionName = value;
+                  },
+                ),
                 SizedBox(
                   height: 15.0,
                 ),
@@ -148,9 +164,10 @@ class _AddSessionPage extends State<AddSessionPage> {
                   visible: visibilityValue,
                   child: DropdownButtonFormField(
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5.0)))),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      ),
+                    ),
                     hint: Text('Course Name'),
                     icon: Icon(Icons.arrow_drop_down),
                     style: h5,
@@ -159,6 +176,11 @@ class _AddSessionPage extends State<AddSessionPage> {
                         value == null ? '   This field is required' : null,
                     value: coursesValue,
                     onChanged: (course) {
+                      setState(() {
+                        coursesValue = course;
+                      });
+                    },
+                    onSaved: (course) {
                       setState(() {
                         coursesValue = course;
                       });
@@ -188,13 +210,19 @@ class _AddSessionPage extends State<AddSessionPage> {
                   decoration: textInputDecoratuon.copyWith(
                       hintText: "Enter your text here"),
                   keyboardType: TextInputType.multiline,
+                  onSaved: (value) {
+                    sessionDescription = value;
+                  },
                 ),
                 SizedBox(height: 15.0),
                 SizedBox(
                   height: 20.0,
                   width: double.infinity,
-                  child: Text("Session Agenda",
-                      textAlign: TextAlign.left, style: h4),
+                  child: Text(
+                    "Session Agenda",
+                    textAlign: TextAlign.left,
+                    style: h4,
+                  ),
                 ),
                 SizedBox(height: 15.0),
                 TextFormField(
@@ -204,6 +232,9 @@ class _AddSessionPage extends State<AddSessionPage> {
                   decoration: textInputDecoratuon.copyWith(
                       hintText: "Enter your text here"),
                   keyboardType: TextInputType.multiline,
+                  onSaved: (value) {
+                    sessionAgenda = value;
+                  },
                 ),
                 SizedBox(height: 15.0),
                 SizedBox(
@@ -247,8 +278,11 @@ class _AddSessionPage extends State<AddSessionPage> {
                 SizedBox(
                   height: 20.0,
                   width: double.infinity,
-                  child: Text("Session Requirements",
-                      textAlign: TextAlign.left, style: h4),
+                  child: Text(
+                    "Session Requirements",
+                    textAlign: TextAlign.left,
+                    style: h4,
+                  ),
                 ),
                 SizedBox(height: 15.0),
                 TextFormField(
@@ -258,12 +292,19 @@ class _AddSessionPage extends State<AddSessionPage> {
                   decoration: textInputDecoratuon.copyWith(
                       hintText: "Enter your text here"),
                   keyboardType: TextInputType.multiline,
+                  onSaved: (value) {
+                    sessionRequirements = value;
+                  },
                 ),
                 SizedBox(height: 15.0),
                 SizedBox(
                   height: 20.0,
                   width: double.infinity,
-                  child: Text("Level", textAlign: TextAlign.left, style: h4),
+                  child: Text(
+                    "Level",
+                    textAlign: TextAlign.left,
+                    style: h4,
+                  ),
                 ),
                 SizedBox(height: 15.0),
                 DropdownButtonFormField(
@@ -277,10 +318,10 @@ class _AddSessionPage extends State<AddSessionPage> {
                   isExpanded: true,
                   validator: (value) =>
                       value == null ? '   This field is required' : null,
-                  value: valueChoose,
+                  value: academicLevelChoose,
                   onChanged: (newValue) {
                     setState(() {
-                      valueChoose = newValue;
+                      academicLevelChoose = newValue;
                     });
                   },
                   items: levelsList.map((valueItem) {
@@ -294,57 +335,68 @@ class _AddSessionPage extends State<AddSessionPage> {
                 SizedBox(
                   height: 20.0,
                   width: double.infinity,
-                  child:
-                      Text("Tutor Name", textAlign: TextAlign.left, style: h4),
+                  child: Text(
+                    "Tutor Name",
+                    textAlign: TextAlign.left,
+                    style: h4,
+                  ),
                 ),
                 SizedBox(height: 15.0),
                 TextFormField(
                   maxLines: 1,
                   style: h5,
-                  validator: textAreaValidation,
+                  validator: nameValidation,
                   decoration: textInputDecoratuon.copyWith(
                       hintText: "Enter your text here"),
                   keyboardType: TextInputType.multiline,
+                  onSaved: (value) {
+                    tutorName = value;
+                  },
                 ),
                 SizedBox(height: 15),
                 SizedBox(height: 15.0),
                 SizedBox(
                   height: 20.0,
                   width: double.infinity,
-                  child: Text("Number of hours for the session",
-                      textAlign: TextAlign.left, style: h4),
+                  child: Text(
+                    "Number of hours for the session",
+                    textAlign: TextAlign.left,
+                    style: h4,
+                  ),
                 ),
                 SizedBox(height: 15.0),
                 NumberInputWithIncrementDecrement(
-                    controller: TextEditingController(),
-                    min: 1,
-                    max: 10,
-                    numberFieldDecoration: InputDecoration(
-                      border: InputBorder.none,
+                  controller: sessionNumController,
+                  min: 1,
+                  max: 10,
+                  numberFieldDecoration: InputDecoration(
+                    border: InputBorder.none,
+                  ),
+                  widgetContainerDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1,
                     ),
-                    widgetContainerDecoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1,
-                        )),
-                    incIconDecoration: BoxDecoration(
-                      color: accentYellow,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                      ),
+                  ),
+                  incIconDecoration: BoxDecoration(
+                    color: accentYellow,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
                     ),
-                    separateIcons: true,
-                    decIconDecoration: BoxDecoration(
-                      color: accentYellow,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                      ),
+                  ),
+                  separateIcons: true,
+                  decIconDecoration: BoxDecoration(
+                    color: accentYellow,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
                     ),
-                    incIconSize: 28,
-                    decIconSize: 28,
-                    incIcon: Icons.keyboard_arrow_up,
-                    decIcon: Icons.keyboard_arrow_down),
+                  ),
+                  incIconSize: 28,
+                  decIconSize: 28,
+                  incIcon: Icons.keyboard_arrow_up,
+                  decIcon: Icons.keyboard_arrow_down,
+                ),
                 SizedBox(height: 15.0),
                 SizedBox(
                   height: 20.0,
@@ -548,5 +600,41 @@ class _AddSessionPage extends State<AddSessionPage> {
         ),
       ),
     );
+  }
+
+  void _sendToServer() {
+    if (_formKey.currentState.validate()) {
+      //No error in validator
+      _formKey.currentState.save();
+      FirebaseFirestore.instance
+          .runTransaction((Transaction transaction) async {
+        CollectionReference reference =
+            FirebaseFirestore.instance.collection('add_session_request');
+        await reference.add({
+          'session_name': '$sessionName',
+          'session_type': '$valueChoose',
+          'course_name': '$coursesValue',
+          'session_description': '$sessionDescription',
+          'session_location': '$locationGroupValue',
+          'session_requirements': '$sessionRequirements',
+          'academic_level': '$academicLevelChoose',
+          'tutor_name': '$tutorName',
+          'session_number_of_hours': sessionNumController.text,
+          'suitable_tutoring_days': '$daysGroupValue',
+          'suitable_session_times': '$timeGroupValue',
+        });
+      });
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AddSessionCongrats(),
+        ),
+        (route) => false,
+      );
+    } else {
+      setState(() {
+        return AutovalidateMode.disabled;
+      });
+    }
   }
 }

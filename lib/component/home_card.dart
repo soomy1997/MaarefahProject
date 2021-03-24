@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/join_as_tutor.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
+import 'package:flutter_app_1/tutor/add_session.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
 class HomeCard extends StatefulWidget {
@@ -18,7 +19,7 @@ class _HomeCardState extends State<HomeCard> {
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
           CurrentUser.saveUser(snapshot.data);
-          return <StreamBuilderDocumentSnapshot>(
+          return StreamBuilder<DocumentSnapshot>(
             stream: FirebaseFirestore.instance
                 .collection("learners")
                 .doc(snapshot.data.uid)
@@ -124,7 +125,7 @@ class _HomeCardState extends State<HomeCard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => JoinTutorPage(),
+                              builder: (context) => AddSessionPage(),
                             ),
                           );
                         },

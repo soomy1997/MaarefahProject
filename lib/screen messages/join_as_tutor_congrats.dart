@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/home_page.dart';
 import 'package:flutter_app_1/utils/constants.dart';
+import 'package:flutter_app_1/utils/tabbed_app.dart';
 
 class Congrats extends StatefulWidget {
   @override
@@ -20,9 +20,7 @@ class _Congrats extends State<Congrats> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => HomePage(),
-            ),
+            MaterialPageRoute(builder: (context) => TabbedApp()),
           );
         },
         child: Text(
@@ -34,7 +32,7 @@ class _Congrats extends State<Congrats> {
     );
 
     return Scaffold(
-      appBar: myAppBar2(
+      appBar: myAppBar3(
         context,
         title: 'System Message',
       ),

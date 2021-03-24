@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/screen%20messages/join_as_tutor_congrats.dart';
 import 'utils/constants.dart';
 
 class JoinTutorPage extends StatefulWidget {
@@ -105,7 +106,7 @@ class _JoinTutorPage extends State<JoinTutorPage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
         disabledColor: Colors.grey,
-        onPressed: _sendToServer, 
+        onPressed: _sendToServer,
         child: Text("Request",
             textAlign: TextAlign.center, style: yellowButtonsTextStyle),
       ),
@@ -208,13 +209,13 @@ class _JoinTutorPage extends State<JoinTutorPage> {
                             Text('Female'),
                           ]),
                     ),
-                    SizedBox(height: 15),
-                    SizedBox(
-                      height: 20.0,
-                      width: double.infinity,
-                      child: Text("Suitable Day(s) for holding the session",
-                          textAlign: TextAlign.left, style: h4),
-                    ),
+                    // SizedBox(height: 15),
+                    // SizedBox(
+                    //   height: 20.0,
+                    //   width: double.infinity,
+                    //   child: Text("Suitable Day(s) for holding the session",
+                    //       textAlign: TextAlign.left, style: h4),
+                    // ),
                     // SizedBox(
                     //   height: 400,
                     //   child: ListView(
@@ -233,13 +234,13 @@ class _JoinTutorPage extends State<JoinTutorPage> {
                     //     }).toList(),
                     //   ),
                     // ),
-                    SizedBox(height: 15.0),
-                    SizedBox(
-                      height: 20.0,
-                      width: double.infinity,
-                      child: Text("Suitable time(s) for holding the session",
-                          textAlign: TextAlign.left, style: h4),
-                    ),
+                    // SizedBox(height: 15.0),
+                    // SizedBox(
+                    //   height: 20.0,
+                    //   width: double.infinity,
+                    //   child: Text("Suitable time(s) for holding the session",
+                    //       textAlign: TextAlign.left, style: h4),
+                    // ),
                     // SizedBox(
                     //   height: 210,
                     //   child: ListView(
@@ -309,6 +310,12 @@ class _JoinTutorPage extends State<JoinTutorPage> {
           'teachingOverview': '$teachingOverview'
         });
       });
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Congrats(),
+        ),
+      );
     } else {
       setState(() {
         return AutovalidateMode.disabled;

@@ -329,7 +329,7 @@ class _SessionDetailsPage extends State<SessionDetails> {
                         SizedBox(
                           width: 20.0,
                         ),
-                        RaisedButton(
+                        MaterialButton(
                           onPressed: () => _selectDate(context),
                           child: Text('Select date'),
                         )
