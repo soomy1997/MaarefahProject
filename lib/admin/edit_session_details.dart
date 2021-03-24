@@ -15,6 +15,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetails> {
   String levelValueChoose;
   String typeValueChoose;
   String coursesValueChoose;
+
   List coursesList = [
     "Object Oriented Programming 1",
     "Discreate Math",
@@ -479,7 +480,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetails> {
                         SizedBox(
                           width: 20.0,
                         ),
-                        RaisedButton(
+                        MaterialButton(
                           onPressed: () => _selectDate(context),
                           child: Text('Select date'),
                         )

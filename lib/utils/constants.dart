@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 //inputs decorations (for text input feilds)
@@ -31,6 +30,12 @@ const yellowButtonsTextStyle = TextStyle(
 );
 const whiteButtonsTextStyle = TextStyle(
   color: accentYellow,
+  fontWeight: FontWeight.bold,
+  fontSize: 17,
+);
+
+const greyButtonsTextStyle = TextStyle(
+  color: kTextLightColor,
   fontWeight: FontWeight.bold,
   fontSize: 17,
 );
@@ -87,8 +92,6 @@ const secondaryLightGrey = const Color(0xffdfdfdf);
 const accentYellow = const Color(0xffF9A21B);
 const accentOrange = const Color(0xffF05824);
 const whiteBG = Colors.white;
-
-
 
 // title, back button and icon
 AppBar myAppBar1(

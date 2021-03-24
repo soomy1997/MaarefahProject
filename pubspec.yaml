@@ -21,6 +21,7 @@ dependencies:
   firebase_core: "0.7.0"
   firebase_auth: "0.20.0+1"
   cloud_firestore: 0.16.0+1
+  provider: ^5.0.0
   font_awesome_flutter: ^8.11.0
   form_field_validator: ^1.0.1
   auto_size_text: ^2.1.0
@@ -36,7 +37,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:

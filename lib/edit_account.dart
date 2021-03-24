@@ -18,8 +18,8 @@ class _EditAccountPage extends State<EditAccountPage> {
 
   bool isGenderSelected = false;
 
-  //TextEditingController _nameController = TextEditingController();
-  //TextEditingController _emailController = TextEditingController();
+TextEditingController _nameController = TextEditingController();
+TextEditingController _emailController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 

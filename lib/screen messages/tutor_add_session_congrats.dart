@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/reset.dart';
 import 'package:flutter_app_1/utils/constants.dart';
+import 'package:flutter_app_1/utils/tabbed_app.dart';
 
-class Congrats extends StatefulWidget {
+class AddSessionCongrats extends StatefulWidget {
   @override
   _Congrats createState() => _Congrats();
 }
 
-class _Congrats extends State<Congrats> {
+class _Congrats extends State<AddSessionCongrats> {
   @override
   Widget build(BuildContext context) {
     final gotItButton = Material(
@@ -17,7 +17,12 @@ class _Congrats extends State<Congrats> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => TabbedApp()),
+          );
+        },
         child: Text(
           "Got it",
           textAlign: TextAlign.center,
@@ -27,7 +32,7 @@ class _Congrats extends State<Congrats> {
     );
 
     return Scaffold(
-      appBar: myAppBar2(
+      appBar: myAppBar3(
         context,
         title: 'System Message',
       ),
