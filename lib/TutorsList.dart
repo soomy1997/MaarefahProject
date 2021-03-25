@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_app_1/TutorProfile.dart';
+import 'package:flutter_app_1/TutorDetails.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
@@ -22,11 +22,11 @@ class TutorsList extends StatefulWidget {
 }
 
 class _TutorsList extends State<TutorsList> {
-  navigateToCourseDetails(DocumentSnapshot post) {
+  navigateToTutorDetails(DocumentSnapshot post) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => myTutorProfile(
+            builder: (context) => myTutorDetails(
                   post: post,
                 )));
   }
@@ -76,12 +76,12 @@ class _TutorsList extends State<TutorsList> {
                           SizedBox(
                             height: 8,
                           ),
-                          Text(snapshot.data.docs[index]['t_name'], style: h4),
+                          Text(snapshot.data.docs[index]['tutor_name'],
+                              style: h4),
                           new FlatButton(
                             padding: EdgeInsets.zero,
                             onPressed: () {
-                              navigateToCourseDetails(
-                                  snapshot.data.docs[index]);
+                              navigateToTutorDetails(snapshot.data.docs[index]);
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
