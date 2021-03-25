@@ -1,25 +1,6 @@
 import 'package:flutter/material.dart';
 import 'utils/constants.dart';
 
-void main() {
-  runApp(EditAccount());
-}
-
-class EditAccount extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Edit Account',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: EditAccountPage(title: 'Edit Account'),
-    );
-  }
-}
-
 class EditAccountPage extends StatefulWidget {
   EditAccountPage({Key key, this.title}) : super(key: key);
   final String title;
@@ -37,8 +18,8 @@ class _EditAccountPage extends State<EditAccountPage> {
 
   bool isGenderSelected = false;
 
-  //TextEditingController _nameController = TextEditingController();
-  //TextEditingController _emailController = TextEditingController();
+TextEditingController _nameController = TextEditingController();
+TextEditingController _emailController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
