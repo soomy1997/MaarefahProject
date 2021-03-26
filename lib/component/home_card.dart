@@ -12,6 +12,7 @@ class HomeCard extends StatefulWidget {
 }
 
 class _HomeCardState extends State<HomeCard> {
+  
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User>(
