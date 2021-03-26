@@ -14,7 +14,7 @@ class TestTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'test',
+      title: 'Manage Sessions',
       theme: ThemeData(
         primarySwatch: Colors.orange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -37,23 +37,61 @@ class _TestTableState extends State<TestTablePage> {
         context,
         title: 'test',
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
+      body: Container(
+        //
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('add_session_request')
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return LinearProgressIndicator();
-
-            return DataTable(
-              columns: [
-                DataColumn(label: Text('Session \nID')),
-                DataColumn(label: Text('Session \nName')),
-                DataColumn(label: Text('Tutor\nName')),
+            return Column(
+              children: <Widget>[
+                Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(50),
+                      child: Text(
+                        'Manage sessions',
+                        style: h1,
+                      ),
+                    ),
+                  ],
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    columns: [
+                      DataColumn(label: Text('Session \nID')),
+                      DataColumn(label: Text('Session \nName')),
+                      DataColumn(label: Text('Tutor\nName')),
+                      DataColumn(label: Text('Option')),
+                    ],
+                    rows: _buildList(context, snapshot.data.docs),
+                    //columnSpacing: 20,
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(top: 30, right: 150),
+                  child: Material(
+                    child: MaterialButton(
+                      height: 50,
+                      minWidth: 190,
+                      color: accentYellow,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      onPressed: () {},
+                      padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
+                      child: Text(
+                        "Add New Session",
+                        textAlign: TextAlign.center,
+                        style: yellowButtonsTextStyle,
+                      ),
+                    ),
+                  ),
+                ),
               ],
-              rows: _buildList(context, snapshot.data.docs),
-              columnSpacing: 20,
             );
           },
         ),
@@ -69,13 +107,23 @@ class _TestTableState extends State<TestTablePage> {
   DataRow _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
 
-    return DataRow(cells: [
-      DataCell(Text(record.sessionId)),
-      DataCell(Text(
-        record.sessionName,
-      )),
-      DataCell(Text(record.tutorName)),
-    ]);
+    return DataRow(
+      cells: [
+        DataCell(Text(record.sessionId)),
+        DataCell(Text(record.sessionName)),
+        DataCell(Text(record.tutorName)),
+        DataCell(
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              'More',
+            ),
+          ),
+          showEditIcon: true,
+        ),
+      ],
+      selected: true | false,
+    );
   }
 }
 

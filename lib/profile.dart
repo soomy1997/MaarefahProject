@@ -6,6 +6,7 @@ import 'package:flutter_app_1/edit_account.dart';
 import 'package:flutter_app_1/join_as_tutor.dart';
 import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/root/root.dart';
+import 'package:flutter_app_1/services/database.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
 import 'package:provider/provider.dart';
 import 'About.dart';
@@ -19,6 +20,16 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   _ProfilePageState();
 
+  OurUser _currentUser = OurUser();
+  OurUser _cUser;
+  OurUser get getCurrntUser => _currentUser;
+  Future<void> getUserInfo() async {
+    User _firebaseUser = FirebaseAuth.instance.currentUser;
+    _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
+    setState(() {
+      _cUser = _currentUser;
+    });
+  }
 
   Stream getDetails() {
     return FirebaseFirestore.instance.collection('Learner').snapshots();
@@ -36,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    getUserData();
+    getUserInfo();
   }
 
   @override
@@ -303,7 +314,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         st,
                         Text(
-                          'Value',
+                          '${_cUser.lName}',
                           style: h5,
                         ),
                         spacer,
@@ -329,16 +340,15 @@ class _ProfilePageState extends State<ProfilePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              // 'vv',
-                              '${users.lGender}',
+                              '${_cUser.lGender}',
                               style: h5,
                             ),
                             Text(
-                              '                lvl 10',
+                              '                ${_cUser.lAcademicLevel}',
                               style: h5,
                             ),
                             Text(
-                              '${user.email}',
+                              '${_cUser.lEmail}',
                               style: h5,
                             ),
                           ],
