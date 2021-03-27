@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/screen%20messages/tutor_add_session_congrats.dart';
+import 'package:flutter_app_1/services/database.dart';
 import '../utils/constants.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
+import 'package:uuid/uuid.dart';
 
 class AddSessionPage extends StatefulWidget {
   AddSessionPage({Key key, this.title}) : super(key: key);
@@ -17,9 +21,7 @@ String sessionName,
     valueChoose,
     sessionDescription,
     sessionAgenda,
-    sessionRequirements,
-    academicLevelChoose,
-    tutorName;
+    sessionRequirements;
 
 final sessionNumController = TextEditingController();
 
@@ -48,6 +50,33 @@ bool buttonDisabled = false;
 final _formKey = GlobalKey<FormState>();
 
 class _AddSessionPage extends State<AddSessionPage> {
+  String sessionId = Uuid().v4();
+
+  OurUser _currentUser = OurUser();
+  OurUser _cUser;
+  OurUser get getCurrntUser => _currentUser;
+  Future<void> getUserInfo() async {
+    User _firebaseUser = FirebaseAuth.instance.currentUser;
+    _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
+    setState(() {
+      _cUser = _currentUser;
+    });
+  }
+
+  User user;
+  Future<void> getUserData() async {
+    User userData = FirebaseAuth.instance.currentUser;
+    setState(() {
+      user = userData;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserInfo();
+  }
+
   Widget build(BuildContext context) {
     final requistButton = Material(
         elevation: 5.0,
@@ -276,64 +305,6 @@ class _AddSessionPage extends State<AddSessionPage> {
                     sessionRequirements = value;
                   },
                 ),
-                SizedBox(height: 15.0),
-                SizedBox(
-                  height: 20.0,
-                  width: double.infinity,
-                  child: Text(
-                    "Level",
-                    textAlign: TextAlign.left,
-                    style: h4,
-                  ),
-                ),
-                SizedBox(height: 15.0),
-                DropdownButtonFormField(
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(5.0)))),
-                  hint: Text('Academic Level'),
-                  icon: Icon(Icons.arrow_drop_down),
-                  style: h5,
-                  isExpanded: true,
-                  validator: (value) =>
-                      value == null ? '   This field is required' : null,
-                  value: academicLevelChoose,
-                  onChanged: (newValue) {
-                    setState(() {
-                      academicLevelChoose = newValue;
-                    });
-                  },
-                  items: levelsList.map((valueItem) {
-                    return DropdownMenuItem(
-                      value: valueItem,
-                      child: Text('Academic Level: ' + valueItem),
-                    );
-                  }).toList(),
-                ),
-                SizedBox(height: 15.0),
-                SizedBox(
-                  height: 20.0,
-                  width: double.infinity,
-                  child: Text(
-                    "Tutor Name",
-                    textAlign: TextAlign.left,
-                    style: h4,
-                  ),
-                ),
-                SizedBox(height: 15.0),
-                TextFormField(
-                  maxLines: 1,
-                  style: h5,
-                  validator: nameValidation,
-                  decoration: textInputDecoratuon.copyWith(
-                      hintText: "Enter your text here"),
-                  keyboardType: TextInputType.multiline,
-                  onSaved: (value) {
-                    tutorName = value;
-                  },
-                ),
-                SizedBox(height: 15),
                 SizedBox(height: 15.0),
                 SizedBox(
                   height: 20.0,
@@ -593,12 +564,16 @@ class _AddSessionPage extends State<AddSessionPage> {
         await reference.add({
           'session_name': '$sessionName',
           'session_type': '$valueChoose',
+          'sessionId': '$sessionId',
           'course_name': '$coursesValue',
           'session_description': '$sessionDescription',
           'session_location': '$locationGroupValue',
           'session_requirements': '$sessionRequirements',
-          'academic_level': '$academicLevelChoose',
-          'tutor_name': '$tutorName',
+          'session_agenda': '$sessionAgenda',
+          'academic_level': '${_cUser.academicLevel}',
+          'tutor_name': '${_cUser.name}',
+          'tutor_PhoneNum': '${_cUser.phoneNum}',
+          'tutor_email': '${_cUser.email}',
           'session_number_of_hours': sessionNumController.text,
           'suitable_tutoring_days': '$daysGroupValue',
           'suitable_session_times': '$timeGroupValue',

@@ -2,27 +2,33 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class OurUser {
   String uid;
-  String lName;
-  String lGender;
-  String lAcademicLevel;
-  String lEmail;
+  String name;
+  String gender;
+  String academicLevel;
+  String email;
   String role;
+  String phoneNum;
+  String teachingOverview;
 
   OurUser({
     this.uid,
-    this.lName,
-    this.lGender,
-    this.lAcademicLevel,
-    this.lEmail,
+    this.name,
+    this.gender,
+    this.academicLevel,
+    this.email,
     this.role,
+    this.phoneNum,
+    this.teachingOverview,
   });
 
   OurUser.fromDocumentSnapshot({DocumentSnapshot doc}) {
     uid = doc.id;
-    lName = doc.data()['l_name'];
-    lGender = doc.data()['l_gender'];
-    lAcademicLevel = doc.data()['l_academicLevel'];
-    lEmail = doc.data()['l_email'];
+    name = doc.data()['l_name'];
+    gender = doc.data()['l_gender'];
+    academicLevel = doc.data()['l_academicLevel'];
+    email = doc.data()['l_email'];
     role = doc.data()['role'];
+    phoneNum = doc.data()['phoneNum'];
+    teachingOverview = doc.data()['teachingOverview'];
   }
 }

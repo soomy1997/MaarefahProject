@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/screen%20messages/join_as_tutor_congrats.dart';
 import 'package:flutter_app_1/services/database.dart';
-import 'utils/constants.dart';
+import '../utils/constants.dart';
 
 class JoinTutorPage extends StatefulWidget {
   JoinTutorPage({Key key, this.title}) : super(key: key);
@@ -41,12 +41,12 @@ class _JoinTutorPage extends State<JoinTutorPage> {
         CollectionReference reference =
             FirebaseFirestore.instance.collection('tutoring_request');
         await reference.add({
-          'name': '${_cUser.lName}',
-          'academicLevel': '${_cUser.lAcademicLevel}',
-          'email': '${_cUser.lEmail}',
+          'name': '${_cUser.name}',
+          'academicLevel': '${_cUser.academicLevel}',
+          'email': '${_cUser.email}',
           'uid': '${_cUser.uid}',
           'phoneNo': '$phoneNo',
-          'gender': '${_cUser.lGender}',
+          'gender': '${_cUser.gender}',
           'teachingOverview': '$teachingOverview'
         });
       });

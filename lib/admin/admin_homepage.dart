@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/add_new_registration_admin.dart';
-import 'package:flutter_app_1/mange_registration_admin.dart';
-import 'package:flutter_app_1/sign_out_dialog_box_admin.dart';
+import 'package:flutter_app_1/admin/add_new_registration_admin.dart';
+import 'package:flutter_app_1/admin/mange_registration_admin.dart';
+import 'package:flutter_app_1/admin/admin_compnent/sign_out_dialog_box_admin.dart';
 
 class AdminDashboard extends StatefulWidget {
   @override

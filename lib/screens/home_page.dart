@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_1/component/home_card.dart';
-import 'package:flutter_app_1/course_details.dart';
+import 'package:flutter_app_1/screens/course_details.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
 class HomePage extends StatefulWidget {
@@ -119,7 +119,8 @@ class _HomeScreenState extends State<HomePage> {
                                   ),
                                   onTap: () {
                                     navigateToCourseDetails(
-                                        snapshot.data.docs[index]);
+                                      snapshot.data.docs[index],
+                                    );
                                   },
                                 ),
                               ),

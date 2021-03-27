@@ -14,7 +14,6 @@ class CurrentUser extends ChangeNotifier {
   static saveUser(User user) async {
     Map<String, dynamic> userData = {
       "uid": user.uid,
-      "l_name": user.displayName,
       "l_email": user.email,
       "role": "learner",
     };
@@ -23,7 +22,7 @@ class CurrentUser extends ChangeNotifier {
 
   Stream<OurUser> getCurrentUser(String uid) {
     return _firestore
-        .collection('learners')
+        .collection('users')
         .doc(uid)
         .snapshots()
         .map((docSnapshot) => OurUser.fromDocumentSnapshot(doc: docSnapshot));
@@ -56,19 +55,21 @@ class CurrentUser extends ChangeNotifier {
     return retVal;
   }
 
-  Future<String> signUpLearner(String email, String password, String lName,
-      String lAcademicLevel, String lGender) async {
+  Future<String> signUpLearner(String email, String password, String name,
+      String academicLevel, String gender) async {
     String retVal = 'error';
     OurUser _user = OurUser();
     try {
       UserCredential _authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       _user.uid = _authResult.user.uid;
-      _user.lEmail = _authResult.user.email;
-      _user.lName = lName;
-      _user.lAcademicLevel = lAcademicLevel;
-      _user.lGender = lGender;
+      _user.email = _authResult.user.email;
+      _user.name = name;
+      _user.academicLevel = academicLevel;
+      _user.gender = gender;
       _user.role = 'learner';
+      _user.phoneNum = '';
+      _user.teachingOverview = '';
       String _returnString = await OurDatabase().createUser(_user);
       if (_returnString == 'success') {
         return 'success';

@@ -8,10 +8,10 @@ import 'package:flutter_app_1/utils/constants.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(TestTable());
+  runApp(SessionRequest());
 }
 
-class TestTable extends StatelessWidget {
+class SessionRequest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,17 +21,17 @@ class TestTable extends StatelessWidget {
         primarySwatch: Colors.orange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: TestTablePage(),
+      home: SessionRequestPage(),
     );
   }
 }
 
-class TestTablePage extends StatefulWidget {
+class SessionRequestPage extends StatefulWidget {
   @override
-  _TestTableState createState() => _TestTableState();
+  _SessionRequestPageState createState() => _SessionRequestPageState();
 }
 
-class _TestTableState extends State<TestTablePage> {
+class _SessionRequestPageState extends State<SessionRequestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

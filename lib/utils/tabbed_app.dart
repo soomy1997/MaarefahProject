@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/TutorsList.dart';
-import 'package:flutter_app_1/award_page.dart';
-import 'package:flutter_app_1/notification.dart';
-import 'package:flutter_app_1/profile.dart';
-import 'package:flutter_app_1/home_page.dart';
+import 'package:flutter_app_1/tutor/tutor_component/TutorsList.dart';
+import 'package:flutter_app_1/screens/notification.dart';
+import 'package:flutter_app_1/screens/profile.dart';
+import 'package:flutter_app_1/screens/home_page.dart';
 
 class TabbedApp extends StatefulWidget {
   @override
@@ -19,7 +18,6 @@ class _TabbedAppState extends State<TabbedApp> {
   var _selectedIndex = 2;
   List<Widget> _tabViews = <Widget>[
     TutorsListPage(),
-    AwardPage(),
     HomePage(),
     NotificationPage(),
     ProfilePage()
@@ -37,10 +35,6 @@ class _TabbedAppState extends State<TabbedApp> {
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
             label: 'Tutors',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.military_tech_outlined),
-            label: 'Award List',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
