@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/contact_us.dart';
-import 'package:flutter_app_1/edit_account.dart';
-import 'package:flutter_app_1/join_as_tutor.dart';
+import 'package:flutter_app_1/screens/contact_us.dart';
+import 'package:flutter_app_1/screens/edit_account.dart';
+import 'package:flutter_app_1/screens/join_as_tutor.dart';
 import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/root/root.dart';
 import 'package:flutter_app_1/services/database.dart';
@@ -31,17 +31,12 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  Stream getDetails() {
-    return FirebaseFirestore.instance.collection('Learner').snapshots();
-  }
-
   User user;
   Future<void> getUserData() async {
     User userData = FirebaseAuth.instance.currentUser;
     setState(() {
       user = userData;
     });
-    print(user);
   }
 
   @override
@@ -174,31 +169,42 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () async {
-                    CurrentUser _currentUser =
-                        Provider.of<CurrentUser>(context, listen: false);
-                    String _returnString = await _currentUser.signOut();
-                    if (_returnString == 'success') {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OurRout(),
-                        ),
-                        (route) => false,
-                      );
-                    } else {}
-                  },
-                  icon: Icon(Icons.logout),
-                  label: Text("Sign Out"),
-                  style: ElevatedButton.styleFrom(
-                    primary: secondaryDarkGrey,
+            Container(
+              padding: EdgeInsets.all(15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () async {
+                      CurrentUser _currentUser =
+                          Provider.of<CurrentUser>(context, listen: false);
+                      String _returnString = await _currentUser.signOut();
+                      if (_returnString == 'success') {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OurRout(),
+                          ),
+                          (route) => false,
+                        );
+                      } else {}
+                    },
+                    icon: Icon(Icons.logout),
+                    label: Text("Sign Out"),
+                    style: ElevatedButton.styleFrom(
+                      primary: secondaryDarkGrey,
+                    ),
                   ),
-                ),
-              ],
+                  ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: Icon(Icons.switch_account),
+                    label: Text("Switch to Tutor"),
+                    style: ElevatedButton.styleFrom(
+                      primary: accentYellow,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -240,7 +246,7 @@ class _ProfilePageState extends State<ProfilePage> {
       height: 15,
     );
     return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('learners').snapshots(),
+        stream: FirebaseFirestore.instance.collection('users').snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Container(
@@ -314,7 +320,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         st,
                         Text(
-                          '${_cUser.lName}',
+                          '${_cUser.name}',
                           style: h5,
                         ),
                         spacer,
@@ -340,15 +346,15 @@ class _ProfilePageState extends State<ProfilePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '${_cUser.lGender}',
+                              '${_cUser.gender}',
                               style: h5,
                             ),
                             Text(
-                              '                ${_cUser.lAcademicLevel}',
+                              '                ${_cUser.academicLevel}',
                               style: h5,
                             ),
                             Text(
-                              '${_cUser.lEmail}',
+                              '${_cUser.email}',
                               style: h5,
                             ),
                           ],

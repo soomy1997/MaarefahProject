@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/sign_up_page.dart';
+import 'package:flutter_app_1/screens/sign_up_page.dart';
 import 'package:flutter_app_1/utils/tabbed_app.dart';
 import 'package:provider/provider.dart';
-import 'utils/constants.dart';
-import 'services/flutterfire.dart';
+import '../utils/constants.dart';
+import '../services/flutterfire.dart';
 
 class SignInPage extends StatefulWidget {
   @override

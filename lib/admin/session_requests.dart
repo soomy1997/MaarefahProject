@@ -1,17 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/admin/edit_session_details.dart';
 import 'package:flutter_app_1/admin/admin_session_details.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(ManageSessions());
+  runApp(SessionRequest());
 }
 
-class ManageSessions extends StatelessWidget {
+class SessionRequest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,23 +20,23 @@ class ManageSessions extends StatelessWidget {
         primarySwatch: Colors.orange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: ManageSessionsPage(),
+      home: SessionRequestPage(),
     );
   }
 }
 
-class ManageSessionsPage extends StatefulWidget {
+class SessionRequestPage extends StatefulWidget {
   @override
-  _ManageSessionsPageState createState() => _ManageSessionsPageState();
+  _SessionRequestPageState createState() => _SessionRequestPageState();
 }
 
-class _ManageSessionsPageState extends State<ManageSessionsPage> {
+class _SessionRequestPageState extends State<SessionRequestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: myAppBar3(
         context,
-        title: 'Manage Sessions',
+        title: 'test',
       ),
       body: Container(
         //
@@ -54,7 +53,7 @@ class _ManageSessionsPageState extends State<ManageSessionsPage> {
                     Container(
                       padding: const EdgeInsets.all(50),
                       child: Text(
-                        'Manage Sessions',
+                        'Sessions Requests',
                         style: h1,
                       ),
                     ),

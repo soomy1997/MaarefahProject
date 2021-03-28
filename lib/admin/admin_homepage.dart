@@ -1,8 +1,32 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/add_new_registration_admin.dart';
-import 'package:flutter_app_1/mange_registration_admin.dart';
-import 'package:flutter_app_1/sign_out_dialog_box_admin.dart';
+import 'package:flutter_app_1/admin/manage_session.dart';
+import 'package:flutter_app_1/admin/manage_tutoring_request.dart';
+import 'package:flutter_app_1/admin/mange_registration_admin.dart';
+import 'package:flutter_app_1/admin/admin_compnent/sign_out_dialog_box_admin.dart';
+import 'package:flutter_app_1/admin/session_requests.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(DashBoard());
+}
+
+class DashBoard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Admin Dashboard',
+      theme: ThemeData(
+        primarySwatch: Colors.orange,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: AdminDashboard(),
+    );
+  }
+}
 
 class AdminDashboard extends StatefulWidget {
   @override
@@ -58,8 +82,23 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    card2('Manage Users', Icons.perm_identity),
-                    card2('Manage Sessions', Icons.margin)
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) {
+                          return SessionRequestPage();
+                        }));
+                      },
+                      child: card2(
+                          'Session Requests', Icons.query_builder_rounded),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (_) {
+                            return ManageSessionsPage();
+                          }));
+                        },
+                        child: card2('Manage Sessions', Icons.margin)),
                   ],
                 ),
                 SizedBox(
@@ -69,15 +108,21 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) {
+                          return ManageRegistration();
+                        }));
+                      },
+                      child: card2('Manage Registration', Icons.auto_stories),
+                    ),
+                    GestureDetector(
                         onTap: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (_) {
-                            return ManageRegistration();
+                            return ManageTutoingRequestPage();
                           }));
                         },
-                        child:
-                            card2('Manage Registration', Icons.auto_stories)),
-                    card2('Totoring requests', Icons.file_copy)
+                        child: card2('Totoring requests', Icons.file_copy)),
                   ],
                 )
               ],
