@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/component/successful_register_dialog.dart' as a;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_app_1/TutorDetails.dart';
 
 class CourseDetails extends StatefulWidget {
   final DocumentSnapshot post;
@@ -13,6 +14,15 @@ class CourseDetails extends StatefulWidget {
 }
 
 class _CourseDetailsState extends State<CourseDetails> {
+  navigateToTutorDetails(DocumentSnapshot post) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => myTutorDetails(
+                  post: post,
+                )));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,10 +111,8 @@ class _CourseDetailsState extends State<CourseDetails> {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('session')
-            .doc('9dUB3qHf13otyFLJIy51')
-            .snapshots(),
+        stream:
+            FirebaseFirestore.instance.collection('registration').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
@@ -161,20 +169,6 @@ class _CourseDetailsState extends State<CourseDetails> {
                 ),
                 Card(
                   child: Container(
-                    padding: EdgeInsets.all(7.0),
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 9,
-                    child: ListTile(
-                      title: Text(
-                        'Attachments',
-                        style: h4,
-                      ),
-                      subtitle: Text(widget.post.data()['ses_attachment']),
-                    ),
-                  ),
-                ),
-                Card(
-                  child: Container(
                     width: MediaQuery.of(context).size.width,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -185,7 +179,6 @@ class _CourseDetailsState extends State<CourseDetails> {
                             size: 70,
                           ),
                           title: Text(widget.post.data()['tutor_name']),
-                          subtitle: Text(widget.post.data()['tutor_overview']),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -197,7 +190,11 @@ class _CourseDetailsState extends State<CourseDetails> {
                             const SizedBox(width: 8),
                             IconButton(
                                 icon: Icon(Icons.arrow_forward_ios),
-                                onPressed: () {}),
+                                onPressed: () {
+                                  navigateToTutorDetails(
+                                    widget.post.data()['tutor_name'],
+                                  );
+                                }),
                           ],
                         ),
                       ],

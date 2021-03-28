@@ -78,7 +78,7 @@ class _TutorsList extends State<TutorsList> {
                           ),
                           Text(snapshot.data.docs[index]['tutor_name'],
                               style: h4),
-                          new FlatButton(
+                          new MaterialButton(
                             padding: EdgeInsets.zero,
                             onPressed: () {
                               navigateToTutorDetails(snapshot.data.docs[index]);

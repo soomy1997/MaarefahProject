@@ -21,7 +21,7 @@ class _HomeCardState extends State<HomeCard> {
           CurrentUser.saveUser(snapshot.data);
           return StreamBuilder<DocumentSnapshot>(
             stream: FirebaseFirestore.instance
-                .collection("learners")
+                .collection("users")
                 .doc(snapshot.data.uid)
                 .snapshots(),
             builder: (BuildContext context,

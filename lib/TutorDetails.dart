@@ -1,3 +1,8 @@
+// import 'dart:async';
+// import 'package:firebase_database/firebase_database.dart';
+
+//import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -5,6 +10,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_1/TutorsList.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'services/crud.dart';
+import 'package:flutter_app_1/models/users.dart';
+import 'package:flutter_app_1/services/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'utils/constants.dart';
 
 // Future<void> main() async {
@@ -39,42 +47,72 @@ final _formKey = GlobalKey<FormState>();
 
 // ignore: camel_case_types
 class _myTutorDetails extends State<myTutorDetails> {
-  String reviewtxt;
+  String reviewtxt, headline;
+  var rating = 0.0;
+  OurUser _currentUser = OurUser();
+  OurUser _cUser;
+  OurUser get getCurrntUser => _currentUser;
+
+  Future<void> getUserInfo() async {
+    User _firebaseUser = FirebaseAuth.instance.currentUser;
+    _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
+    setState(() {
+      _cUser = _currentUser;
+    });
+    print(_cUser);
+  }
 
   Stream getSessionsByTutor() {
     var tname = widget.post.data()['tutor_name'];
-    return FirebaseFirestore.instance
+    Stream<QuerySnapshot> x = FirebaseFirestore.instance
         .collection('session')
         .where(
           "tutor_name",
           isEqualTo: tname,
         )
         .snapshots();
+
+    return x;
   }
 
-  String getCount() {
-    return getSessionsByTutor().length.toString();
-  }
-
-  Future<int> countDocuments() async {
+  int DocCount = 0;
+  Future<void> countDocuments() async {
     var tname = widget.post.data()['tutor_name'];
-    QuerySnapshot _myDoc = await FirebaseFirestore.instance
+    QuerySnapshot x = await FirebaseFirestore.instance
         .collection('session')
         .where(
           "tutor_name",
           isEqualTo: tname,
         )
         .get();
-    return _myDoc.size; // Count of Documents in Collection
+    setState(() {
+      DocCount = x.docs.length;
+    });
+    print(DocCount);
+  }
+
+  getRating() {
+    Stream<QuerySnapshot> y =
+        FirebaseFirestore.instance.collection('ratings').snapshots();
+    var total = 0.0;
+    // y.forEach((element) {
+    //   total += y.data.docs['tutor_name'];
+    // });
+    for (var i = 0; i < 5; i++) {
+      //total += y.data.docs[i]('rating');
+    }
   }
 
   @override
   // ignore: must_call_super
-  void initState() {}
+  void initState() {
+    countDocuments();
+    getUserInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var rating = 0.0;
+    countDocuments();
     return Scaffold(
       appBar: myAppBar1(
         context,
@@ -129,7 +167,7 @@ class _myTutorDetails extends State<myTutorDetails> {
                 ),
                 width: 110.0,
                 height: 80.0,
-                child: Text('Courses: ' + 5.toString()),
+                child: Text('Courses: ' + DocCount.toString()),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -196,6 +234,7 @@ class _myTutorDetails extends State<myTutorDetails> {
                               color: Colors.yellow,
                               borderColor: Colors.yellow,
                               onRated: (value) {
+                                rating = value;
                                 print("rating value -> $value");
                                 // print("rating value dd -> ${value.truncate()}");
                               },
@@ -209,25 +248,39 @@ class _myTutorDetails extends State<myTutorDetails> {
                                 vertical: 20,
                                 horizontal: 70,
                               ),
-                              child: TextFormField(
-                                  maxLines: 5,
-                                  obscureText: false,
-                                  style: h5,
-                                  validator: textReviewValidation,
-                                  onSaved: (value) {
-                                    reviewtxt = value;
-                                  },
-                                  decoration: textInputDecoratuon.copyWith(
-                                    hintText: 'Your Review',
-                                  ))),
+                              child: Column(
+                                children: [
+                                  TextFormField(
+                                      obscureText: false,
+                                      style: h5,
+                                      validator: textReviewValidation,
+                                      onSaved: (value) {
+                                        headline = value;
+                                      },
+                                      decoration: textInputDecoratuon.copyWith(
+                                        hintText: 'Headline',
+                                      )),
+                                  TextFormField(
+                                      maxLines: 5,
+                                      obscureText: false,
+                                      style: h5,
+                                      validator: textReviewValidation,
+                                      onSaved: (value) {
+                                        reviewtxt = value;
+                                      },
+                                      decoration: textInputDecoratuon.copyWith(
+                                        hintText: 'Your Review',
+                                      )),
+                                ],
+                              )),
                         ),
                         SizedBox(
                           width: double.infinity,
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(100, 0, 100, 20),
-                            child: RaisedButton(
+                            child: MaterialButton(
                               color: Color(0xffF9A21B),
-                              onPressed: () {},
+                              onPressed: _sendToServer,
                               padding:
                                   EdgeInsets.fromLTRB(15.0, 18.0, 15.0, 18.0),
                               child: Text(
@@ -247,6 +300,75 @@ class _myTutorDetails extends State<myTutorDetails> {
         ],
       ),
     );
+  }
+
+//   void calculateRating() {
+//     // var total = 0;
+//     // Stream<QuerySnapshot> x =
+//     //     FirebaseFirestore.instance.collection('ratings').snapshots();
+//     // x.forEach(function(x){
+//     //   total += x.val().rating;
+//     // });
+//     var _db=FirebaseFirestore.instance.collection('ratings').snapshots();
+//     _db.forEach((QuerySnapshot snapshot) {
+//    Map<dynamic, dynamic> values=snapshot.docs;
+//    print(values.toString());
+//      values.forEach((k,v) {
+//         print(k);
+//         print(v["name"]);
+//      });
+//  });
+//   }
+
+  //static Future<List<Year>> getYears() async {
+  // Completer<List<Year>> completer = new Completer<List<Year>>();
+
+  // List<Year> years = new List<Year>();
+
+  // FirebaseDatabase.instance
+  //     .reference()
+  //     .child("year")
+  //     .once()
+  //     .then((DataSnapshot snapshot) {
+  //       //here i iterate and create the list of objects
+  //       Map<dynamic, dynamic> yearMap = snapshot.value;
+  //       yearMap.forEach((key, value) {
+  //         years.add(Year.fromJson(key, value));
+  //       });
+
+  //   completer.complete(years);
+  // });
+
+  // return completer.future;
+  //}
+
+  void _sendToServer() {
+    if (_formKey.currentState.validate()) {
+      //No error in validator
+      _formKey.currentState.save();
+      FirebaseFirestore.instance
+          .runTransaction((Transaction transaction) async {
+        CollectionReference reference =
+            FirebaseFirestore.instance.collection('ratings');
+        await reference.add({
+          'headline': '$headline',
+          'body': '$reviewtxt',
+          'l_name': _cUser.lName,
+          'tutor_name': widget.post.data()['tutor_name'],
+          'rating': '$rating',
+        });
+      });
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TutorsList(),
+        ),
+      );
+    } else {
+      setState(() {
+        return AutovalidateMode.disabled;
+      });
+    }
   }
 
   Widget _buildCardListView() {
@@ -323,4 +445,18 @@ class Story {
   final String name;
   final String storyUrl;
   Story({this.name, this.storyUrl});
+}
+
+class Year {
+  String key;
+  String name;
+
+  Year({this.name});
+
+  Year.fromJson(this.key, Map data) {
+    name = data['name'];
+    if (name == null) {
+      name = '';
+    }
+  }
 }

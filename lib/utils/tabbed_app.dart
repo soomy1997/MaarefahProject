@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/registered_sessions.dart';
 import 'package:flutter_app_1/TutorsList.dart';
 import 'package:flutter_app_1/award_page.dart';
 import 'package:flutter_app_1/notification.dart';

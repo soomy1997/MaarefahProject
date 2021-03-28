@@ -7,6 +7,7 @@ import 'package:flutter_app_1/join_as_tutor.dart';
 import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/root/root.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
+import 'package:flutter_app_1/services/database.dart';
 import 'package:provider/provider.dart';
 import 'About.dart';
 import 'package:flutter_app_1/utils/constants.dart';
@@ -18,7 +19,18 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   _ProfilePageState();
+  OurUser _currentUser = OurUser();
+  OurUser _cUser;
+  OurUser get getCurrntUser => _currentUser;
 
+  Future<void> getUserInfo() async {
+    User _firebaseUser = FirebaseAuth.instance.currentUser;
+    _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
+    setState(() {
+      _cUser = _currentUser;
+    });
+    print(_cUser);
+  }
 
   Stream getDetails() {
     return FirebaseFirestore.instance.collection('Learner').snapshots();
@@ -37,6 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     getUserData();
+    getUserInfo();
   }
 
   @override
