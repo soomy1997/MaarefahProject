@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/screens/About.dart';
+import 'package:flutter_app_1/screens/contact_us.dart';
+import 'package:flutter_app_1/screens/join_as_tutor.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-
-import 'About.dart';
-import 'contact_us.dart';
-import 'join_as_tutor.dart';
 
 class Profile extends StatefulWidget {
   @override
