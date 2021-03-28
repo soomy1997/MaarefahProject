@@ -25,6 +25,7 @@ dependencies:
   form_field_validator: ^1.0.1
   auto_size_text: ^2.1.0
   number_inc_dec: ^0.6.6
+  flutter_rating_bar: ^4.0.0
 
 
 dev_dependencies:
