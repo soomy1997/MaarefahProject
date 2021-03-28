@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
-import 'utils/constants.dart';
+import '../utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

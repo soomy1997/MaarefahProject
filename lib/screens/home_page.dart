@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_app_1/TutorsList.dart';
-import 'package:flutter_app_1/award_page.dart';
 import 'package:flutter_app_1/component/home_card.dart';
-import 'package:flutter_app_1/course_details.dart';
-import 'package:flutter_app_1/notification.dart';
-import 'package:flutter_app_1/profile.dart';
-//import 'package:flutter_app_1/component/vertical_list.dart';
+import 'package:flutter_app_1/screens/course_details.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomeScreenState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String courseName = "";
+
   Stream _data;
   Stream getDetails() {
     return FirebaseFirestore.instance.collection('session').snapshots();
@@ -24,11 +20,13 @@ class _HomeScreenState extends State<HomePage> {
 
   navigateToCourseDetails(DocumentSnapshot post) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => CourseDetails(
-                  post: post,
-                )));
+      context,
+      MaterialPageRoute(
+        builder: (context) => CourseDetails(
+          post: post,
+        ),
+      ),
+    );
   }
 
   @override
@@ -111,17 +109,15 @@ class _HomeScreenState extends State<HomePage> {
                                   subtitle: new Text(doc.data()['ses_name']),
                                   isThreeLine: true,
                                   leading: new Image.network(
-                                    "https://firebasestorage.googleapis.com/v0/b/ma-arefah-app.appspot.com/o/" +
-                                        doc.data()['image_name'] +
-                                        "?alt=media&token=" +
-                                        doc.data()['imageToken'],
+                                    doc.data()['image_url'],
                                     width: 40,
                                     height: 200,
                                     fit: BoxFit.fill,
                                   ),
                                   onTap: () {
                                     navigateToCourseDetails(
-                                        snapshot.data.docs[index]);
+                                      snapshot.data.docs[index],
+                                    );
                                   },
                                 ),
                               ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'utils/constants.dart';
+import '../utils/constants.dart';
 
 class EditAccountPage extends StatefulWidget {
   EditAccountPage({Key key, this.title}) : super(key: key);
@@ -18,8 +18,8 @@ class _EditAccountPage extends State<EditAccountPage> {
 
   bool isGenderSelected = false;
 
-  //TextEditingController _nameController = TextEditingController();
-  //TextEditingController _emailController = TextEditingController();
+TextEditingController _nameController = TextEditingController();
+TextEditingController _emailController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 

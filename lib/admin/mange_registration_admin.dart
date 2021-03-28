@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/add_new_registration_admin.dart';
+import 'package:flutter_app_1/admin/add_new_registration_admin.dart';
 
 class ManageRegistration extends StatefulWidget {
   ManageRegistration({Key key, this.title}) : super(key: key);
