@@ -12,7 +12,6 @@ class SessionDetailsPage extends StatefulWidget {
 }
 
 class _SessionDetailsPage extends State<SessionDetailsPage> {
-  
   final userRef = FirebaseFirestore.instance.collection('users');
 
   final String id;
@@ -172,7 +171,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                     Container(
                       padding: EdgeInsets.all(15),
                       child: Text(
-                        'lorem ipsum',
+                        snapshot.data.docs.first.data()["session_agenda"],
                       ),
                     ),
                   ],
@@ -391,13 +390,13 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                       Container(
                           padding: EdgeInsets.all(15),
                           child: Text(
-                            'Attachements',
+                            'image url',
                             style: h4,
                           )),
                       Container(
                           padding: EdgeInsets.all(15),
                           child: Text(
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+                            snapshot.data.docs.first.data()["image_url"],
                           )),
                     ]),
               ],

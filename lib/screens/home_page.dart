@@ -109,10 +109,7 @@ class _HomeScreenState extends State<HomePage> {
                                   subtitle: new Text(doc.data()['ses_name']),
                                   isThreeLine: true,
                                   leading: new Image.network(
-                                    "https://firebasestorage.googleapis.com/v0/b/ma-arefah-app.appspot.com/o/" +
-                                        doc.data()['image_name'] +
-                                        "?alt=media&token=" +
-                                        doc.data()['imageToken'],
+                                    doc.data()['image_url'],
                                     width: 40,
                                     height: 200,
                                     fit: BoxFit.fill,

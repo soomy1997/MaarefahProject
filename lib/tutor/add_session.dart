@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/models/users.dart';
@@ -7,6 +8,10 @@ import 'package:flutter_app_1/services/database.dart';
 import '../utils/constants.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 import 'package:uuid/uuid.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AddSessionPage extends StatefulWidget {
   AddSessionPage({Key key, this.title}) : super(key: key);
@@ -50,8 +55,12 @@ bool buttonDisabled = false;
 final _formKey = GlobalKey<FormState>();
 
 class _AddSessionPage extends State<AddSessionPage> {
+  // String imageUrl;
+  String url;
+  //generating random uuid
   String sessionId = Uuid().v4();
 
+  //getting current user information
   OurUser _currentUser = OurUser();
   OurUser _cUser;
   OurUser get getCurrntUser => _currentUser;
@@ -78,6 +87,71 @@ class _AddSessionPage extends State<AddSessionPage> {
   }
 
   Widget build(BuildContext context) {
+    // Future getImage() async {
+    //   final imagePicker = ImagePicker();
+    //   PickedFile image =
+    //       await imagePicker.getImage(source: ImageSource.gallery);
+    //   setState(() {
+    //     _image = File(image.path);
+    //     print('image path $_image');
+    //   });
+    // }
+    // uploadPic(BuildContext context) async {
+    //   FirebaseStorage storage = FirebaseStorage.instance;
+    //   String fileName = basename(_image.path);
+    //   String url;
+    //   Reference ref = storage.ref().child(fileName);
+    //   UploadTask uploadTask = ref.putFile(_image);
+    //   uploadTask.whenComplete(() {
+    //     url = ref.getDownloadURL().toString();
+    //   }).catchError((onError) {
+    //     print(onError);
+    //   });
+    //   return url;
+    // }
+
+    void _sendToServer() {
+      if (_formKey.currentState.validate()) {
+        // uploadPic(context);
+        _formKey.currentState.save();
+        FirebaseFirestore.instance
+            .runTransaction((Transaction transaction) async {
+          CollectionReference reference =
+              FirebaseFirestore.instance.collection('add_session_request');
+          await reference.add({
+            'sessionName': '$sessionName',
+            'session_type': '$valueChoose',
+            'sessionId': '$sessionId',
+            'course_name': '$coursesValue',
+            'session_description': '$sessionDescription',
+            'session_location': '$locationGroupValue',
+            'session_requirements': '$sessionRequirements',
+            'session_agenda': '$sessionAgenda',
+            'academic_level': '${_cUser.academicLevel}',
+            'tutorName': '${_cUser.name}',
+            'tutor_PhoneNum': '${_cUser.phoneNum}',
+            'tutor_email': '${_cUser.email}',
+            'session_number_of_hours': sessionNumController.text,
+            'suitable_tutoring_days': '$daysGroupValue',
+            'suitable_session_times': '$timeGroupValue',
+            'image_url': '$url',
+            //'sessionImage': '$url',
+          });
+        });
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AddSessionCongrats(),
+          ),
+          (route) => false,
+        );
+      } else {
+        setState(() {
+          return AutovalidateMode.disabled;
+        });
+      }
+    }
+
     final requistButton = Material(
         elevation: 5.0,
         borderRadius: BorderRadius.circular(10.0),
@@ -103,10 +177,47 @@ class _AddSessionPage extends State<AddSessionPage> {
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(height: 10.0),
+                SizedBox(
+                  height: 20.0,
+                  width: double.infinity,
+                  child: Text("Upload Session image",
+                      textAlign: TextAlign.left, style: h4),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                SizedBox(
+                  child: (url != null)
+                      ? Image.network(
+                          url,
+                          fit: BoxFit.fill,
+                          height: 200,
+                          width: double.infinity,
+                        )
+                      : Placeholder(
+                          fallbackHeight: 200,
+                          fallbackWidth: double.infinity,
+                        ),
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                SizedBox(
+                  height: 40.0,
+                  child: ElevatedButton.icon(
+                    icon: Icon(Icons.upload_rounded),
+                    label: Text("upload image"),
+                    style: ElevatedButton.styleFrom(
+                      primary: accentYellow,
+                    ),
+                    onPressed: () => uploadImage(),
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
                 SizedBox(
                   height: 20.0,
                   width: double.infinity,
@@ -553,43 +664,36 @@ class _AddSessionPage extends State<AddSessionPage> {
     );
   }
 
-  void _sendToServer() {
-    if (_formKey.currentState.validate()) {
-      //No error in validator
-      _formKey.currentState.save();
-      FirebaseFirestore.instance
-          .runTransaction((Transaction transaction) async {
-        CollectionReference reference =
-            FirebaseFirestore.instance.collection('add_session_request');
-        await reference.add({
-          'session_name': '$sessionName',
-          'session_type': '$valueChoose',
-          'sessionId': '$sessionId',
-          'course_name': '$coursesValue',
-          'session_description': '$sessionDescription',
-          'session_location': '$locationGroupValue',
-          'session_requirements': '$sessionRequirements',
-          'session_agenda': '$sessionAgenda',
-          'academic_level': '${_cUser.academicLevel}',
-          'tutor_name': '${_cUser.name}',
-          'tutor_PhoneNum': '${_cUser.phoneNum}',
-          'tutor_email': '${_cUser.email}',
-          'session_number_of_hours': sessionNumController.text,
-          'suitable_tutoring_days': '$daysGroupValue',
-          'suitable_session_times': '$timeGroupValue',
+  uploadImage() async {
+    final _storage = FirebaseStorage.instance;
+    final _picker = ImagePicker();
+    PickedFile image;
+    //check permission for accessing photos
+    await Permission.photos.request();
+    var permissionStatus = await Permission.photos.status;
+    if (permissionStatus.isGranted) {
+      //Select Image
+      image = await _picker.getImage(source: ImageSource.gallery);
+      var file = File(image.path);
+      String fileName = basename(file.path);
+      if (image != null) {
+        //Upload to firebase
+        UploadTask uploadTask =
+            _storage.ref().child('sessinImages/' + fileName).putFile(file);
+        // = ref.putFile(file);
+        var imageUrl = await (await uploadTask).ref.getDownloadURL();
+        // uploadTask.whenComplete(() {
+        //   downlaodUrl = ref.getDownloadURL().toString();
+
+        // });
+        setState(() {
+          url = imageUrl.toString();
         });
-      });
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => AddSessionCongrats(),
-        ),
-        (route) => false,
-      );
+      } else {
+        print('no path recieved');
+      }
     } else {
-      setState(() {
-        return AutovalidateMode.disabled;
-      });
+      print('permission denied..Grant permission and try again');
     }
   }
 }

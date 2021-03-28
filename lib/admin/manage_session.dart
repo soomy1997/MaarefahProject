@@ -2,16 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/admin/edit_session_details.dart';
-import 'package:flutter_app_1/admin/session_details.dart';
+import 'package:flutter_app_1/admin/admin_session_details.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(TestTable());
+  runApp(ManageSessions());
 }
 
-class TestTable extends StatelessWidget {
+class ManageSessions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,23 +21,23 @@ class TestTable extends StatelessWidget {
         primarySwatch: Colors.orange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: TestTablePage(),
+      home: ManageSessionsPage(),
     );
   }
 }
 
-class TestTablePage extends StatefulWidget {
+class ManageSessionsPage extends StatefulWidget {
   @override
-  _TestTableState createState() => _TestTableState();
+  _ManageSessionsPageState createState() => _ManageSessionsPageState();
 }
 
-class _TestTableState extends State<TestTablePage> {
+class _ManageSessionsPageState extends State<ManageSessionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: myAppBar3(
         context,
-        title: 'test',
+        title: 'Manage Sessions',
       ),
       body: Container(
         //
@@ -54,7 +54,7 @@ class _TestTableState extends State<TestTablePage> {
                     Container(
                       padding: const EdgeInsets.all(50),
                       child: Text(
-                        'Sessions Requests',
+                        'Manage Sessions',
                         style: h1,
                       ),
                     ),
@@ -71,26 +71,6 @@ class _TestTableState extends State<TestTablePage> {
                     ],
                     rows: _buildList(context, snapshot.data.docs),
                     //columnSpacing: 20,
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(50),
-                  child: Material(
-                    child: MaterialButton(
-                      height: 50,
-                      minWidth: 190,
-                      color: accentYellow,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      onPressed: () {},
-                      padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
-                      child: Text(
-                        "Add New Session",
-                        textAlign: TextAlign.center,
-                        style: yellowButtonsTextStyle,
-                      ),
-                    ),
                   ),
                 ),
               ],

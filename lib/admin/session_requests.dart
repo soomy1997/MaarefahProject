@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/admin/edit_session_details.dart';
-import 'package:flutter_app_1/admin/session_details.dart';
+import 'package:flutter_app_1/admin/admin_session_details.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
 Future<void> main() async {
@@ -71,26 +70,6 @@ class _SessionRequestPageState extends State<SessionRequestPage> {
                     ],
                     rows: _buildList(context, snapshot.data.docs),
                     //columnSpacing: 20,
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(50),
-                  child: Material(
-                    child: MaterialButton(
-                      height: 50,
-                      minWidth: 190,
-                      color: accentYellow,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      onPressed: () {},
-                      padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
-                      child: Text(
-                        "Add New Session",
-                        textAlign: TextAlign.center,
-                        style: yellowButtonsTextStyle,
-                      ),
-                    ),
                   ),
                 ),
               ],

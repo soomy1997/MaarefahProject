@@ -15,7 +15,7 @@ class _TabbedAppState extends State<TabbedApp> {
   User currentUser;
   final usersRef = FirebaseFirestore.instance.collection('Learner');
 
-  var _selectedIndex = 2;
+  var _selectedIndex = 1;
   List<Widget> _tabViews = <Widget>[
     TutorsListPage(),
     HomePage(),
