@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/TutorsList.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
 import 'package:flutter_app_1/screens/sign_in_page.dart';
 import 'package:flutter_app_1/utils/tabbed_app.dart';
