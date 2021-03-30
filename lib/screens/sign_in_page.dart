@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/screens/sign_up_page.dart';
 import 'package:flutter_app_1/utils/tabbed_app.dart';
@@ -51,17 +52,9 @@ class _SignInPageState extends State<SignInPage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          // context.read<AuthenticationService>().signIn(
-          //       email: _emailField.text.trim(),
-          //       password: _passwordField.text.trim(),
-          //     );
-          // context
-          //     .read<CurrentUser>()
-          //     .loginUser(_emailField.text, _passwordField.text);
           _loginUser(_emailField.text, _passwordField.text, context);
         },
-        child: Text("Get started",
-            textAlign: TextAlign.center, style: yellowButtonsTextStyle),
+        child: Text("Sign In", style: yellowButtonsTextStyle),
       ),
     );
     return Scaffold(
@@ -78,8 +71,7 @@ class _SignInPageState extends State<SignInPage> {
               children: <Widget>[
                 SizedBox(
                   height: 35.0,
-                  child: Text("Welcome Back :)",
-                      textAlign: TextAlign.center, style: h1),
+                  child: Text("Sign In", style: h1),
                 ),
                 SizedBox(
                   height: 35.0,
@@ -121,56 +113,53 @@ class _SignInPageState extends State<SignInPage> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   child: TextFormField(
-                      obscureText: true,
-                      controller: _passwordField,
-                      style: h5,
-                      decoration: textInputDecoratuon.copyWith(
-                        hintText: '******',
-                        prefixIcon: Icon(Icons.lock),
-                        labelText: "Password",
-                        labelStyle: style.copyWith(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 15,
-                        ),
-                      )),
+                    obscureText: true,
+                    controller: _passwordField,
+                    style: h5,
+                    decoration: textInputDecoratuon.copyWith(
+                      hintText: '*******',
+                      prefixIcon: Icon(Icons.lock),
+                      labelText: "Password",
+                      labelStyle: style.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 35.0,
                 ),
                 loginButon,
                 SizedBox(
-                  height: 35.0,
+                  height: 80.0,
                 ),
                 SizedBox(
-                  height: 35.0,
-                  child: Text("Forgot password? Reset here.",
-                      textAlign: TextAlign.center,
-                      style: style.copyWith(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 15)),
-                ),
-                SizedBox(
-                  height: 35.0,
-                ),
-                SizedBox(
-                  height: 35.0,
-                  child: TextButton(
-                    child: Text("No account? Create one.",
-                        textAlign: TextAlign.center,
+                  height: 35,
+                  child: RichText(
+                    text: TextSpan(
+                        text: 'No account?',
                         style: style.copyWith(
                             color: Colors.black,
                             fontWeight: FontWeight.normal,
-                            fontSize: 15)),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SignUpPage(),
-                        ),
-                      );
-                    },
+                            fontSize: 15),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: ' Create one.',
+                            style: style.copyWith(
+                                color: accentYellow, fontSize: 15),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SignUpPage(),
+                                  ),
+                                );
+                              },
+                          )
+                        ]),
                   ),
                 ),
               ],

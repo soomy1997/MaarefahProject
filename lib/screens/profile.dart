@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/registered_sessions.dart';
+import 'package:flutter_app_1/screens/change_password.dart';
 import 'package:flutter_app_1/screens/contact_us.dart';
 import 'package:flutter_app_1/screens/edit_account.dart';
 import 'package:flutter_app_1/screens/join_as_tutor.dart';
 import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/root/root.dart';
+import 'package:flutter_app_1/screens/sign_in_page.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
 import 'package:flutter_app_1/services/database.dart';
@@ -20,18 +23,21 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   OurUser _currentUser = OurUser();
-  OurUser _cUser;
+
+  OurUser _cUser = OurUser();
   OurUser get getCurrntUser => _currentUser;
+
   Future<void> getUserInfo() async {
     User _firebaseUser = FirebaseAuth.instance.currentUser;
     _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
+
     setState(() {
       _cUser = _currentUser;
     });
   }
 
   User user;
-  Future<void> getUserData() async {
+  void getUserData() {
     User userData = FirebaseAuth.instance.currentUser;
     setState(() {
       user = userData;
@@ -61,34 +67,34 @@ class _ProfilePageState extends State<ProfilePage> {
               child: StreamBuilder<User>(
                 stream: FirebaseAuth.instance.authStateChanges(),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData && snapshot.data != null) {
-                    CurrentUser.saveUser(snapshot.data);
-                    return StreamBuilder<DocumentSnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection("users")
-                          .doc(snapshot.data.uid)
-                          .snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<DocumentSnapshot> snapshot) {
-                        if (snapshot.hasData && snapshot.data != null) {
-                          final userDoc = snapshot.data;
-                          final user = userDoc.data();
-                          if (user['role'] == 'learner') {
-                            return learnerContainerElement();
-                          } else {
-                            return tutorContainerElement();
-                          }
-                        } else {
-                          return Material(
-                            child: Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        }
-                      },
-                    );
-                  }
-                  return learnerContainerElement();
+                  // if (snapshot.hasData && snapshot.data != null) {
+                  // CurrentUser.saveUser(snapshot.data);
+                  return StreamBuilder<DocumentSnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(snapshot.data.uid)
+                        .snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (snapshot.hasError) {
+                        return Text('Something went wrong');
+                      }
+                      final userDoc = snapshot.data;
+                      final user = userDoc.data();
+                      if (user['role'] == 'learner') {
+                        return learnerContainerElement();
+                      } else {
+                        return tutorContainerElement();
+                      }
+                    },
+                  );
+                  // }
+                  // return tutorContainerElement();
                 },
               ),
             ),
@@ -154,7 +160,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: TextStyle(
                         fontSize: 16,
                       )),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChangePassword()),
+                    );
+                  },
                 ),
                 ListTile(
                   leading: Icon(
@@ -227,7 +238,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             Column(
-               mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton.icon(
                   onPressed: () async {
@@ -247,7 +258,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   icon: Icon(Icons.logout),
                   label: Text("Sign Out"),
                   style: ElevatedButton.styleFrom(
-                    primary: secondaryDarkGrey,
+                    primary: accentYellow,
                   ),
                 ),
               ],
@@ -259,6 +270,10 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget learnerContainerElement() {
+    _cUser.name = "Loading Data";
+    _currentUser.name = "Loading Data";
+    _cUser.uid = "Loading Data";
+    _currentUser.uid = "loading Data";
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: Container(
@@ -292,7 +307,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: TextStyle(
                         fontSize: 16,
                       )),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RegisteredSessions()));
+                  },
                 ),
                 ListTile(
                   leading: Icon(
@@ -303,7 +323,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: TextStyle(
                         fontSize: 16,
                       )),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChangePassword()),
+                    );
+                  },
                 ),
                 ListTile(
                   leading: Icon(
@@ -380,16 +405,28 @@ class _ProfilePageState extends State<ProfilePage> {
                         );
                       } else {}
                     },
-                    icon: Icon(Icons.logout),
-                    label: Text("Sign Out"),
+                    icon: Icon(
+                      Icons.logout,
+                      color: whiteBG,
+                    ),
+                    label: Text(
+                      "Sign Out",
+                      style: yellowButtonsTextStyle,
+                    ),
                     style: ElevatedButton.styleFrom(
-                      primary: secondaryDarkGrey,
+                      primary: accentOrange,
                     ),
                   ),
                   ElevatedButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.switch_account),
-                    label: Text("Switch to Tutor"),
+                    icon: Icon(
+                      Icons.switch_account,
+                      color: whiteBG,
+                    ),
+                    label: Text(
+                      "Switch to Tutor",
+                      style: yellowButtonsTextStyle,
+                    ),
                     style: ElevatedButton.styleFrom(
                       primary: accentYellow,
                     ),
@@ -485,24 +522,34 @@ class _ProfilePageState extends State<ProfilePage> {
                                 );
                               }),
                         ),
-                        CircleAvatar(
-                          backgroundColor: Colors.grey,
-                          radius: 40,
-                          child: Text(
-                            "AB",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        st,
-                        Text(
-                          'Edit',
-                          style: TextStyle(
-                              color: Colors.orange,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(left: 50),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.grey,
+                                  radius: 50,
+                                  child: Text(
+                                    "AB",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 60),
+                              child: IconButton(
+                                icon: Icon(Icons.camera_alt_rounded),
+                                onPressed: () {},
+                              ),
+                            )
+                          ],
                         ),
                         st,
                         Text(

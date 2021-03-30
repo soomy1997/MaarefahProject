@@ -109,6 +109,28 @@ class _JoinTutorPage extends State<JoinTutorPage> {
               key: _formKey,
               child: Column(
                 children: <Widget>[
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 10, bottom: 5, top: 5),
+                      child: Text(
+                          "You want to be a tutor and present sessions to others?\n\n",
+                          textAlign: TextAlign.center,
+                          style: h4),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 10.0, right: 10, bottom: 5, top: 0),
+                    child: Text(
+                      "Please provide your phone number and what teaching method you prefer ☺️",
+                      textAlign: TextAlign.center,
+                      style: h5,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40.0,
+                  ),
                   phoneField,
                   SizedBox(
                     height: 15.0,

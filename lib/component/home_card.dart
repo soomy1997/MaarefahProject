@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/screens/join_as_tutor.dart';
+import 'package:flutter_app_1/screens/sign_in_page.dart';
+import 'package:flutter_app_1/services/database.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
 import 'package:flutter_app_1/tutor/add_session.dart';
 import 'package:flutter_app_1/utils/constants.dart';
@@ -13,20 +16,33 @@ class HomeCard extends StatefulWidget {
 
 class _HomeCardState extends State<HomeCard> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<User>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data != null) {
-          CurrentUser.saveUser(snapshot.data);
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          // if (snapshot.hasData && snapshot.data != null) {
+          // CurrentUser.saveUser(snapshot.data);
           return StreamBuilder<DocumentSnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection("users")
-                .doc(snapshot.data.uid)
-                .snapshots(),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.hasData && snapshot.data != null) {
+              stream: FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(snapshot.data.uid)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (snapshot.hasError) {
+                  return Text('Something went wrong');
+                }
+                //if (snapshot.connectionState == ConnectionState.waiting) {
                 final userDoc = snapshot.data;
                 final user = userDoc.data();
                 if (user['role'] == 'learner') {
@@ -34,19 +50,19 @@ class _HomeCardState extends State<HomeCard> {
                 } else {
                   return tutorHomeCard();
                 }
-              } else {
-                return Material(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
+                // } else {
+                //   return Material(
+                //     child: Center(
+                //       child: CircularProgressIndicator(),
+                //     ),
+                //   );
               }
-            },
-          );
+              // },
+              );
         }
-        return learnerHomeCard();
-      },
-    );
+        //   return SignInPage();
+        //  },
+        );
   }
 
   Widget tutorHomeCard() {
