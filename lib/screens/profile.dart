@@ -8,6 +8,7 @@ import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/root/root.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
+import 'package:flutter_app_1/services/database.dart';
 import 'package:provider/provider.dart';
 import 'About.dart';
 import 'package:flutter_app_1/utils/constants.dart';
@@ -18,8 +19,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  _ProfilePageState();
-
   OurUser _currentUser = OurUser();
   OurUser _cUser;
   OurUser get getCurrntUser => _currentUser;
@@ -449,7 +448,7 @@ class _ProfilePageState extends State<ProfilePage> {
           return Column(
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height * 0.34,
+                height: MediaQuery.of(context).size.height * 0.36,
                 width: MediaQuery.of(context).size.width * 0.9,
                 decoration: boxShadow(),
                 child: Padding(

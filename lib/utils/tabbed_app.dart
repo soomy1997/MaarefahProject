@@ -13,7 +13,7 @@ class _TabbedAppState extends State<TabbedApp> {
 
   var _selectedIndex = 1;
   List<Widget> _tabViews = <Widget>[
-    TutorsListPage(),
+    TutorsList(),
     HomePage(),
     NotificationPage(),
     ProfilePage()

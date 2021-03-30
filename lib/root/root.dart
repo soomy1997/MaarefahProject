@@ -15,8 +15,7 @@ class OurRout extends StatefulWidget {
 }
 
 class _OurRoutState extends State<OurRout> {
-
- AuthStatus _authStatus = AuthStatus.notLoggedIn;
+  AuthStatus _authStatus = AuthStatus.notLoggedIn;
 
   @override
   void didChangeDependencies() async {
