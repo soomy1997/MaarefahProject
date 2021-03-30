@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,10 +11,7 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
-  TextEditingController name;
-
-  TextEditingController email;
-
+ 
   String nameValue;
 
   String emailValue;
@@ -22,15 +20,30 @@ class _AccountState extends State<Account> {
 
   final formKey = GlobalKey<FormState>();
 
-  var _selectedIndex = 3;
-  onItemPressed(index) {
-    if (index != _selectedIndex) {
-      setState(() => _selectedIndex = index);
+ void _send() {
+      if (formKey.currentState.validate()) {
+        formKey.currentState.save();
+    
+        FirebaseFirestore.instance
+            .runTransaction((Transaction transaction) async {
+          CollectionReference reference =
+              FirebaseFirestore.instance.collection('contact_us_inquiries');
+          await reference.add({
+            'name': '$nameValue',
+            'email': '$emailValue',
+            'message': '$messageValue',
+          });
+        });
+        
+      } else {
+        setState(() {
+          return AutovalidateMode.disabled;
+        });
+      }
     }
-  }
-
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       appBar: myAppBar2(
         context,
@@ -247,10 +260,6 @@ class _AccountState extends State<Account> {
         ),
       ),
     ]);
-  }
-
-  void _send() {
-    if (formKey.currentState.validate()) {}
   }
 }
 

@@ -1,15 +1,35 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/screens/About.dart';
 import 'package:flutter_app_1/screens/contact_us.dart';
 import 'package:flutter_app_1/screens/join_as_tutor.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-
-class Profile extends StatefulWidget {
-  @override
-  _ProfileState createState() => _ProfileState();
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(Profile());
 }
 
-class _ProfileState extends State<Profile> {
+class Profile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Admin Dashboard',
+      theme: ThemeData(
+        primarySwatch: Colors.orange,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: ProfilePage(),
+    );
+  }
+}
+class ProfilePage extends StatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     elevatedButton() {
@@ -20,10 +40,6 @@ class _ProfileState extends State<Profile> {
         color: Colors.grey[300],
       );
     }
-
-    TextStyle appBarTitleStyle = TextStyle(
-        color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold);
-
     containerElement() {
       return Padding(
         padding: const EdgeInsets.only(
@@ -31,7 +47,7 @@ class _ProfileState extends State<Profile> {
         child: Container(
           child: ListView(
             children: [
-              custom(),
+              customTutor(),
               SizedBox(
                 height: 20,
               ),
@@ -164,7 +180,6 @@ class _ProfileState extends State<Profile> {
       );
     }
 
-    bodyView() {
       return Scaffold(
         appBar: myAppBar3(
           context,
@@ -179,12 +194,10 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       );
-    }
-
-    return bodyView();
+   // }
   }
 
-  Widget custom() {
+  Widget customTutor() {
     SizedBox st = SizedBox(
       height: 5,
     );
@@ -261,57 +274,6 @@ class _ProfileState extends State<Profile> {
       "value",
       style: valueStyle,
     );
-    Custom_Data() {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "Acdmiclevel",
-                style: style,
-              ),
-              Text(
-                "Value",
-                style: editStyle,
-              ),
-              Text(
-                "Gender",
-                style: style,
-              ),
-              Text(
-                "Value",
-                style: editStyle,
-              ),
-            ],
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "Acdmiclevel",
-                style: style,
-              ),
-              Text(
-                "Value",
-                style: editStyle,
-              ),
-              Text(
-                "Gender",
-                style: style,
-              ),
-              Text(
-                "Value",
-                style: editStyle,
-              ),
-            ],
-          ),
-        ],
-      );
-    }
 
     boxShadow() {
       return BoxDecoration(
@@ -392,7 +354,6 @@ class _ProfileState extends State<Profile> {
 
               Divider(),
 
-              //Custom_Data(), MY
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -414,4 +375,5 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
+  
 }

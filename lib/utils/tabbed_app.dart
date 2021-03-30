@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/tutor/tutor_component/TutorsList.dart';
 import 'package:flutter_app_1/screens/notification.dart';
@@ -12,8 +10,6 @@ class TabbedApp extends StatefulWidget {
 }
 
 class _TabbedAppState extends State<TabbedApp> {
-  User currentUser;
-  final usersRef = FirebaseFirestore.instance.collection('Learner');
 
   var _selectedIndex = 1;
   List<Widget> _tabViews = <Widget>[

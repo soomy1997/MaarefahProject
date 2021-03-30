@@ -40,7 +40,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
   Widget build(BuildContext context) {
     Widget table() {
       return SingleChildScrollView(
-        padding: EdgeInsets.all(15),
+        padding: EdgeInsets.all(5),
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('add_session_request')
@@ -48,6 +48,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return LinearProgressIndicator();
+
             return Table(
               columnWidths: {
                 0: FlexColumnWidth(15),
@@ -366,7 +367,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                             )
                           ])),
                       Container(
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(10),
                         child: Row(
                           children: [
                             Text("${selectedDate.toLocal()}".split(' ')[0]),
@@ -411,38 +412,81 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
       borderRadius: BorderRadius.circular(6.0),
       color: accentYellow,
       child: MaterialButton(
-        padding: EdgeInsets.fromLTRB(30.0, 0, 30.0, 0),
+        height: 50,
+        minWidth: 190,
+        padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
         disabledColor: Colors.grey,
         onPressed: () {
           setState(() {
             approvalstate = true;
           });
+          // FirebaseFirestore.instance.runTransaction(
+          //     (Transaction transaction) async {
+          //   CollectionReference reference =
+          //       FirebaseFirestore.instance
+          //           .collection('sessions');
+          //   await reference.add(({
+          //     'aproved': 'yes',
+          //     'state': '$stateGroupValue',
+          //     'sessionDate': '$selectedDate',
+          //     'sessionName':
+          //         '${snapshot.data.docs.first.data()["sessionName"]}',
+          //     'session_type':
+          //         '${snapshot.data.docs.first.data()["session_type"]}',
+          //     'sessionId':
+          //         '${snapshot.data.docs.first.data()["sessionId"]}',
+          //     'course_name':
+          //         '${snapshot.data.docs.first.data()["course_name"]}',
+          //     'session_description':
+          //         '${snapshot.data.docs.first.data()["session_description"]}',
+          //     'session_location':
+          //         '${snapshot.data.docs.first.data()["session_location"]}',
+          //     'session_requirements':
+          //         '${snapshot.data.docs.first.data()["session_requirements"]}',
+          //     'session_agenda':
+          //         '${snapshot.data.docs.first.data()["session_agenda"]}',
+          //     'tutorName':
+          //         '${snapshot.data.docs.first.data()["suitable_session_times"]}',
+          //     'tutor_email':
+          //         '${snapshot.data.docs.first.data()["tutorName"]}',
+          //     'session_duration':
+          //         '${snapshot.data.docs.first.data()["session_number_of_hours"]}',
+          //     'sessionDay':
+          //         '${snapshot.data.docs.first.data()["suitable_tutoring_days"]}',
+          //     'sessionTime':
+          //         '${snapshot.data.docs.first.data()["suitable_session_times"]}',
+          //     'image_url':
+          //         '${snapshot.data.docs.first.data()["image_url"]}',
+          //     'searchIndex':
+          //         '${snapshot.data.docs.first.data()["searchIndex"]}',
+          //   }));
+          // });
         },
         child: Text("Approve",
             textAlign: TextAlign.center, style: yellowButtonsTextStyle),
       ),
     );
-
     final rejectButton = Material(
       elevation: 2.0,
       borderRadius: BorderRadius.circular(6.0),
       color: accentOrange,
       child: MaterialButton(
-        padding: EdgeInsets.fromLTRB(40.0, 0, 40.0, 0),
+        height: 50,
+        minWidth: 190,
         disabledColor: Colors.grey,
         onPressed: () {},
         child: Text("Reject",
             textAlign: TextAlign.center, style: yellowButtonsTextStyle),
       ),
     );
-
     return Scaffold(
       appBar: myAppBar1(
         context,
         title: 'Session Details',
         iconButton: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () {},
+          icon: Icon(Icons.menu),
+          iconSize: 40,
+          onPressed: () => (0),
         ),
       ),
       body: SingleChildScrollView(
@@ -462,13 +506,13 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
           ),
           table(),
           Padding(
-            padding: EdgeInsets.fromLTRB(15, 0, 15, 30),
+            padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 approveButton,
                 SizedBox(
-                  width: 20,
+                  width: 10,
                 ),
                 rejectButton
               ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/admin/add_new_registration_admin.dart';
+import 'package:flutter_app_1/utils/constants.dart';
 
 class ManageRegistration extends StatefulWidget {
   ManageRegistration({Key key, this.title}) : super(key: key);
@@ -102,37 +103,29 @@ class _ManageRegistrationState extends State<ManageRegistration> {
     );
 
     final add_btn = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(10.0),
-      color: Color(0xffF9A21B),
+      elevation: 2.0,
+      borderRadius: BorderRadius.circular(6.0),
+      color: accentYellow,
       child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width * 0.5,
-        padding: EdgeInsets.all(
-          15,
-        ),
+        height: 50,
+        minWidth: 190,
+        padding: EdgeInsets.fromLTRB(48.0, 0, 48.0, 0),
         onPressed: _submit,
-        child: Text("Add New Registration",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.normal)),
+        child: Text(
+          "Add New Registration",
+          style: yellowButtonsTextStyle,
+        ),
       ),
     );
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'Manage Registration',
-          style: TextStyle(color: Colors.white),
-        ),
-        leading: InkWell(
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: Color(0xff14213C),
-      ),
+      appBar: myAppBar1(context,
+          title: 'Manage Registeration',
+          iconButton: IconButton(
+            icon: Icon(Icons.menu),
+            iconSize: 40,
+            onPressed: () => (0),
+          )),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -149,21 +142,15 @@ class _ManageRegistrationState extends State<ManageRegistration> {
         onTap: _onItemTapped,
       ),
       body: SingleChildScrollView(
-        child: Container(
+        child: Center(
           child: Column(
             children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 100, vertical: 36),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Managing Registration',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ]),
+              Container(
+                padding: const EdgeInsets.all(50),
+                child: Text(
+                  'Managing Registeration',
+                  style: h1,
+                ),
               ),
               SizedBox(
                 height: 20,
@@ -182,7 +169,7 @@ class _ManageRegistrationState extends State<ManageRegistration> {
                       height: 15,
                     ),
                     Table(
-                      defaultColumnWidth: FixedColumnWidth(110.0),
+                      //defaultColumnWidth: FixedColumnWidth(110.0),
                       border: TableBorder.all(
                           color: Colors.black,
                           style: BorderStyle.solid,
