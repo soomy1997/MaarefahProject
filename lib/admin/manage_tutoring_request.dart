@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/admin/applicants_details.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
 Future<void> main() async {
@@ -33,54 +34,50 @@ class _ManageTutoingRequestState extends State<ManageTutoingRequestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppBar3(
+      appBar: myAppBar1(
         context,
         title: 'Tutoring Requests',
+        iconButton: IconButton(
+          icon: Icon(Icons.menu),
+          iconSize: 40,
+          onPressed: () => (0),
+        ),
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('tutoring_request')
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) return LinearProgressIndicator();
-            return Column(
-              children: <Widget>[
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 50, 90, 40),
-                      child: Text(
-                        'Manage Tutoring Requests',
-                        style: h1,
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: 0, top: 30, right: 90),
-                  child: Center(
-                    child: DataTable(
-                      columns: [
-                        DataColumn(
-                          label: Text(
-                            'Applicant \nName',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        DataColumn(label: Text('Email')),
-                        DataColumn(label: Text('Option')),
-                      ],
-                      rows: _buildList(context, snapshot.data.docs),
-                      // columnSpacing: 30,
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('tutoring_request')
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return LinearProgressIndicator();
+          return Column(
+            children: <Widget>[
+              Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(50),
+                    child: Text(
+                      'Tutoring Requests',
+                      style: h1,
                     ),
                   ),
+                ],
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DataTable(
+                  columns: [
+                    DataColumn(label: Text('Applicant uid')),
+                    DataColumn(label: Text('Applicant \nName')),
+                    DataColumn(label: Text('Email')),
+                    DataColumn(label: Text('Option')),
+                  ],
+                  rows: _buildList(context, snapshot.data.docs),
+                  // columnSpacing: 30,
                 ),
-              ],
-            );
-          },
-        ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -93,15 +90,35 @@ class _ManageTutoingRequestState extends State<ManageTutoingRequestPage> {
   DataRow _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
 
-    return DataRow(cells: [
-      DataCell(Text(record.name)),
-      DataCell(Text(record.email)),
-      DataCell(TextButton(onPressed: () {}, child: Text('More'))),
-    ]);
+    return DataRow(
+      cells: [
+        DataCell(Text(record.uid)),
+        DataCell(Text(record.name)),
+        DataCell(Text(record.email)),
+        DataCell(
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ApplicantsDetailsPage(id: record.uid)),
+              );
+            },
+            child: Text(
+              'More',
+            ),
+          ),
+          showEditIcon: true,
+        ),
+      ],
+      selected: true | false,
+    );
   }
 }
 
 class Record {
+  final String uid;
   final String name;
   final String email;
   final DocumentReference reference;
@@ -109,6 +126,8 @@ class Record {
   Record.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['name'] != null),
         assert(map['email'] != null),
+        assert(map['uid'] != null),
+        uid = map['uid'],
         name = map['name'],
         email = map['email'];
 
@@ -116,5 +135,5 @@ class Record {
       : this.fromMap(snapshot.data(), reference: snapshot.reference);
 
   @override
-  String toString() => "Record<$name:$email>";
+  String toString() => "Record<$uid:$name:$email>";
 }

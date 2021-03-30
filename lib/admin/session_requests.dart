@@ -1,29 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/admin/admin_session_details.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(SessionRequest());
-}
-
-class SessionRequest extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Manage Sessions',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: SessionRequestPage(),
-    );
-  }
-}
 
 class SessionRequestPage extends StatefulWidget {
   @override
@@ -34,12 +12,14 @@ class _SessionRequestPageState extends State<SessionRequestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppBar3(
-        context,
-        title: 'test',
-      ),
+      appBar: myAppBar1(context,
+          title: 'Sessions Requests',
+          iconButton: IconButton(
+            icon: Icon(Icons.menu),
+            iconSize: 40,
+            onPressed: () => (0),
+          )),
       body: Container(
-        //
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('add_session_request')
@@ -69,7 +49,6 @@ class _SessionRequestPageState extends State<SessionRequestPage> {
                       DataColumn(label: Text('Option')),
                     ],
                     rows: _buildList(context, snapshot.data.docs),
-                    //columnSpacing: 20,
                   ),
                 ),
               ],

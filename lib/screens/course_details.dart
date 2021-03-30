@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/component/successful_register_dialog.dart' as a;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_app_1/TutorDetails.dart';
+import 'package:flutter_app_1/tutorDetails.dart';
 
 class CourseDetails extends StatefulWidget {
   final DocumentSnapshot post;
@@ -49,10 +49,7 @@ class _CourseDetailsState extends State<CourseDetails> {
           Container(
             padding: const EdgeInsets.only(bottom: 20, top: 10),
             child: Image.network(
-              "https://firebasestorage.googleapis.com/v0/b/ma-arefah-app.appspot.com/o/" +
-                  widget.post.data()['image_name'] +
-                  "?alt=media&token=" +
-                  widget.post.data()['imageToken'],
+              widget.post.data()['image_url'],
             ),
             height: 180,
             width: MediaQuery.of(context).size.width,
@@ -87,12 +84,12 @@ class _CourseDetailsState extends State<CourseDetails> {
                   minWidth: 190,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(6),
-                    side: BorderSide(color: Colors.black54),
                   ),
                   color: Colors.white,
                   child: Text(
-                    ' Add to Calendar',
-                    style: whiteButtonsTextStyle,
+                    'Zoom Meeting',
+                    style: whiteButtonsTextStyle.copyWith(
+                        color: Colors.indigoAccent.shade700),
                   ),
                   onPressed: () {},
                 )

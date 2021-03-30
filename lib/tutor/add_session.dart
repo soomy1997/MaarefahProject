@@ -29,6 +29,7 @@ String sessionName,
     sessionRequirements;
 
 final sessionNumController = TextEditingController();
+final sessionNameController = TextEditingController();
 
 num sessionNumber;
 
@@ -87,39 +88,22 @@ class _AddSessionPage extends State<AddSessionPage> {
   }
 
   Widget build(BuildContext context) {
-    // Future getImage() async {
-    //   final imagePicker = ImagePicker();
-    //   PickedFile image =
-    //       await imagePicker.getImage(source: ImageSource.gallery);
-    //   setState(() {
-    //     _image = File(image.path);
-    //     print('image path $_image');
-    //   });
-    // }
-    // uploadPic(BuildContext context) async {
-    //   FirebaseStorage storage = FirebaseStorage.instance;
-    //   String fileName = basename(_image.path);
-    //   String url;
-    //   Reference ref = storage.ref().child(fileName);
-    //   UploadTask uploadTask = ref.putFile(_image);
-    //   uploadTask.whenComplete(() {
-    //     url = ref.getDownloadURL().toString();
-    //   }).catchError((onError) {
-    //     print(onError);
-    //   });
-    //   return url;
-    // }
-
     void _sendToServer() {
       if (_formKey.currentState.validate()) {
-        // uploadPic(context);
         _formKey.currentState.save();
+        List<String> splitList = sessionName.split('');
+        List<String> indexList = [];
+        for (int i = 0; i < splitList.length; i++) {
+          for (int y = 1; y < splitList[i].length + 1; y++) {
+            indexList.add(splitList[i].substring(0, y).toLowerCase());
+          }
+        }
         FirebaseFirestore.instance
             .runTransaction((Transaction transaction) async {
           CollectionReference reference =
               FirebaseFirestore.instance.collection('add_session_request');
           await reference.add({
-            'sessionName': '$sessionName',
+            'sessionName': sessionName,
             'session_type': '$valueChoose',
             'sessionId': '$sessionId',
             'course_name': '$coursesValue',
@@ -135,7 +119,8 @@ class _AddSessionPage extends State<AddSessionPage> {
             'suitable_tutoring_days': '$daysGroupValue',
             'suitable_session_times': '$timeGroupValue',
             'image_url': '$url',
-            //'sessionImage': '$url',
+            'aproved': 'no',
+            'searchIndex': indexList,
           });
         });
         Navigator.pushAndRemoveUntil(
@@ -193,7 +178,6 @@ class _AddSessionPage extends State<AddSessionPage> {
                       ? Image.network(
                           url,
                           fit: BoxFit.fill,
-                          height: 200,
                           width: double.infinity,
                         )
                       : Placeholder(
@@ -230,6 +214,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                 TextFormField(
                   obscureText: false,
                   style: h5,
+                  controller: sessionNameController,
                   validator: nameValidation,
                   decoration: textInputDecoratuon.copyWith(
                     hintText: 'Session Name',
@@ -682,10 +667,6 @@ class _AddSessionPage extends State<AddSessionPage> {
             _storage.ref().child('sessinImages/' + fileName).putFile(file);
         // = ref.putFile(file);
         var imageUrl = await (await uploadTask).ref.getDownloadURL();
-        // uploadTask.whenComplete(() {
-        //   downlaodUrl = ref.getDownloadURL().toString();
-
-        // });
         setState(() {
           url = imageUrl.toString();
         });
