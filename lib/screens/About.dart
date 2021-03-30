@@ -18,19 +18,21 @@ class _AboutPageState extends State<AboutPage> {
               padding: const EdgeInsets.only(
                   left: 10.0, right: 10, bottom: 5, top: 5),
               child: Text(
-                  "Newton formulae can be obtained by manipulating Taylor series"
-                  "Newton formulae can be obtained by manipulating Taylor series"
-                  "Newton formulae can be obtained by manipulating Taylor series"
-                  "Newton formulae can be obtained by manipulating Taylor series"
-                  "Newton formulae can be obtained by manipulating Taylor series"
-                  "Newton formulae can be obtained by manipulating Taylor series"
-                  "Newton formulae can be obtained by manipulating Taylor series"
-                  "Newton formulae can be obtained by manipulating Taylor series"
-                  "Newton formulae can be obtained by manipulating Taylor series"
-                  "Newton formulae can be obtained by manipulating Taylor series"
-                  "Newton formulae can be obtained by manipulating Taylor series"
-                  "Newton formulae can be obtained by manipulating Taylor series"
-                  "Newton formulae can be obtained by manipulating Taylor series"),
+                "Newton formulae can be obtained by manipulating Taylor series"
+                "Newton formulae can be obtained by manipulating Taylor series"
+                "Newton formulae can be obtained by manipulating Taylor series"
+                "Newton formulae can be obtained by manipulating Taylor series"
+                "Newton formulae can be obtained by manipulating Taylor series"
+                "Newton formulae can be obtained by manipulating Taylor series"
+                "Newton formulae can be obtained by manipulating Taylor series"
+                "Newton formulae can be obtained by manipulating Taylor series"
+                "Newton formulae can be obtained by manipulating Taylor series"
+                "Newton formulae can be obtained by manipulating Taylor series"
+                "Newton formulae can be obtained by manipulating Taylor series"
+                "Newton formulae can be obtained by manipulating Taylor series"
+                "Newton formulae can be obtained by manipulating Taylor series",
+                textAlign: TextAlign.justify,
+              ),
             ),
           ),
           SizedBox(

@@ -60,6 +60,7 @@ class _CourseDetailsState extends State<CourseDetails> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 MaterialButton(
+                  highlightColor: Color(0xffB36D05),
                   height: 50,
                   minWidth: 190,
                   color: accentYellow,
@@ -122,6 +123,7 @@ class _CourseDetailsState extends State<CourseDetails> {
           return SingleChildScrollView(
             child: Column(
               children: <Widget>[
+             
                 Card(
                   child: Container(
                     padding: EdgeInsets.all(7.0),
@@ -166,6 +168,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                 ),
                 Card(
                   child: Container(
+                    padding: EdgeInsets.all(7.0),
                     width: MediaQuery.of(context).size.width,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -175,7 +178,14 @@ class _CourseDetailsState extends State<CourseDetails> {
                             Icons.person,
                             size: 70,
                           ),
-                          title: Text(widget.post.data()['tutor_name']),
+                          title: Text(
+                            'Speaker',
+                            style: h4,
+                          ),
+                          subtitle: Text(
+                            widget.post.data()['tutor_name'],
+                            style: h5,
+                          ),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -184,7 +194,9 @@ class _CourseDetailsState extends State<CourseDetails> {
                               child: const Text('View Profile'),
                               onPressed: () {},
                             ),
-                            const SizedBox(width: 8),
+                            const SizedBox(
+                              width: 8,
+                            ),
                             IconButton(
                                 icon: Icon(Icons.arrow_forward_ios),
                                 onPressed: () {

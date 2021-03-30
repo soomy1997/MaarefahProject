@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +10,6 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
- 
   String nameValue;
 
   String emailValue;
@@ -20,30 +18,22 @@ class _AccountState extends State<Account> {
 
   final formKey = GlobalKey<FormState>();
 
- void _send() {
-      if (formKey.currentState.validate()) {
-        formKey.currentState.save();
-    
-        FirebaseFirestore.instance
-            .runTransaction((Transaction transaction) async {
-          CollectionReference reference =
-              FirebaseFirestore.instance.collection('contact_us_inquiries');
-          await reference.add({
-            'name': '$nameValue',
-            'email': '$emailValue',
-            'message': '$messageValue',
-          });
-        });
-        
-      } else {
-        setState(() {
-          return AutovalidateMode.disabled;
-        });
-      }
-    }
+  void _send() {}
   @override
   Widget build(BuildContext context) {
-   
+    final requistButon = Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(10.0),
+      color: Color(0xffF9A21B),
+      child: MaterialButton(
+        highlightColor: Color(0xffB36D05),
+        minWidth: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
+        onPressed: () {},
+        child: Text("Send",
+            textAlign: TextAlign.center, style: yellowButtonsTextStyle),
+      ),
+    );
     return Scaffold(
       appBar: myAppBar2(
         context,
@@ -52,68 +42,78 @@ class _AccountState extends State<Account> {
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
-          child: Container(
+          child: Form(
+            key: formKey,
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(36),
               child: Column(
                 children: [
                   Column(
                     children: [
                       Image(
                         image: AssetImage("images/pic2.png"),
-                        height: MediaQuery.of(context).size.height * 0.30,
-                        width: MediaQuery.of(context).size.width * 0.99,
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        width: MediaQuery.of(context).size.width,
                       ),
                     ],
                   ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.55,
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    decoration: boxShadow(),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Stack(
-                          children: [
-                            Column(
-                              children: [
-                                Text(
-                                  "Contact Us",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Form(
-                                    key: formKey,
-                                    child: Column(
-                                      children: [
-                                        nameEntryField(),
-                                        emailEntryField(),
-                                        Text(
-                                          "Message",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        messageEntryField(),
-                                      ],
-                                    ))
-                              ],
-                            ),
-                            Positioned(
-                              top: 370,
-                              left: 110,
-                              right: 110,
-                              bottom: 0,
-                              child: floatingButton(),
-                            ),
-                          ],
-                        ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  TextFormField(
+                    obscureText: false,
+                    style: h5,
+                    validator: nameValidation,
+                    decoration: textInputDecoratuon.copyWith(
+                      hintText: 'Your Name',
+                      prefixIcon: Icon(Icons.person),
+                      labelText: "Name",
+                      labelStyle: style.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15,
                       ),
                     ),
-                  )
+                  ),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  TextFormField(
+                    obscureText: false,
+                    style: h5,
+                    validator: nameValidation,
+                    decoration: textInputDecoratuon.copyWith(
+                      hintText: 'example@gmail.com',
+                      prefixIcon: Icon(Icons.email),
+                      labelText: "Email",
+                      labelStyle: style.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20.0),
+                  SizedBox(
+                    height: 20.0,
+                    width: double.infinity,
+                    child:
+                        Text("Message", textAlign: TextAlign.left, style: h4),
+                  ),
+                  SizedBox(height: 15.0),
+                  TextFormField(
+                    maxLines: 9,
+                    style: h5,
+                    validator: textAreaValidation,
+                    decoration: textInputDecoratuon.copyWith(
+                        hintText: "Enter your message here"),
+                    keyboardType: TextInputType.multiline,
+                  ),
+                  SizedBox(height: 35.0),
+                  requistButon,
+                  SizedBox(
+                    height: 35.0,
+                  ),
                 ],
               ),
             ),
