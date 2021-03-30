@@ -6,13 +6,15 @@ class OurDatabase {
   Future<String> createUser(OurUser user) async {
     String retVal = 'error';
     try {
-      await _firestore.collection('learners').doc(user.uid).set({
+      await _firestore.collection('users').doc(user.uid).set({
         'uid': user.uid,
-        'l_name': user.lName,
-        'l_academicLevel': user.lAcademicLevel,
-        'l_gender': user.lGender,
-        'l_email': user.lEmail,
+        'name': user.name,
+        'academicLevel': user.academicLevel,
+        'gender': user.gender,
+        'email': user.email,
         'role': user.role,
+        'phoneNum': user.phoneNum,
+        'teachingOverview': user.teachingOverview,
         // 'avatar': user.avatarName,
       });
       retVal = 'success';
@@ -26,12 +28,14 @@ class OurDatabase {
     OurUser retVal = OurUser();
     try {
       DocumentSnapshot _docSnapshot =
-          await _firestore.collection('learners').doc(uid).get();
+          await _firestore.collection('users').doc(uid).get();
       retVal.uid = uid;
-      retVal.lAcademicLevel = _docSnapshot.data()['l_academicLevel'];
-      retVal.lEmail = _docSnapshot.data()['l_email'];
-      retVal.lName = _docSnapshot.data()['l_name'];
-      retVal.lGender = _docSnapshot.data()['l_gender'];
+      retVal.academicLevel = _docSnapshot.data()['academicLevel'];
+      retVal.email = _docSnapshot.data()['email'];
+      retVal.name = _docSnapshot.data()['name'];
+      retVal.gender = _docSnapshot.data()['gender'];
+      retVal.phoneNum = _docSnapshot.data()['phoneNum'];
+      retVal.teachingOverview = _docSnapshot.data()['teachingOverview'];
     } catch (e) {
       print(e);
     }

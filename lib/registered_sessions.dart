@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_1/component/vertical_list.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-import 'package:flutter_app_1/course_details.dart';
+import 'package:flutter_app_1/screens/course_details.dart';
 
 class RegisteredSessions extends StatefulWidget {
   @override
@@ -50,8 +50,9 @@ class _RegisteredSessionsState extends State<RegisteredSessions> {
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height / 9,
                           child: new ListTile(
-                            title: new Text(doc.data()['l_name']),
-                            subtitle: new Text(doc.data()['ses_name']),
+                            title: new Text(doc.data()['ses_name']),
+                            subtitle: new Text(
+                                'Presented by: ' + doc.data()['tutor_name']),
                             isThreeLine: true,
                             leading: new Image.network(
                               "https://firebasestorage.googleapis.com/v0/b/ma-arefah-app.appspot.com/o/" +

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/join_as_tutor.dart';
+import 'package:flutter_app_1/screens/join_as_tutor.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
 import 'package:flutter_app_1/tutor/add_session.dart';
 import 'package:flutter_app_1/utils/constants.dart';

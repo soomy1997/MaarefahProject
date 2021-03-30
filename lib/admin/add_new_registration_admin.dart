@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'custom_dialog_admin.dart';
+import 'admin_compnent/custom_dialog_admin.dart';
 
 class AddNewRegister extends StatefulWidget {
   AddNewRegister({Key key, this.title}) : super(key: key);

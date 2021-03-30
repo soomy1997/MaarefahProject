@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
-import 'package:flutter_app_1/sign_in_page.dart';
+import 'package:flutter_app_1/screens/sign_in_page.dart';
 import 'package:provider/provider.dart';
-import 'utils/constants.dart';
+import '../utils/constants.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key key, this.title}) : super(key: key);
@@ -51,7 +51,6 @@ class _SignUpPageState extends State<SignUpPage> {
       print(e);
     }
   }
-
 
   @override
   void dispose() {

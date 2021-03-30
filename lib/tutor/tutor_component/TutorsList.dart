@@ -49,7 +49,10 @@ class _TutorsList extends State<TutorsList> {
           ),
         ),
         body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('tutors').snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection("users")
+              .where('role', isEqualTo: 'tutor')
+              .snapshots(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) {
               return Center(child: const Text('Loading events...'));
@@ -76,8 +79,7 @@ class _TutorsList extends State<TutorsList> {
                           SizedBox(
                             height: 8,
                           ),
-                          Text(snapshot.data.docs[index]['tutor_name'],
-                              style: h4),
+                          Text(snapshot.data.docs[index]['name'], style: h4),
                           new MaterialButton(
                             padding: EdgeInsets.zero,
                             onPressed: () {

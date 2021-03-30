@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_app_1/TutorsList.dart';
+import 'package:flutter_app_1/tutor/tutor_component/TutorsList.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'services/crud.dart';
 import 'package:flutter_app_1/models/users.dart';
+import 'package:flutter_app_1/component/Reviews_card.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'utils/constants.dart';
@@ -63,7 +64,7 @@ class _myTutorDetails extends State<myTutorDetails> {
   }
 
   Stream getSessionsByTutor() {
-    var tname = widget.post.data()['tutor_name'];
+    var tname = widget.post.data()['name'];
     Stream<QuerySnapshot> x = FirebaseFirestore.instance
         .collection('session')
         .where(
@@ -77,7 +78,7 @@ class _myTutorDetails extends State<myTutorDetails> {
 
   int DocCount = 0;
   Future<void> countDocuments() async {
-    var tname = widget.post.data()['tutor_name'];
+    var tname = widget.post.data()['name'];
     QuerySnapshot x = await FirebaseFirestore.instance
         .collection('session')
         .where(
@@ -91,22 +92,50 @@ class _myTutorDetails extends State<myTutorDetails> {
     print(DocCount);
   }
 
-  getRating() {
-    Stream<QuerySnapshot> y =
-        FirebaseFirestore.instance.collection('ratings').snapshots();
-    var total = 0.0;
-    // y.forEach((element) {
-    //   total += y.data.docs['tutor_name'];
-    // });
-    for (var i = 0; i < 5; i++) {
-      //total += y.data.docs[i]('rating');
-    }
+  int DocCount2 = 0;
+  Future<void> countDocuments2() async {
+    var tname = widget.post.data()['name'];
+    QuerySnapshot x = await FirebaseFirestore.instance
+        .collection('ratings')
+        .where(
+          "tutor_name",
+          isEqualTo: tname,
+        )
+        .get();
+    setState(() {
+      DocCount2 = x.docs.length;
+    });
+    print(DocCount2);
   }
+
+  // getRating() {
+  //   Stream<QuerySnapshot> y =
+  //       FirebaseFirestore.instance.collection('ratings').snapshots();
+  //   var total = 0.0;
+  //   // y.forEach((element) {
+  //   //   total += y.data.docs['tutor_name'];
+  //   // });
+  //   for (var i = 0; i < 5; i++) {
+  //     total += y.data.docs[i]('rating');
+  //   }
+  // }
+
+//   void onDataChange(DataSnapshot dataSnapshot) {
+
+//     var total = 0.0;
+
+//     for (DataSnapshot ds : dataSnapshot.getChildren()){
+//         long rating = Double.parseDouble(ds.child("Rating").getValue(Long.class));
+//         total = total + rating;
+//     }
+//     double average = (double)total / dataSnapshot.getChildrenCount();
+// }
 
   @override
   // ignore: must_call_super
   void initState() {
     countDocuments();
+    countDocuments2();
     getUserInfo();
   }
 
@@ -133,7 +162,8 @@ class _myTutorDetails extends State<myTutorDetails> {
                     child: CircleAvatar(
                       backgroundColor: Colors.grey,
                       radius: 40,
-                      backgroundImage: AssetImage('images/logo.jpg'),
+                      backgroundImage:
+                          NetworkImage(widget.post.data()['avatar_url']),
                     ),
                   ),
                 ],
@@ -145,7 +175,7 @@ class _myTutorDetails extends State<myTutorDetails> {
                     padding: EdgeInsets.fromLTRB(4, 20, 4, 20),
                     width: 300,
                     height: 70,
-                    child: Text(widget.post.data()['tutor_name'],
+                    child: Text(widget.post.data()['name'],
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold)),
                   )
@@ -167,13 +197,28 @@ class _myTutorDetails extends State<myTutorDetails> {
                 ),
                 width: 110.0,
                 height: 80.0,
-                child: Text('Courses: ' + DocCount.toString()),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(DocCount.toString(), style: h4),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Courses', style: style),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               Container(
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      //                   <--- left side
                       color: Colors.grey[300],
                       width: 3.0,
                     ),
@@ -181,10 +226,22 @@ class _myTutorDetails extends State<myTutorDetails> {
                 ),
                 width: 110.0,
                 height: 80.0,
-                child: Text(
-                  'Reviews',
-                  style: style,
-                  textAlign: TextAlign.center,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(DocCount2.toString(), style: h4),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Reviews', style: style),
+                      ],
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -198,10 +255,22 @@ class _myTutorDetails extends State<myTutorDetails> {
                 ),
                 width: 110.0,
                 height: 80.0,
-                child: Text(
-                  'Rating',
-                  style: style,
-                  textAlign: TextAlign.center,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(4.5.toString(), style: h4),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Reviews', style: style),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -212,6 +281,7 @@ class _myTutorDetails extends State<myTutorDetails> {
               child: ListView(
                 children: <Widget>[
                   _buildCardListView(),
+                  //CardOne(),
                   Form(
                     key: _formKey,
                     child: Column(
@@ -239,7 +309,7 @@ class _myTutorDetails extends State<myTutorDetails> {
                                 // print("rating value dd -> ${value.truncate()}");
                               },
                             )),
-                        Text("Write your experience with this tutor:",
+                        Text("How was your experience with this tutor?",
                             style: h5),
                         SizedBox(
                           width: double.infinity,
@@ -320,28 +390,6 @@ class _myTutorDetails extends State<myTutorDetails> {
 //  });
 //   }
 
-  //static Future<List<Year>> getYears() async {
-  // Completer<List<Year>> completer = new Completer<List<Year>>();
-
-  // List<Year> years = new List<Year>();
-
-  // FirebaseDatabase.instance
-  //     .reference()
-  //     .child("year")
-  //     .once()
-  //     .then((DataSnapshot snapshot) {
-  //       //here i iterate and create the list of objects
-  //       Map<dynamic, dynamic> yearMap = snapshot.value;
-  //       yearMap.forEach((key, value) {
-  //         years.add(Year.fromJson(key, value));
-  //       });
-
-  //   completer.complete(years);
-  // });
-
-  // return completer.future;
-  //}
-
   void _sendToServer() {
     if (_formKey.currentState.validate()) {
       //No error in validator
@@ -353,7 +401,7 @@ class _myTutorDetails extends State<myTutorDetails> {
         await reference.add({
           'headline': '$headline',
           'body': '$reviewtxt',
-          'l_name': _cUser.lName,
+          'l_name': _cUser.name,
           'tutor_name': widget.post.data()['tutor_name'],
           'rating': '$rating',
         });
@@ -373,15 +421,6 @@ class _myTutorDetails extends State<myTutorDetails> {
 
   Widget _buildCardListView() {
     var x = getSessionsByTutor();
-
-    // var tname = widget.post.data()['tutor_name'];
-    // var x = FirebaseFirestore.instance
-    //     .collection('session')
-    //     .where(
-    //       "tutor_name",
-    //       isEqualTo: tname,
-    //     )
-    //     .snapshots();
 
     return SizedBox(
         height: 200.0,
@@ -409,12 +448,7 @@ class _myTutorDetails extends State<myTutorDetails> {
                         child: Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: NetworkImage(
-                                "https://firebasestorage.googleapis.com/v0/b/ma-arefah-app.appspot.com/o/" +
-                                    doc.data()['image_name'] +
-                                    "?alt=media&token=" +
-                                    doc.data()['imageToken'],
-                              ),
+                              image: NetworkImage(doc.data()['image_url']),
                               fit: BoxFit.fitHeight,
                             ),
                             color: Colors.white,
@@ -445,18 +479,4 @@ class Story {
   final String name;
   final String storyUrl;
   Story({this.name, this.storyUrl});
-}
-
-class Year {
-  String key;
-  String name;
-
-  Year({this.name});
-
-  Year.fromJson(this.key, Map data) {
-    name = data['name'];
-    if (name == null) {
-      name = '';
-    }
-  }
 }

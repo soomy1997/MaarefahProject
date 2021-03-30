@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/contact_us.dart';
-import 'package:flutter_app_1/edit_account.dart';
-import 'package:flutter_app_1/join_as_tutor.dart';
+import 'package:flutter_app_1/screens/contact_us.dart';
+import 'package:flutter_app_1/screens/edit_account.dart';
+import 'package:flutter_app_1/screens/join_as_tutor.dart';
 import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/root/root.dart';
+import 'package:flutter_app_1/services/database.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:provider/provider.dart';
@@ -18,22 +19,15 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  _ProfilePageState();
   OurUser _currentUser = OurUser();
   OurUser _cUser;
   OurUser get getCurrntUser => _currentUser;
-
   Future<void> getUserInfo() async {
     User _firebaseUser = FirebaseAuth.instance.currentUser;
     _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
     setState(() {
       _cUser = _currentUser;
     });
-    print(_cUser);
-  }
-
-  Stream getDetails() {
-    return FirebaseFirestore.instance.collection('Learner').snapshots();
   }
 
   User user;
@@ -42,13 +36,11 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       user = userData;
     });
-    print(user);
   }
 
   @override
   void initState() {
     super.initState();
-    getUserData();
     getUserInfo();
   }
 
@@ -176,31 +168,42 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () async {
-                    CurrentUser _currentUser =
-                        Provider.of<CurrentUser>(context, listen: false);
-                    String _returnString = await _currentUser.signOut();
-                    if (_returnString == 'success') {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OurRout(),
-                        ),
-                        (route) => false,
-                      );
-                    } else {}
-                  },
-                  icon: Icon(Icons.logout),
-                  label: Text("Sign Out"),
-                  style: ElevatedButton.styleFrom(
-                    primary: secondaryDarkGrey,
+            Container(
+              padding: EdgeInsets.all(15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () async {
+                      CurrentUser _currentUser =
+                          Provider.of<CurrentUser>(context, listen: false);
+                      String _returnString = await _currentUser.signOut();
+                      if (_returnString == 'success') {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OurRout(),
+                          ),
+                          (route) => false,
+                        );
+                      } else {}
+                    },
+                    icon: Icon(Icons.logout),
+                    label: Text("Sign Out"),
+                    style: ElevatedButton.styleFrom(
+                      primary: secondaryDarkGrey,
+                    ),
                   ),
-                ),
-              ],
+                  ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: Icon(Icons.switch_account),
+                    label: Text("Switch to Tutor"),
+                    style: ElevatedButton.styleFrom(
+                      primary: accentYellow,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -242,7 +245,7 @@ class _ProfilePageState extends State<ProfilePage> {
       height: 15,
     );
     return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('learners').snapshots(),
+        stream: FirebaseFirestore.instance.collection('users').snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Container(
@@ -253,7 +256,7 @@ class _ProfilePageState extends State<ProfilePage> {
           return Column(
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height * 0.34,
+                height: MediaQuery.of(context).size.height * 0.36,
                 width: MediaQuery.of(context).size.width * 0.9,
                 decoration: boxShadow(),
                 child: Padding(
@@ -316,7 +319,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         st,
                         Text(
-                          'Value',
+                          '${_cUser.name}',
                           style: h5,
                         ),
                         spacer,
@@ -342,16 +345,15 @@ class _ProfilePageState extends State<ProfilePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              // 'vv',
-                              '${users.lGender}',
+                              '${_cUser.gender}',
                               style: h5,
                             ),
                             Text(
-                              '                lvl 10',
+                              '                ${_cUser.academicLevel}',
                               style: h5,
                             ),
                             Text(
-                              '${user.email}',
+                              '${_cUser.email}',
                               style: h5,
                             ),
                           ],
