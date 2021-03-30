@@ -26,7 +26,7 @@ class _TutorsList extends State<TutorsList> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => myTutorDetails(
+            builder: (context) => MyTutorDetails(
                   post: post,
                 )));
   }

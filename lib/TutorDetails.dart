@@ -22,32 +22,32 @@ import 'utils/constants.dart';
 //   runApp(TutorDetails());
 // }
 
-class TutorDetails extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: myTutorDetails(),
-    );
-  }
-}
+// class TutorDetails extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: MyTutorDetails(),
+//     );
+//   }
+// }
 
 // ignore: camel_case_types
-class myTutorDetails extends StatefulWidget {
-  DocumentSnapshot post;
+class MyTutorDetails extends StatefulWidget {
+  final DocumentSnapshot post;
 
-  myTutorDetails({
+  MyTutorDetails({
     this.post,
   });
 
   @override
-  _myTutorDetails createState() => _myTutorDetails();
+  _MyTutorDetailsState createState() => _MyTutorDetailsState();
 }
 
 final _formKey = GlobalKey<FormState>();
 
 // ignore: camel_case_types
-class _myTutorDetails extends State<myTutorDetails> {
+class _MyTutorDetailsState extends State<MyTutorDetails> {
   String reviewtxt, headline;
   var rating = 0.0;
   OurUser _currentUser = OurUser();
@@ -76,7 +76,7 @@ class _myTutorDetails extends State<myTutorDetails> {
     return x;
   }
 
-  int DocCount = 0;
+  int docCount = 0;
   Future<void> countDocuments() async {
     var tname = widget.post.data()['name'];
     QuerySnapshot x = await FirebaseFirestore.instance
@@ -87,12 +87,12 @@ class _myTutorDetails extends State<myTutorDetails> {
         )
         .get();
     setState(() {
-      DocCount = x.docs.length;
+      docCount = x.docs.length;
     });
-    print(DocCount);
+    print(docCount);
   }
 
-  int DocCount2 = 0;
+  int docCount2 = 0;
   Future<void> countDocuments2() async {
     var tname = widget.post.data()['name'];
     QuerySnapshot x = await FirebaseFirestore.instance
@@ -103,9 +103,9 @@ class _myTutorDetails extends State<myTutorDetails> {
         )
         .get();
     setState(() {
-      DocCount2 = x.docs.length;
+      docCount2 = x.docs.length;
     });
-    print(DocCount2);
+    print(docCount2);
   }
 
   // getRating() {
@@ -202,7 +202,7 @@ class _myTutorDetails extends State<myTutorDetails> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(DocCount.toString(), style: h4),
+                        Text(docCount.toString(), style: h4),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -231,7 +231,7 @@ class _myTutorDetails extends State<myTutorDetails> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(DocCount2.toString(), style: h4),
+                        Text(docCount2.toString(), style: h4),
                       ],
                     ),
                     SizedBox(height: 10),
