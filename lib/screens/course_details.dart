@@ -18,7 +18,7 @@ class _CourseDetailsState extends State<CourseDetails> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => myTutorDetails(
+            builder: (context) => MyTutorDetails(
                   post: post,
                 )));
   }
