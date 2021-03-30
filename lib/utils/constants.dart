@@ -73,6 +73,10 @@ final textAreaValidation = MultiValidator([
   MinLengthValidator(30, errorText: 'Must be at least 30 characters.'),
 ]);
 
+final textReviewValidation = MultiValidator([
+  RequiredValidator(errorText: 'This field is required.'),
+]);
+
 //////////////////////////app theme////////////////////////////////
 
 //boxShadow
