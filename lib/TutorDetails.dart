@@ -402,7 +402,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
           'headline': '$headline',
           'body': '$reviewtxt',
           'l_name': _cUser.name,
-          'tutor_name': widget.post.data()['tutor_name'],
+          'tutor_name': widget.post.data()['name'],
           'rating': '$rating',
         });
       });
