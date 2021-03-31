@@ -14,7 +14,7 @@ class EditSessionDetailsPage extends StatefulWidget {
 class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
   final String id;
   _EditSessionDetailsPage({@required this.id});
-  
+
   String locationGroupValue = '';
   bool isLocationSelected = false;
   String stateGroupValue = '';
@@ -53,7 +53,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
   Widget build(BuildContext context) {
     Widget table() {
       return SingleChildScrollView(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
           child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection('add_session_request')
@@ -492,7 +492,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                 ),
                               ])),
                           Container(
-                            padding: EdgeInsets.all(15),
+                            padding: EdgeInsets.all(10),
                             child: Row(
                               children: [
                                 Text("${selectedDate.toLocal()}".split(' ')[0]),
@@ -561,8 +561,9 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
         context,
         title: 'Edit Session Details',
         iconButton: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () {},
+          icon: Icon(Icons.menu),
+          iconSize: 40,
+          onPressed: () => (0),
         ),
       ),
       body: SingleChildScrollView(

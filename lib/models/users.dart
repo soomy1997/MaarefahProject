@@ -23,10 +23,10 @@ class OurUser {
 
   OurUser.fromDocumentSnapshot({DocumentSnapshot doc}) {
     uid = doc.id;
-    name = doc.data()['l_name'];
-    gender = doc.data()['l_gender'];
-    academicLevel = doc.data()['l_academicLevel'];
-    email = doc.data()['l_email'];
+    name = doc.data()['name'];
+    gender = doc.data()['gender'];
+    academicLevel = doc.data()['academicLevel'];
+    email = doc.data()['email'];
     role = doc.data()['role'];
     phoneNum = doc.data()['phoneNum'];
     teachingOverview = doc.data()['teachingOverview'];

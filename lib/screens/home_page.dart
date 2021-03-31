@@ -100,28 +100,165 @@ class _HomeScreenState extends State<HomePage> {
                           itemCount: snapshot.data.docs.length,
                           itemBuilder: (context, index) {
                             DocumentSnapshot doc = snapshot.data.docs[index];
-                            return Card(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height / 9,
-                                child: new ListTile(
-                                  title: new Text(doc.data()['course_name']),
-                                  subtitle: new Text(doc.data()['ses_name']),
-                                  isThreeLine: true,
-                                  leading: new Image.network(
-                                    doc.data()['image_url'],
-                                    width: 40,
-                                    height: 200,
-                                    fit: BoxFit.fill,
+                            return SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  Card(
+                                    child: InkWell(
+                                      child: Row(
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Container(
+                                                height: 100,
+                                                width: 80,
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    fit: BoxFit.fill,
+                                                    image: NetworkImage(
+                                                      doc.data()['image_url'],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  constraints: BoxConstraints(
+                                                      maxWidth: 300),
+                                                  child: Text(
+                                                    doc.data()['ses_name'],
+                                                    style: TextStyle(
+                                                      color: primaryBlack,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 17.0),
+                                                  child: Text(
+                                                    'By: ' +
+                                                        doc.data()[
+                                                            'tutor_name'],
+                                                    style: TextStyle(
+                                                      color: primaryBlack,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 10.0),
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons
+                                                            .calendar_today_outlined,
+                                                        size: 18,
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 5.0),
+                                                        child: Text(
+                                                          doc.data()[
+                                                              'session_date'],
+                                                          style: TextStyle(
+                                                            color: Colors
+                                                                .grey.shade800,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 15.0),
+                                                        child: Icon(
+                                                          Icons.access_time,
+                                                          size: 18,
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 5.0),
+                                                        child: Text(
+                                                          doc.data()[
+                                                              'session_time'],
+                                                          style: TextStyle(
+                                                            color: Colors
+                                                                .grey.shade800,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      onTap: () {
+                                        navigateToCourseDetails(
+                                          snapshot.data.docs[index],
+                                        );
+                                      },
+                                    ),
                                   ),
-                                  onTap: () {
-                                    navigateToCourseDetails(
-                                      snapshot.data.docs[index],
-                                    );
-                                  },
-                                ),
+                                ],
                               ),
                             );
+
+                            // Card(
+                            //   child: Container(
+                            //     width: MediaQuery.of(context).size.width,
+                            //     height: MediaQuery.of(context).size.height / 9,
+                            //     child: new ListTile(
+                            //       title: new Text(doc.data()['course_name']),
+                            //       subtitle: new Text(doc.data()['ses_name']),
+                            //       isThreeLine: true,
+                            //       leading: new Image.network(
+                            //         doc.data()['image_url'],
+                            //         width: 40,
+                            //         height: 200,
+                            //         fit: BoxFit.fill,
+                            //       ),
+                            //       onTap: () {
+                            //         navigateToCourseDetails(
+                            //           snapshot.data.docs[index],
+                            //         );
+                            //       },
+                            //     ),
+                            //   ),
+                            // );
                           },
                         );
                 },

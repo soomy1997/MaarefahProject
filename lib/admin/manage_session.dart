@@ -35,9 +35,14 @@ class _ManageSessionsPageState extends State<ManageSessionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppBar3(
+      appBar: myAppBar1(
         context,
         title: 'Manage Sessions',
+        iconButton: IconButton(
+          icon: Icon(Icons.menu),
+          iconSize: 40,
+          onPressed: () => (0),
+        ),
       ),
       body: Container(
         //

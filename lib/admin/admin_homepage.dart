@@ -6,6 +6,7 @@ import 'package:flutter_app_1/admin/manage_tutoring_request.dart';
 import 'package:flutter_app_1/admin/mange_registration_admin.dart';
 import 'package:flutter_app_1/admin/admin_compnent/sign_out_dialog_box_admin.dart';
 import 'package:flutter_app_1/admin/session_requests.dart';
+import 'package:flutter_app_1/utils/constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,34 +35,40 @@ class AdminDashboard extends StatefulWidget {
 }
 
 class _AdminDashboardState extends State<AdminDashboard> {
-  int _selectedIndex = 0;
-  void _onItemTapped(int index) {
+  var _selectedIndex = 0;
+
+  _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return SignOutCustomDialogBox(
-            title: "Are You ",
-            descriptions: "Are You Sure To Sign Out?",
-            text: "Yes",
-            text2: "No",
-          );
-        });
+    if (_selectedIndex == 0) {
+      return AdminDashboard();
+    } else if (_selectedIndex == 1) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return SignOutCustomDialogBox(
+              title: "Are You ",
+              descriptions: "Are You Sure To Sign Out?",
+              text: "Yes",
+              text2: "No",
+            );
+          });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            'Admin Dashboard',
-            style: TextStyle(color: Colors.white),
+        appBar: myAppBar1(
+          context,
+          title: 'Admin DashBoard',
+          iconButton: IconButton(
+            icon: Icon(Icons.menu),
+            iconSize: 40,
+            onPressed: () => (0),
           ),
-          backgroundColor: Color(0xff14213C),
         ),
         body: Center(
           child: Padding(
@@ -132,16 +139,16 @@ class _AdminDashboardState extends State<AdminDashboard> {
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-                backgroundColor: Colors.blue),
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.exit_to_app),
-                label: 'Sign Out',
-                backgroundColor: Colors.blue),
+              icon: Icon(Icons.exit_to_app),
+              label: 'Sign Out',
+            ),
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.blue[800],
+          selectedItemColor: Colors.red,
           onTap: _onItemTapped,
         ));
   }

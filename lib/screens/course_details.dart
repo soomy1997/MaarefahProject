@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/component/successful_register_dialog.dart' as a;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_app_1/TutorDetails.dart';
+import 'package:flutter_app_1/tutorDetails.dart';
 
 class CourseDetails extends StatefulWidget {
   final DocumentSnapshot post;
@@ -18,7 +18,7 @@ class _CourseDetailsState extends State<CourseDetails> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => myTutorDetails(
+            builder: (context) => MyTutorDetails(
                   post: post,
                 )));
   }
@@ -83,12 +83,12 @@ class _CourseDetailsState extends State<CourseDetails> {
                   minWidth: 190,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(6),
-                    side: BorderSide(color: Colors.black54),
                   ),
                   color: Colors.white,
                   child: Text(
-                    ' Add to Calendar',
-                    style: whiteButtonsTextStyle,
+                    'Zoom Meeting',
+                    style: whiteButtonsTextStyle.copyWith(
+                        color: Colors.indigoAccent.shade700),
                   ),
                   onPressed: () {},
                 )
@@ -165,6 +165,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                 ),
                 Card(
                   child: Container(
+                    padding: EdgeInsets.all(7.0),
                     width: MediaQuery.of(context).size.width,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -174,7 +175,14 @@ class _CourseDetailsState extends State<CourseDetails> {
                             Icons.person,
                             size: 70,
                           ),
-                          title: Text(widget.post.data()['tutor_name']),
+                          title: Text(
+                            'Speaker',
+                            style: h4,
+                          ),
+                          subtitle: Text(
+                            widget.post.data()['tutor_name'],
+                            style: h5,
+                          ),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -187,7 +195,9 @@ class _CourseDetailsState extends State<CourseDetails> {
                                 );
                               },
                             ),
-                            const SizedBox(width: 8),
+                            const SizedBox(
+                              width: 8,
+                            ),
                             IconButton(
                                 icon: Icon(Icons.arrow_forward_ios),
                                 onPressed: () {

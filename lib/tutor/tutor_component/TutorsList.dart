@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_app_1/TutorDetails.dart';
+import 'package:flutter_app_1/tutorDetails.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
@@ -26,7 +26,7 @@ class _TutorsList extends State<TutorsList> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => myTutorDetails(
+            builder: (context) => MyTutorDetails(
                   post: post,
                 )));
   }
