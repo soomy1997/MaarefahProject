@@ -94,7 +94,7 @@ class MainDrawer extends StatelessWidget {
               color: secondaryDarkBlue,
             ),
             title: Text(
-              'Manage Registeration',
+              'Manage Registerations',
               style: TextStyle(
                 fontSize: 18,
               ),
@@ -114,7 +114,7 @@ class MainDrawer extends StatelessWidget {
               color: secondaryDarkBlue,
             ),
             title: Text(
-              'Tutoring Request',
+              'Tutoring Requests',
               style: TextStyle(
                 fontSize: 18,
               ),
