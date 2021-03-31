@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/utils/constants.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_1/tutor/tutor_component/TutorsList.dart';
@@ -281,7 +282,118 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
               child: ListView(
                 children: <Widget>[
                   _buildCardListView(),
-                  //CardOne(),
+                  Container(
+                    margin: EdgeInsets.all(15),
+                    padding: EdgeInsets.all(10),
+                    color: Colors.white,
+                    width: double.infinity,
+                    height: 220,
+                    child: Card(
+                      elevation: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ListTile(
+                              leading: Icon(
+                                Icons.account_circle_outlined,
+                                size: 70,
+                              ),
+                              title: Text(
+                                'Asma Alkhaldi',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text('30 Jun,2020 at 1:28 PM'),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            RatingBar.builder(
+                              initialRating: 4,
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemSize: 20,
+                              itemCount: 5,
+                              itemPadding:
+                                  EdgeInsets.symmetric(horizontal: 4.0),
+                              itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              onRatingUpdate: (rating) {
+                                print(rating);
+                              },
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Amazing explanations and simplifying skills, Also very funny which made the session more enjoyable.',
+                              style: TextStyle(fontSize: 14),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(15),
+                    padding: EdgeInsets.all(10),
+                    color: Colors.white,
+                    width: double.infinity,
+                    height: 220,
+                    child: Card(
+                      elevation: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ListTile(
+                              leading: Icon(
+                                Icons.account_circle_outlined,
+                                size: 70,
+                              ),
+                              title: Text(
+                                'Faizah Saeed',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text('30 Jun,2020 at 1:28 PM'),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            RatingBar.builder(
+                              initialRating: 5,
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemSize: 20,
+                              itemCount: 5,
+                              itemPadding:
+                                  EdgeInsets.symmetric(horizontal: 4.0),
+                              itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              onRatingUpdate: (rating) {
+                                print(rating);
+                              },
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Great teacher! I learned Alot! the charts she provided helped me understand the chapter easily',
+                              style: TextStyle(fontSize: 14),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                   Form(
                     key: _formKey,
                     child: Column(
@@ -316,7 +428,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                           child: Padding(
                               padding: const EdgeInsets.symmetric(
                                 vertical: 20,
-                                horizontal: 70,
+                                horizontal: 40,
                               ),
                               child: Column(
                                 children: [
@@ -330,6 +442,9 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                                       decoration: textInputDecoratuon.copyWith(
                                         hintText: 'Headline',
                                       )),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
                                   TextFormField(
                                       maxLines: 5,
                                       obscureText: false,
