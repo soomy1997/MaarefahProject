@@ -74,7 +74,11 @@ class _TutorsList extends State<TutorsList> {
                         children: [
                           CircleAvatar(
                             backgroundColor: Colors.grey,
-                            radius: 30,
+                            radius: 50,
+                            child: Image.network(
+                              snapshot.data.docs[index]['avatar_url'],
+                              fit: BoxFit.scaleDown,
+                            ),
                           ),
                           SizedBox(
                             height: 8,

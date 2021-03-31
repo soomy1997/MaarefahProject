@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+//import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class CardOne extends StatelessWidget {
   @override
@@ -31,22 +31,22 @@ class CardOne extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              RatingBar.builder(
-                initialRating: 1,
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemSize: 20,
-                itemCount: 5,
-                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                itemBuilder: (context, _) => Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                ),
-                onRatingUpdate: (rating) {
-                  print(rating);
-                },
-              ),
+              // RatingBar.builder(
+              //   initialRating: 1,
+              //   minRating: 1,
+              //   direction: Axis.horizontal,
+              //   allowHalfRating: true,
+              //   itemSize: 20,
+              //   itemCount: 5,
+              //   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+              //   itemBuilder: (context, _) => Icon(
+              //     Icons.star,
+              //     color: Colors.amber,
+              //   ),
+              //   onRatingUpdate: (rating) {
+              //     print(rating);
+              //   },
+              // ),
               SizedBox(
                 height: 10,
               ),

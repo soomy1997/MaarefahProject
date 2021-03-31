@@ -48,9 +48,7 @@ class _CourseDetailsState extends State<CourseDetails> {
           ),
           Container(
             padding: const EdgeInsets.only(bottom: 20, top: 10),
-            child: Image.network(
-              widget.post.data()['image_url'],
-            ),
+            child: Image.network(widget.post.data()['image_url']),
             height: 180,
             width: MediaQuery.of(context).size.width,
           ),
@@ -123,7 +121,6 @@ class _CourseDetailsState extends State<CourseDetails> {
           return SingleChildScrollView(
             child: Column(
               children: <Widget>[
-             
                 Card(
                   child: Container(
                     padding: EdgeInsets.all(7.0),
@@ -192,7 +189,11 @@ class _CourseDetailsState extends State<CourseDetails> {
                           children: <Widget>[
                             TextButton(
                               child: const Text('View Profile'),
-                              onPressed: () {},
+                              onPressed: () {
+                                navigateToTutorDetails(
+                                  widget.post.data()['tutor_name'],
+                                );
+                              },
                             ),
                             const SizedBox(
                               width: 8,
