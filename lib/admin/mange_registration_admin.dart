@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_1/admin/add_new_registration_admin.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
+import 'admin_compnent/main_drawer.dart';
+
 class ManageRegistration extends StatefulWidget {
   ManageRegistration({Key key, this.title}) : super(key: key);
 
@@ -28,11 +30,7 @@ class _ManageRegistrationState extends State<ManageRegistration> {
   final TextEditingController emailContoller = TextEditingController();
   int _selectedIndex = 0;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  
 
   var option = "";
   var gray = Colors.grey;
@@ -119,27 +117,11 @@ class _ManageRegistrationState extends State<ManageRegistration> {
     );
 
     return Scaffold(
-      appBar: myAppBar1(context,
+      appBar: myAppBar2(context,
           title: 'Manage Registeration',
-          iconButton: IconButton(
-            icon: Icon(Icons.menu),
-            iconSize: 40,
-            onPressed: () => (0),
-          )),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-              backgroundColor: Colors.blue),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.exit_to_app),
-              label: 'Sign Out',
-              backgroundColor: Colors.blue),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue[800],
-        onTap: _onItemTapped,
+          ),
+           endDrawer: Drawer(
+        child: MainDrawer(),
       ),
       body: SingleChildScrollView(
         child: Center(

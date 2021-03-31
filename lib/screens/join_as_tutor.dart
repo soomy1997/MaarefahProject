@@ -102,69 +102,71 @@ class _JoinTutorPage extends State<JoinTutorPage> {
     );
     return Scaffold(
       appBar: myAppBar2(context, title: 'Request to Join as a Tutor'),
-      body: Container(
-        child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    child: Padding(
+      body: SingleChildScrollView(
+        child: Container(
+          child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10.0, right: 10, bottom: 5, top: 5),
+                        child: Text(
+                            "You want to be a tutor and present sessions to others?\n\n",
+                            textAlign: TextAlign.center,
+                            style: h4),
+                      ),
+                    ),
+                    Padding(
                       padding: const EdgeInsets.only(
-                          left: 10.0, right: 10, bottom: 5, top: 5),
+                          left: 10.0, right: 10, bottom: 5, top: 0),
                       child: Text(
-                          "You want to be a tutor and present sessions to others?\n\n",
-                          textAlign: TextAlign.center,
-                          style: h4),
+                        "Please provide your phone number and what teaching method you prefer ☺️",
+                        textAlign: TextAlign.center,
+                        style: h5,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 10.0, right: 10, bottom: 5, top: 0),
-                    child: Text(
-                      "Please provide your phone number and what teaching method you prefer ☺️",
-                      textAlign: TextAlign.center,
+                    SizedBox(
+                      height: 40.0,
+                    ),
+                    phoneField,
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                    SizedBox(height: 15.0),
+                    SizedBox(
+                      height: 20.0,
+                      width: double.infinity,
+                      child: Text("Overview of your teaching method",
+                          textAlign: TextAlign.left, style: h4),
+                    ),
+                    SizedBox(height: 15.0),
+                    TextFormField(
+                      maxLines: 9,
                       style: h5,
+                      validator: textAreaValidation,
+                      decoration: textInputDecoratuon.copyWith(
+                          hintText: "Enter your text here"),
+                      keyboardType: TextInputType.multiline,
+                      onSaved: (value) {
+                        teachingOverview = value;
+                      },
                     ),
-                  ),
-                  SizedBox(
-                    height: 40.0,
-                  ),
-                  phoneField,
-                  SizedBox(
-                    height: 15.0,
-                  ),
-                  SizedBox(height: 15.0),
-                  SizedBox(
-                    height: 20.0,
-                    width: double.infinity,
-                    child: Text("Overview of your teaching method",
-                        textAlign: TextAlign.left, style: h4),
-                  ),
-                  SizedBox(height: 15.0),
-                  TextFormField(
-                    maxLines: 9,
-                    style: h5,
-                    validator: textAreaValidation,
-                    decoration: textInputDecoratuon.copyWith(
-                        hintText: "Enter your text here"),
-                    keyboardType: TextInputType.multiline,
-                    onSaved: (value) {
-                      teachingOverview = value;
-                    },
-                  ),
-                  SizedBox(height: 35.0),
-                  requistButon,
-                  SizedBox(
-                    height: 35.0,
-                  ),
-                  SizedBox(
-                    height: 35.0,
-                  ),
-                ],
-              ),
-            )),
+                    SizedBox(height: 35.0),
+                    requistButon,
+                    SizedBox(
+                      height: 35.0,
+                    ),
+                    SizedBox(
+                      height: 35.0,
+                    ),
+                  ],
+                ),
+              )),
+        ),
       ),
     );
   }

@@ -53,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppBar3(
+      appBar: myAppBar4(
         context,
         title: 'Account',
       ),
@@ -67,34 +67,43 @@ class _ProfilePageState extends State<ProfilePage> {
               child: StreamBuilder<User>(
                 stream: FirebaseAuth.instance.authStateChanges(),
                 builder: (context, snapshot) {
-                  // if (snapshot.hasData && snapshot.data != null) {
-                  // CurrentUser.saveUser(snapshot.data);
-                  return StreamBuilder<DocumentSnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection("users")
-                        .doc(snapshot.data.uid)
-                        .snapshots(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<DocumentSnapshot> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      if (snapshot.hasError) {
-                        return Text('Something went wrong');
-                      }
-                      final userDoc = snapshot.data;
-                      final user = userDoc.data();
-                      if (user['role'] == 'learner') {
-                        return learnerContainerElement();
-                      } else {
-                        return tutorContainerElement();
-                      }
-                    },
-                  );
-                  // }
-                  // return tutorContainerElement();
+                  if (snapshot.hasError) {
+                    return Text('Something went wrong');
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasData && snapshot.data != null) {
+                    CurrentUser.saveUser(snapshot.data);
+                    return StreamBuilder<DocumentSnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection("users")
+                          .doc(snapshot.data.uid)
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (snapshot.hasError) {
+                          return Text('Something went wrong');
+                        }
+                        final userDoc = snapshot.data;
+                        final user = userDoc.data();
+                        if (user['role'] == 'learner') {
+                          return learnerContainerElement();
+                        } else {
+                          return tutorContainerElement();
+                        }
+                      },
+                    );
+                  }
+                  return tutorContainerElement();
                 },
               ),
             ),
@@ -270,10 +279,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget learnerContainerElement() {
-    _cUser.name = "Loading Data";
-    _currentUser.name = "Loading Data";
-    _cUser.uid = "Loading Data";
-    _currentUser.uid = "loading Data";
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: Container(
@@ -473,134 +478,133 @@ class _ProfilePageState extends State<ProfilePage> {
     SizedBox spacer = SizedBox(
       height: 15,
     );
-    return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('users').snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData)
-            return Container(
-              alignment: FractionalOffset.center,
-              child: CircularProgressIndicator(),
-            );
-          OurUser users = CurrentUser().getCurrntUser;
-          return Column(
-            children: <Widget>[
-              Container(
-                height: MediaQuery.of(context).size.height * 0.36,
-                width: MediaQuery.of(context).size.width * 0.9,
-                decoration: boxShadow(),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: FloatingActionButton(
-                              elevation: 0,
-                              backgroundColor: Colors.grey[300],
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.edit,
-                                    color: Colors.orange,
-                                    size: 12,
-                                  ),
-                                  Text(
-                                    "Edit",
-                                    style: TextStyle(
-                                        color: Colors.orange,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => EditAccountPage()),
-                                );
-                              }),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+    // return StreamBuilder(
+    //     stream: FirebaseFirestore.instance.collection('users').snapshots(),
+    //     builder: (context, snapshot) {
+    //       if (!snapshot.hasData)
+    //         return Container(
+    //           alignment: FractionalOffset.center,
+    //           child: CircularProgressIndicator(),
+    //         );
+    //       OurUser users = CurrentUser().getCurrntUser;
+    return Column(
+      children: <Widget>[
+        Container(
+          height: MediaQuery.of(context).size.height * 0.36,
+          width: MediaQuery.of(context).size.width * 0.9,
+          decoration: boxShadow(),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Center(
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: FloatingActionButton(
+                        elevation: 0,
+                        backgroundColor: Colors.grey[300],
+                        child: Column(
                           children: [
-                            Container(
-                              padding: EdgeInsets.only(left: 50),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.grey,
-                                  radius: 50,
-                                  child: Text(
-                                    "AB",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 60),
-                              child: IconButton(
-                                icon: Icon(Icons.camera_alt_rounded),
-                                onPressed: () {},
-                              ),
-                            )
-                          ],
-                        ),
-                        st,
-                        Text(
-                          '${_cUser.name}',
-                          style: h4,
-                        ),
-                        st,
-                        spacer,
-                        Divider(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Gender',
-                              style: h4,
+                            Icon(
+                              Icons.edit,
+                              color: Colors.orange,
+                              size: 12,
                             ),
                             Text(
-                              'Level',
-                              style: h4,
-                            ),
-                            Text(
-                              'Email',
-                              style: h4,
+                              "Edit",
+                              style: TextStyle(
+                                  color: Colors.orange,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '${_cUser.gender}',
-                              style: h5,
-                            ),
-                            Text(
-                              '                ${_cUser.academicLevel}',
-                              style: h5,
-                            ),
-                            Text(
-                              '${_cUser.email}',
-                              style: h5,
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditAccountPage()),
+                          );
+                        }),
                   ),
-                ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 50),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.grey,
+                            radius: 50,
+                            child: Text(
+                              "AB",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 60),
+                        child: IconButton(
+                          icon: Icon(Icons.camera_alt_rounded),
+                          onPressed: () {},
+                        ),
+                      )
+                    ],
+                  ),
+                  st,
+                  Text(
+                    '${_cUser.name}',
+                    style: h4,
+                  ),
+                  st,
+                  spacer,
+                  Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Gender',
+                        style: h4,
+                      ),
+                      Text(
+                        'Level',
+                        style: h4,
+                      ),
+                      Text(
+                        'Email',
+                        style: h4,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${_cUser.gender}',
+                        style: h5,
+                      ),
+                      Text(
+                        '                ${_cUser.academicLevel}',
+                        style: h5,
+                      ),
+                      Text(
+                        '${_cUser.email}',
+                        style: h5,
+                      ),
+                    ],
+                  )
+                ],
               ),
-            ],
-          );
-        });
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget customTutor() {

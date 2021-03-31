@@ -40,7 +40,7 @@ class _TutorsList extends State<TutorsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: myAppBar1(
+        appBar: myAppBar3(
           context,
           title: "Tutors List",
           iconButton: IconButton(
@@ -63,7 +63,7 @@ class _TutorsList extends State<TutorsList> {
               itemBuilder: (BuildContext context, int index) {
                 return Card(
                     color: Colors.white,
-                    margin: EdgeInsets.all(20),
+                    margin: EdgeInsets.all(10),
                     elevation: 10,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
@@ -74,7 +74,7 @@ class _TutorsList extends State<TutorsList> {
                         children: [
                           CircleAvatar(
                             backgroundColor: Colors.grey,
-                            radius: 50,
+                            radius: 45,
                             child: Image.network(
                               snapshot.data.docs[index]['avatar_url'],
                               fit: BoxFit.scaleDown,
@@ -83,7 +83,10 @@ class _TutorsList extends State<TutorsList> {
                           SizedBox(
                             height: 8,
                           ),
-                          Text(snapshot.data.docs[index]['name'], style: h4),
+                          Container(
+                              constraints: BoxConstraints(maxWidth: 200),
+                              child: Text(snapshot.data.docs[index]['name'],
+                                  style: h4)),
                           new MaterialButton(
                             padding: EdgeInsets.zero,
                             onPressed: () {

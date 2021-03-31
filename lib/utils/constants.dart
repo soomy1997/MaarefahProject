@@ -143,8 +143,26 @@ AppBar myAppBar2(
   );
 }
 
-// title only
+// title only and action Button
 AppBar myAppBar3(
+  context, {
+  String title,
+  IconButton iconButton,
+}) {
+  return AppBar(
+    backgroundColor: secondaryDarkBlue,
+    title: Text(title,
+        style: TextStyle(
+          color: Colors.white,
+        )),
+    centerTitle: true,
+    iconTheme: IconThemeData(color: Colors.white),
+    actions: <Widget>[iconButton],
+  );
+}
+
+// title only 
+AppBar myAppBar4(
   context, {
   String title,
 }) {

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_app_1/admin/admin_compnent/main_drawer.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
 class SessionDetailsPage extends StatefulWidget {
@@ -480,14 +481,12 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
       ),
     );
     return Scaffold(
-      appBar: myAppBar1(
+      appBar: myAppBar2(
         context,
         title: 'Session Details',
-        iconButton: IconButton(
-          icon: Icon(Icons.menu),
-          iconSize: 40,
-          onPressed: () => (0),
-        ),
+      ),
+      endDrawer: Drawer(
+        child: MainDrawer(),
       ),
       body: SingleChildScrollView(
           child: Column(
