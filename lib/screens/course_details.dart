@@ -48,12 +48,7 @@ class _CourseDetailsState extends State<CourseDetails> {
           ),
           Container(
             padding: const EdgeInsets.only(bottom: 20, top: 10),
-            child: Image.network(
-              "https://firebasestorage.googleapis.com/v0/b/ma-arefah-app.appspot.com/o/" +
-                  widget.post.data()['image_name'] +
-                  "?alt=media&token=" +
-                  widget.post.data()['imageToken'],
-            ),
+            child: Image.network(widget.post.data()['image_url']),
             height: 180,
             width: MediaQuery.of(context).size.width,
           ),
@@ -63,6 +58,7 @@ class _CourseDetailsState extends State<CourseDetails> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 MaterialButton(
+                  highlightColor: Color(0xffB36D05),
                   height: 50,
                   minWidth: 190,
                   color: accentYellow,
@@ -185,7 +181,11 @@ class _CourseDetailsState extends State<CourseDetails> {
                           children: <Widget>[
                             TextButton(
                               child: const Text('View Profile'),
-                              onPressed: () {},
+                              onPressed: () {
+                                navigateToTutorDetails(
+                                  widget.post.data()['tutor_name'],
+                                );
+                              },
                             ),
                             const SizedBox(width: 8),
                             IconButton(
