@@ -11,15 +11,15 @@ class CurrentUser extends ChangeNotifier {
 
   OurUser get getCurrntUser => _currentUser;
 
-  // static saveUser(User user) {
-  //   Map<String, String> userData = {
-  //     "uid": 'user.uid',
-  //     "email": 'user.email',
-  //     "name": 'name',
-  //     "role": "learner",
-  //   };
-  //   return userData;
-  // }
+  static saveUser(User user) {
+    Map<String, String> userData = {
+      "uid": 'user.uid',
+      "email": 'user.email',
+      "name": 'name',
+      "role": "learner",
+    };
+    return userData;
+  }
 
   Stream<OurUser> getCurrentUser(String uid) {
     return _firestore

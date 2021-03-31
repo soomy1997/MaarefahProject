@@ -5,6 +5,8 @@ import 'package:flutter_app_1/admin/edit_session_details.dart';
 import 'package:flutter_app_1/admin/admin_session_details.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
+import 'admin_compnent/main_drawer.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -35,14 +37,12 @@ class _ManageSessionsPageState extends State<ManageSessionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppBar1(
+      appBar: myAppBar2(
         context,
         title: 'Manage Sessions',
-        iconButton: IconButton(
-          icon: Icon(Icons.menu),
-          iconSize: 40,
-          onPressed: () => (0),
-        ),
+      ),
+      endDrawer: Drawer(
+        child: MainDrawer(),
       ),
       body: Container(
         //
@@ -52,33 +52,35 @@ class _ManageSessionsPageState extends State<ManageSessionsPage> {
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return LinearProgressIndicator();
-            return Column(
-              children: <Widget>[
-                Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(50),
-                      child: Text(
-                        'Manage Sessions',
-                        style: h1,
+            return Center(
+              child: Column(
+                children: <Widget>[
+                  Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(50),
+                        child: Text(
+                          'Manage Sessions',
+                          style: h1,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    columns: [
-                      DataColumn(label: Text('Session ID')),
-                      DataColumn(label: Text('Session Name')),
-                      DataColumn(label: Text('Tutor Name')),
-                      DataColumn(label: Text('Option')),
                     ],
-                    rows: _buildList(context, snapshot.data.docs),
-                    //columnSpacing: 20,
                   ),
-                ),
-              ],
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: DataTable(
+                      columns: [
+                        DataColumn(label: Text('Session ID')),
+                        DataColumn(label: Text('Session Name')),
+                        DataColumn(label: Text('Tutor Name')),
+                        DataColumn(label: Text('Option')),
+                      ],
+                      rows: _buildList(context, snapshot.data.docs),
+                      //columnSpacing: 20,
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         ),

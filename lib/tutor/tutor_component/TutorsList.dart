@@ -40,7 +40,7 @@ class _TutorsList extends State<TutorsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: myAppBar1(
+        appBar: myAppBar3(
           context,
           title: "Tutors List",
           iconButton: IconButton(
