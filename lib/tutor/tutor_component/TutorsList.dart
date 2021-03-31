@@ -69,7 +69,7 @@ class _TutorsList extends State<TutorsList> {
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     child: Container(
-                      padding: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(5),
                       child: Column(
                         children: [
                           CircleAvatar(
