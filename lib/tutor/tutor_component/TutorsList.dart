@@ -1,21 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_app_1/tutorDetails.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_app_1/screens/TutorDetails.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
-// Future<void> main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   runApp(MaterialApp(
-//     debugShowCheckedModeBanner: false,
-//     home: TutorsList(),
-//   ));
-// }
-
 class TutorsList extends StatefulWidget {
-  final Widget child;
-  TutorsList({Key key, @required this.child}) : super(key: key);
+  final title;
+  TutorsList({Key key, this.title}) : super(key: key);
 
   @override
   _TutorsList createState() => _TutorsList();
