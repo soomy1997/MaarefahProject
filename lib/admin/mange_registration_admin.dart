@@ -28,7 +28,6 @@ class _ManageRegistrationState extends State<ManageRegistration> {
   final TextEditingController passController = TextEditingController();
   final TextEditingController pass2Controller = TextEditingController();
   final TextEditingController emailContoller = TextEditingController();
-  int _selectedIndex = 0;
 
   
 

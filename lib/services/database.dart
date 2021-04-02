@@ -15,7 +15,6 @@ class OurDatabase {
         'role': user.role,
         'phoneNum': user.phoneNum,
         'teachingOverview': user.teachingOverview,
-        // 'avatar': user.avatarName,
       });
       retVal = 'success';
     } catch (e) {

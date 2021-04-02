@@ -68,9 +68,6 @@ class _SignUpPageState extends State<SignUpPage> {
         if (input.isEmpty) {
           return "this field is required";
         }
-        // if (input.length < 7) {
-        //   return "The Password must be at least 7 character";
-        // }
         if (input != passController.text) {
           return "The Password and its confirmation do not match";
         }

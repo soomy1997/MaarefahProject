@@ -9,13 +9,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_1/tutor/tutor_component/TutorsList.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'services/crud.dart';
 import 'package:flutter_app_1/models/users.dart';
-import 'package:flutter_app_1/component/Reviews_card.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'utils/constants.dart';
+import '../utils/constants.dart';
 
 // Future<void> main() async {
 //   WidgetsFlutterBinding.ensureInitialized();

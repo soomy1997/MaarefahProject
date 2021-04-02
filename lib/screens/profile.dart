@@ -1,17 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/registered_sessions.dart';
+import 'package:flutter_app_1/screens/registered_sessions.dart';
 import 'package:flutter_app_1/screens/change_password.dart';
 import 'package:flutter_app_1/screens/contact_us.dart';
 import 'package:flutter_app_1/screens/edit_account.dart';
 import 'package:flutter_app_1/screens/join_as_tutor.dart';
 import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/root/root.dart';
-import 'package:flutter_app_1/screens/sign_in_page.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
-import 'package:flutter_app_1/services/database.dart';
 import 'package:provider/provider.dart';
 import 'About.dart';
 import 'package:flutter_app_1/utils/constants.dart';
@@ -22,11 +20,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  OurUser _currentUser = OurUser();
 
+  OurUser _currentUser = OurUser();
   OurUser _cUser = OurUser();
   OurUser get getCurrntUser => _currentUser;
-
   Future<void> getUserInfo() async {
     User _firebaseUser = FirebaseAuth.instance.currentUser;
     _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
@@ -35,15 +32,6 @@ class _ProfilePageState extends State<ProfilePage> {
       _cUser = _currentUser;
     });
   }
-
-  User user;
-  void getUserData() {
-    User userData = FirebaseAuth.instance.currentUser;
-    setState(() {
-      user = userData;
-    });
-  }
-
   @override
   void initState() {
     super.initState();

@@ -3,7 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/component/successful_register_dialog.dart' as a;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_app_1/tutorDetails.dart';
+
+import 'TutorDetails.dart';
 
 class CourseDetails extends StatefulWidget {
   final DocumentSnapshot post;
