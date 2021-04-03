@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/utils/constants.dart';
 
 import 'admin_compnent/custom_dialog_admin.dart';
+import 'admin_compnent/main_drawer.dart';
 
 class AddNewRegister extends StatefulWidget {
   AddNewRegister({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -26,12 +18,6 @@ class _AddNewRegisterState extends State<AddNewRegister> {
   final TextEditingController passController = TextEditingController();
   final TextEditingController pass2Controller = TextEditingController();
   final TextEditingController emailContoller = TextEditingController();
-  int _selectedIndex = 0;
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   var password = "";
   var userName = "";
@@ -170,32 +156,13 @@ class _AddNewRegisterState extends State<AddNewRegister> {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('Add New Registration'),
-        leading: InkWell(
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
+      appBar: myAppBar2(
+        context, 
+        title: 'Add New Registration',
         ),
-        backgroundColor: Color(0xff14213C),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-              backgroundColor: Colors.blue),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.exit_to_app),
-              label: 'Sign Out',
-              backgroundColor: Colors.blue),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue[800],
-        onTap: _onItemTapped,
-      ),
+        endDrawer: Drawer(
+          child: MainDrawer(),
+        ),
       body: buildCenter(
           passwordField, loginButon, userNameField, emailField, optionFild),
     );

@@ -149,7 +149,7 @@ class _NotificationPage extends State<NotificationPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: myAppBar2(
+        appBar: myAppBar4(
           context,
           title: 'Notifications',
         ),

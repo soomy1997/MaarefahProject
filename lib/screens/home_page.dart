@@ -236,29 +236,6 @@ class _HomeScreenState extends State<HomePage> {
                                 ],
                               ),
                             );
-
-                            // Card(
-                            //   child: Container(
-                            //     width: MediaQuery.of(context).size.width,
-                            //     height: MediaQuery.of(context).size.height / 9,
-                            //     child: new ListTile(
-                            //       title: new Text(doc.data()['course_name']),
-                            //       subtitle: new Text(doc.data()['ses_name']),
-                            //       isThreeLine: true,
-                            //       leading: new Image.network(
-                            //         doc.data()['image_url'],
-                            //         width: 40,
-                            //         height: 200,
-                            //         fit: BoxFit.fill,
-                            //       ),
-                            //       onTap: () {
-                            //         navigateToCourseDetails(
-                            //           snapshot.data.docs[index],
-                            //         );
-                            //       },
-                            //     ),
-                            //   ),
-                            // );
                           },
                         );
                 },

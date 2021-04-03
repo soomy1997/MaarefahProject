@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/utils/constants.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_1/tutor/tutor_component/TutorsList.dart';
@@ -428,7 +429,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                           child: Padding(
                               padding: const EdgeInsets.symmetric(
                                 vertical: 20,
-                                horizontal: 70,
+                                horizontal: 40,
                               ),
                               child: Column(
                                 children: [
@@ -442,6 +443,9 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                                       decoration: textInputDecoratuon.copyWith(
                                         hintText: 'Headline',
                                       )),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
                                   TextFormField(
                                       maxLines: 5,
                                       obscureText: false,

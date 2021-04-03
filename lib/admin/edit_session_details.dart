@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
+import 'admin_compnent/main_drawer.dart';
+
 class EditSessionDetailsPage extends StatefulWidget {
   final String id;
   EditSessionDetailsPage({@required this.id});
@@ -557,14 +559,12 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
     );
 
     return Scaffold(
-      appBar: myAppBar1(
+      appBar: myAppBar2(
         context,
         title: 'Edit Session Details',
-        iconButton: IconButton(
-          icon: Icon(Icons.menu),
-          iconSize: 40,
-          onPressed: () => (0),
-        ),
+      ),
+       endDrawer: Drawer(
+        child: MainDrawer(),
       ),
       body: SingleChildScrollView(
           child: Column(

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_1/admin/applicants_details.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
+import 'admin_compnent/main_drawer.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -34,14 +36,12 @@ class _ManageTutoingRequestState extends State<ManageTutoingRequestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppBar1(
+      appBar: myAppBar2(
         context,
         title: 'Tutoring Requests',
-        iconButton: IconButton(
-          icon: Icon(Icons.menu),
-          iconSize: 40,
-          onPressed: () => (0),
-        ),
+      ),
+      endDrawer: Drawer(
+        child: MainDrawer(),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -49,33 +49,35 @@ class _ManageTutoingRequestState extends State<ManageTutoingRequestPage> {
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) return LinearProgressIndicator();
-          return Column(
-            children: <Widget>[
-              Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(50),
-                    child: Text(
-                      'Tutoring Requests',
-                      style: h1,
+          return Center(
+            child: Column(
+              children: <Widget>[
+                Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(50),
+                      child: Text(
+                        'Tutoring Requests',
+                        style: h1,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: DataTable(
-                  columns: [
-                    DataColumn(label: Text('Applicant uid')),
-                    DataColumn(label: Text('Applicant \nName')),
-                    DataColumn(label: Text('Email')),
-                    DataColumn(label: Text('Option')),
                   ],
-                  rows: _buildList(context, snapshot.data.docs),
-                  // columnSpacing: 30,
                 ),
-              ),
-            ],
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    columns: [
+                      DataColumn(label: Text('Applicant uid')),
+                      DataColumn(label: Text('Applicant \nName')),
+                      DataColumn(label: Text('Email')),
+                      DataColumn(label: Text('Option')),
+                    ],
+                    rows: _buildList(context, snapshot.data.docs),
+                    // columnSpacing: 30,
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),

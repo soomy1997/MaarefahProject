@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
+import 'admin_compnent/main_drawer.dart';
+
 class ApplicantsDetailsPage extends StatefulWidget {
   final String id;
   ApplicantsDetailsPage({@required this.id});
@@ -199,14 +201,12 @@ class _ApplicantsDetailsPage extends State<ApplicantsDetailsPage> {
       ),
     );
     return Scaffold(
-      appBar: myAppBar1(
+      appBar: myAppBar2(
         context,
         title: 'Applicants Details',
-        iconButton: IconButton(
-          icon: Icon(Icons.menu),
-          iconSize: 40,
-          onPressed: () => (0),
-        ),
+      ),
+       endDrawer: Drawer(
+        child: MainDrawer(),
       ),
       body: SingleChildScrollView(
           child: Column(

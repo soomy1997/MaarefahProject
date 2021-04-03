@@ -32,7 +32,7 @@ class _Congrats extends State<Congrats> {
     );
 
     return Scaffold(
-      appBar: myAppBar3(
+      appBar: myAppBar4(
         context,
         title: 'System Message',
       ),

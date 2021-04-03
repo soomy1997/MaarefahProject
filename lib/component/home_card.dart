@@ -23,10 +23,18 @@ class _HomeCardState extends State<HomeCard> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          // if (snapshot.hasData && snapshot.data != null) {
-          // CurrentUser.saveUser(snapshot.data);
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (snapshot.hasData && snapshot.data != null) {
+          CurrentUser.saveUser(snapshot.data);
           return StreamBuilder<DocumentSnapshot>(
               stream: FirebaseFirestore.instance
                   .collection("users")
@@ -42,7 +50,7 @@ class _HomeCardState extends State<HomeCard> {
                 if (snapshot.hasError) {
                   return Text('Something went wrong');
                 }
-                //if (snapshot.connectionState == ConnectionState.waiting) {
+               
                 final userDoc = snapshot.data;
                 final user = userDoc.data();
                 if (user['role'] == 'learner') {
@@ -50,19 +58,12 @@ class _HomeCardState extends State<HomeCard> {
                 } else {
                   return tutorHomeCard();
                 }
-                // } else {
-                //   return Material(
-                //     child: Center(
-                //       child: CircularProgressIndicator(),
-                //     ),
-                //   );
               }
-              // },
               );
         }
-        //   return SignInPage();
-        //  },
-        );
+        return SignInPage();
+      },
+    );
   }
 
   Widget tutorHomeCard() {
