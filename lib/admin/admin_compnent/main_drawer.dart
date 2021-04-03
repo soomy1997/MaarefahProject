@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/admin/admin_compnent/sign_out_dialog_box_admin.dart';
 import 'package:flutter_app_1/admin/admin_homepage.dart';
-import 'package:flutter_app_1/admin/admin_session_details.dart';
 import 'package:flutter_app_1/admin/manage_session.dart';
 import 'package:flutter_app_1/admin/manage_tutoring_request.dart';
 import 'package:flutter_app_1/admin/mange_registration_admin.dart';

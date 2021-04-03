@@ -1,16 +1,24 @@
-# flutter_app_1
+# About
+Ma’arefah Application is inspired by a real initiative in Collge of Computer Science & Information Technology  at Imam Abdulrahman  bin Faisal University in Saudi Arabia. The application will help to digitilize the initiative and keep the initiative going during these times of COVID-19 spread. The application will enable peer-to-peer teaching where volunteering students from a higher academic level will be able to conduct online sessions through zoom meetings teaching the hard concepts in college courses and enable learning students to register and attend those sessions then rate the tutor.
 
-A new Flutter project.
+## This repo contains a flutter Firebase app thats implements single code for 3 platforms:
+1. Web Chrome for Admin Pages
+2. IOS mobile app for the end-users: Learners & Tutors
+3. Android mobile app for the end-users: Learners & Tutors.
 
-## Getting Started
+## Requirements 
+- Any Operating System (ie. MacOS X, Linux, Windows)
+- Any IDE with Flutter SDK installed (ie. IntelliJ, Android Studio, VSCode etc)
 
-This project is a starting point for a Flutter application.
+## Installation
+Open the ide and run  ```flutter pub get```
 
-A few resources to get you started if this is your first Flutter project:
+## Usage
+1. Make sure your device/emulator is running.
+2. Run ```flutter run```
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Running Admin Pages on Flutter Web
+- to run on flutter web you can see the folders inside Lib/Admin/
+- run on admin_homepage.dart
+

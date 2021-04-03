@@ -38,7 +38,6 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
 
   DateTime selectedDate = DateTime.now();
 
-  final _formKey = GlobalKey<FormState>();
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
