@@ -74,7 +74,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return a.AlertDialog();
+                        return a.AlertDialog1();
                       },
                     );
                   },
