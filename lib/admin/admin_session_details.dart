@@ -422,7 +422,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
             approvalstate = true;
           });
           FirebaseFirestore.instance
-              .collection('add_session_request')
+              .collection('session')
               .where('sessionId', isEqualTo: this.id)
               .get()
               .then((value) => value.docs.forEach((element) {
@@ -455,7 +455,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
         disabledColor: Colors.grey,
         onPressed: () {
           FirebaseFirestore.instance
-              .collection('add_session_request')
+              .collection('session')
               .where('sessionId', isEqualTo: this.id)
               .get()
               .then((value) {

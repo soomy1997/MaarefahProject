@@ -689,7 +689,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
           if (_formKey.currentState.validate()) {
             _formKey.currentState.save();
             FirebaseFirestore.instance
-                .collection('add_session_request')
+                .collection('session')
                 .where('sessionId', isEqualTo: this.id)
                 .get()
                 .then((value) {
