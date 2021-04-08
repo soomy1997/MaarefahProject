@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/admin/admin_compnent/successful_register_dialog.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-
-import 'admin_compnent/custom_dialog_admin.dart';
-import 'admin_compnent/main_drawer.dart';
+import 'package:intl/intl.dart';
 
 class AddNewRegister extends StatefulWidget {
   AddNewRegister({Key key, this.title}) : super(key: key);
+
+  // This widget is the home page of your application. It is stateful, meaning
+  // that it has a State object (defined below) that contains fields that affect
+  // how it looks.
+
+  // This class is the configuration for the state. It holds the values (in this
+  // case the title) provided by the parent (in this case the App widget) and
+  // used by the build method of the State. Fields in a Widget subclass are
+  // always marked "final".
+
   final String title;
 
   @override
@@ -18,20 +27,27 @@ class _AddNewRegisterState extends State<AddNewRegister> {
   final TextEditingController passController = TextEditingController();
   final TextEditingController pass2Controller = TextEditingController();
   final TextEditingController emailContoller = TextEditingController();
+  int _selectedIndex = 0;
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
-  var password = "";
+  DateTime _dateTime = DateTime.now(); // to get Date and Time
+  TextEditingController _dateController =
+      TextEditingController(); // use to set/get Text to Edittext
+  final DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+
   var userName = "";
   var email = "";
   var option = "";
-  var confirmPassword = "";
-  var gray = Colors.grey;
-  var red = Colors.red;
-  var color = Colors.black;
+  var color = Colors.black38;
   var textColor = Colors.black;
   final List<String> options = [
     "Introduction to OOP1",
-    "MIntroduction to OOP2",
-    "Introduction to Main"
+    "Introduction to OOP2",
+    "Introduction to Math"
   ];
 
   @override
@@ -39,12 +55,16 @@ class _AddNewRegisterState extends State<AddNewRegister> {
     final passwordField = TextFormField(
       validator: (input) {
         if (input.isEmpty) {
-          return "this field is required";
+          return "This field is required";
         }
 
         return null;
       },
-      controller: passController,
+      readOnly: true,
+      controller: _dateController,
+      onTap: () {
+        _handleDatePicker();
+      },
       style: TextStyle(fontSize: 18),
       decoration: InputDecoration(
           errorMaxLines: 3,
@@ -63,7 +83,7 @@ class _AddNewRegisterState extends State<AddNewRegister> {
       validator: (input) {
         userName = input;
         if (input.isEmpty) {
-          return "this field is required";
+          return "This field is required";
         }
 
         return null;
@@ -86,7 +106,10 @@ class _AddNewRegisterState extends State<AddNewRegister> {
       validator: (input) {
         email = input;
         if (input.isEmpty) {
-          return "this field is required";
+          return "This field is required";
+        }
+        if (!isEmail(input)) {
+          return 'Please enter your email address in format yourname@example.com';
         }
 
         return null;
@@ -107,9 +130,10 @@ class _AddNewRegisterState extends State<AddNewRegister> {
     final optionFild = DropdownButtonFormField(
       style: TextStyle(fontSize: 18),
       isDense: true,
+      isExpanded: true,
       icon: Icon(
         Icons.keyboard_arrow_down_sharp,
-        size: 22,
+        size: 28,
       ),
       iconEnabledColor: Theme.of(context).primaryColor,
       items: options.map((priority) {
@@ -117,7 +141,7 @@ class _AddNewRegisterState extends State<AddNewRegister> {
           value: priority,
           child: Text(
             priority,
-            style: TextStyle(fontSize: 16, color: Colors.black),
+            style: TextStyle(fontSize: 16, color: Colors.black38),
           ),
         );
       }).toList(),
@@ -132,7 +156,8 @@ class _AddNewRegisterState extends State<AddNewRegister> {
           border: OutlineInputBorder(
               borderSide: BorderSide(color: color, width: 15.0),
               borderRadius: BorderRadius.circular(5.0))),
-      validator: (input) => option == null ? "Please Select Option" : null,
+      validator: (input) =>
+          option.isEmpty ? "Please Choose current session" : null,
       onChanged: (val) {
         setState(() {
           option = val;
@@ -148,7 +173,7 @@ class _AddNewRegisterState extends State<AddNewRegister> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
         onPressed: _submit,
-        child: Text("Add Now",
+        child: Text("Add New registration",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.normal)),
@@ -157,12 +182,24 @@ class _AddNewRegisterState extends State<AddNewRegister> {
 
     return Scaffold(
       appBar: myAppBar2(
-        context, 
-        title: 'Add New Registration',
-        ),
-        endDrawer: Drawer(
-          child: MainDrawer(),
-        ),
+        context,
+        title: 'Manage Registration',
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+              backgroundColor: Colors.blue),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.exit_to_app),
+              label: 'Sign Out',
+              backgroundColor: Colors.blue),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue[800],
+        onTap: _onItemTapped,
+      ),
       body: buildCenter(
           passwordField, loginButon, userNameField, emailField, optionFild),
     );
@@ -180,12 +217,10 @@ class _AddNewRegisterState extends State<AddNewRegister> {
         child: Container(
           color: Colors.white,
           child: Padding(
-            padding: const EdgeInsets.all(36.0),
+            padding: const EdgeInsets.all(100.0),
             child: Form(
               key: formKey,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text("Add New registration",
                       textAlign: TextAlign.center,
@@ -218,22 +253,40 @@ class _AddNewRegisterState extends State<AddNewRegister> {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
       // here code
+      //
+      print("called");
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return CustomDialogBox(
-              title: "You Successfully ",
-              descriptions: "Added new Registration",
-              text: "Yes",
-            );
+            return AlertDialog1();
           });
+      /*Navigator.push(context, MaterialPageRoute(builder: (c) {
+        return AlertDialog();
+      }));*/
     }
   }
 
-  bool validateStructure(String value) {
-    String pattern =
-        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-    RegExp regExp = new RegExp(pattern);
-    return regExp.hasMatch(value);
+  bool isEmail(String em) {
+    String p =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+    RegExp regExp = new RegExp(p);
+
+    return regExp.hasMatch(em);
+  }
+
+  void _handleDatePicker() async {
+    final DateTime selectecDate = await showDatePicker(
+        context: context,
+        initialDate: _dateTime,
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100));
+
+    if (selectecDate != null && selectecDate != _dateTime) {
+      setState(() {
+        _dateTime = selectecDate;
+      });
+      _dateController.text = dateFormat.format(_dateTime);
+    }
   }
 }

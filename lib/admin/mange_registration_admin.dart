@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/admin/add_new_registration_admin.dart';
+import 'package:flutter_app_1/admin/add_new_registration.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-
-import 'admin_compnent/main_drawer.dart';
 
 class ManageRegistration extends StatefulWidget {
   ManageRegistration({Key key, this.title}) : super(key: key);
@@ -28,8 +26,13 @@ class _ManageRegistrationState extends State<ManageRegistration> {
   final TextEditingController passController = TextEditingController();
   final TextEditingController pass2Controller = TextEditingController();
   final TextEditingController emailContoller = TextEditingController();
+  int _selectedIndex = 0;
 
-  
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   var option = "";
   var gray = Colors.grey;
@@ -104,168 +107,269 @@ class _ManageRegistrationState extends State<ManageRegistration> {
       borderRadius: BorderRadius.circular(6.0),
       color: accentYellow,
       child: MaterialButton(
-        height: 50,
-        minWidth: 190,
-        padding: EdgeInsets.fromLTRB(48.0, 0, 48.0, 0),
-        onPressed: _submit,
-        child: Text(
-          "Add New Registration",
-          style: yellowButtonsTextStyle,
+        minWidth: MediaQuery.of(context).size.width * 0.5,
+        padding: EdgeInsets.all(
+          15,
         ),
+        onPressed: _submit,
+        child: Text("Add New Registration",
+            textAlign: TextAlign.center,
+            style: style.copyWith(
+                color: Colors.white, fontWeight: FontWeight.normal)),
       ),
     );
 
     return Scaffold(
-      appBar: myAppBar2(context,
-          title: 'Manage Registeration',
-          ),
-           endDrawer: Drawer(
-        child: MainDrawer(),
+      appBar: myAppBar2(
+        context,
+        title: 'Manage Registration',
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(50),
-                child: Text(
-                  'Managing Registeration',
-                  style: h1,
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+              backgroundColor: Colors.blue),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.exit_to_app),
+              label: 'Sign Out',
+              backgroundColor: Colors.blue),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue[800],
+        onTap: _onItemTapped,
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 80, vertical: 26),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Manage Registration',
+                          style: h1,
+                        ),
+                      ]),
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                SizedBox(
+                  height: 10,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      'Registrations',
-                      style: TextStyle(fontSize: 16),
-                    ),
                     SizedBox(
                       height: 15,
                     ),
-                    Table(
-                      //defaultColumnWidth: FixedColumnWidth(110.0),
-                      border: TableBorder.all(
-                          color: Colors.black,
-                          style: BorderStyle.solid,
-                          width: 1),
-                      children: [
-                        TableRow(children: [
-                          optionFild,
-                          sessionName,
-                          Container(
-                            color: Colors.grey,
-                          )
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Search',
-                                ),
-                                Icon(Icons.search)
-                              ],
-                            ),
+                    DataTable(columns: [
+                      DataColumn(label: Text('learner')),
+                      DataColumn(label: Text('session name')),
+                      DataColumn(label: Text(' ')),
+                    ], rows: [
+                      DataRow(cells: [
+                        DataCell(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Search',
+                              ),
+                              Icon(Icons.search)
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Search',
-                                ),
-                                Icon(Icons.search)
-                              ],
-                            ),
+                        ),
+                        DataCell(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Search',
+                              ),
+                              Icon(Icons.search)
+                            ],
                           ),
-                          Container(
-                            color: Colors.grey,
-                          )
-                        ]),
-                        TableRow(children: [
+                        ),
+                        DataCell(SizedBox.shrink())
+                      ]),
+                      DataRow(cells: [
+                        DataCell(
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.symmetric(vertical: 2),
                             child: Text(
                               'Sara Ehab',
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Intro to OPP1',
-                            ),
+                        ),
+                        DataCell(
+                          Text(
+                            'Intro to OPP1',
                           ),
-                          Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Icon(
-                                    Icons.delete,
-                                    color: Colors.grey,
-                                  ),
-                                  Icon(Icons.notifications, color: Colors.grey),
-                                  Icon(Icons.edit, color: Colors.grey)
-                                ],
-                              )),
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Ahmed Nasser',
-                            ),
+                        ),
+                        DataCell(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Icon(
+                                Icons.delete,
+                                color: Colors.grey,
+                              ),
+                              Icon(Icons.notifications, color: Colors.grey),
+                              Icon(Icons.edit, color: Colors.grey)
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Intro to OPP1',
-                            ),
+                        )
+                      ]),
+                      DataRow(cells: [
+                        DataCell(
+                          Text(
+                            'Sara Ehab',
                           ),
-                          Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Icon(
-                                    Icons.delete,
-                                    color: Colors.grey,
-                                  ),
-                                  Icon(Icons.notifications, color: Colors.grey),
-                                  Icon(Icons.edit, color: Colors.grey)
-                                ],
-                              )),
-                        ]),
-                      ],
-                    ),
+                        ),
+                        DataCell(
+                          Text(
+                            'Intro to OPP1',
+                          ),
+                        ),
+                        DataCell(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Icon(
+                                Icons.delete,
+                                color: Colors.grey,
+                              ),
+                              Icon(Icons.notifications, color: Colors.grey),
+                              Icon(Icons.edit, color: Colors.grey)
+                            ],
+                          ),
+                        )
+                      ]),
+                    ]),
                     SizedBox(
                       height: 20,
                     ),
                     addBtn
                   ],
                 ),
-              )
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
+  Table buildTable(DropdownButtonFormField<String> optionFild,
+      DropdownButtonFormField<String> sessionName) {
+    return Table(
+      defaultColumnWidth: FixedColumnWidth(110.0),
+      border: TableBorder.all(
+          color: Colors.black, style: BorderStyle.solid, width: 1),
+      children: [
+        TableRow(children: [
+          optionFild,
+          sessionName,
+          Container(
+            color: Colors.grey,
+          )
+        ]),
+        TableRow(children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Search',
+                ),
+                Icon(Icons.search)
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Search',
+                ),
+                Icon(Icons.search)
+              ],
+            ),
+          ),
+          Container(
+            color: Colors.grey,
+          )
+        ]),
+        TableRow(children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Sara Ehab',
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Intro to OPP1',
+            ),
+          ),
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Icon(
+                    Icons.delete,
+                    color: Colors.grey,
+                  ),
+                  Icon(Icons.notifications, color: Colors.grey),
+                  Icon(Icons.edit, color: Colors.grey)
+                ],
+              )),
+        ]),
+        TableRow(children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Ahmed  basser',
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Intro to OPP1',
+            ),
+          ),
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Icon(
+                    Icons.delete,
+                    color: Colors.grey,
+                  ),
+                  Icon(Icons.notifications, color: Colors.grey),
+                  Icon(Icons.edit, color: Colors.grey)
+                ],
+              )),
+        ]),
+      ],
+    );
+  }
+
   void _submit() {
-    Navigator.push(context, MaterialPageRoute(builder: (ctz) {
+    Navigator.push(context, MaterialPageRoute(builder: (c) {
       return AddNewRegister();
     }));
   }

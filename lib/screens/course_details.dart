@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-import 'package:flutter_app_1/component/successful_register_dialog.dart' as a;
+import 'package:flutter_app_1/admin/admin_compnent/successful_register_dialog.dart' as a;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'tutorDetails.dart';
@@ -74,7 +74,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return a.AlertDialog();
+                        return a.AlertDialog1();
                       },
                     );
                   },
