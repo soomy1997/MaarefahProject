@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/tutor/tutor_component/TutorsList.dart';
+import 'package:flutter_app_1/tutor/tutor_component/tutorsList.dart';
 import 'package:flutter_app_1/screens/notification.dart';
 import 'package:flutter_app_1/screens/profile.dart';
 import 'package:flutter_app_1/screens/home_page.dart';

@@ -4,7 +4,7 @@ import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/component/successful_register_dialog.dart' as a;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'TutorDetails.dart';
+import 'tutorDetails.dart';
 
 class CourseDetails extends StatefulWidget {
   final DocumentSnapshot post;
@@ -200,7 +200,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                               width: 8,
                             ),
                             IconButton(
-                                icon: Icon(Icons.arrow_forward_ios),
+                                icon: Icon(Icons.arrow_forward),
                                 onPressed: () {
                                   navigateToTutorDetails(
                                     widget.post.data()['tutor_name'],

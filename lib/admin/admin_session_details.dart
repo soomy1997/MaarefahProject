@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app_1/admin/admin_compnent/main_drawer.dart';
+import 'package:flutter_app_1/admin/session_requests.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
 class SessionDetailsPage extends StatefulWidget {
@@ -44,7 +45,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
         padding: EdgeInsets.all(5),
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
-              .collection('add_session_request')
+              .collection('session')
               .where('sessionId', isEqualTo: this.id)
               .snapshots(),
           builder: (context, snapshot) {
@@ -92,7 +93,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                       Container(
                           padding: EdgeInsets.all(15),
                           child: Text(
-                            snapshot.data.docs.first.data()["sessionName"],
+                            snapshot.data.docs.first.data()["ses_name"],
                           )),
                     ]),
                 TableRow(
@@ -112,7 +113,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                       Container(
                         padding: EdgeInsets.all(15),
                         child: Text(
-                          snapshot.data.docs.first.data()["session_type"],
+                          snapshot.data.docs.first.data()["ses_type"],
                         ),
                       ),
                     ]),
@@ -152,8 +153,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                       Container(
                         padding: EdgeInsets.all(15),
                         child: Text(
-                          snapshot.data.docs.first
-                              .data()["session_description"],
+                          snapshot.data.docs.first.data()["ses_description"],
                         ),
                       ),
                     ]),
@@ -173,7 +173,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                     Container(
                       padding: EdgeInsets.all(15),
                       child: Text(
-                        snapshot.data.docs.first.data()["session_agenda"],
+                        snapshot.data.docs.first.data()["ses_agenda"],
                       ),
                     ),
                   ],
@@ -196,7 +196,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                     Container(
                       padding: EdgeInsets.all(15),
                       child: Text(
-                        snapshot.data.docs.first.data()["session_location"],
+                        snapshot.data.docs.first.data()["ses_location"],
                       ),
                     ),
                   ],
@@ -217,8 +217,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                       Container(
                         padding: EdgeInsets.all(15),
                         child: Text(
-                          snapshot.data.docs.first
-                              .data()["session_requirements"],
+                          snapshot.data.docs.first.data()["ses_requirement"],
                         ),
                       ),
                     ]),
@@ -258,7 +257,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                       Container(
                           padding: EdgeInsets.all(15),
                           child: Text(
-                            snapshot.data.docs.first.data()["tutorName"],
+                            snapshot.data.docs.first.data()["tutor_name"],
                           )),
                     ]),
                 TableRow(
@@ -325,8 +324,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                       Container(
                           padding: EdgeInsets.all(15),
                           child: Text(
-                            snapshot.data.docs.first
-                                .data()["suitable_tutoring_days"],
+                            snapshot.data.docs.first.data()["session_day"],
                           )),
                     ]),
                 TableRow(
@@ -344,8 +342,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                       Container(
                           padding: EdgeInsets.all(15),
                           child: Text(
-                            snapshot.data.docs.first
-                                .data()["suitable_session_times"],
+                            snapshot.data.docs.first.data()["session_time"],
                           )),
                     ]),
                 TableRow(
@@ -377,7 +374,10 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                             ),
                             MaterialButton(
                               onPressed: () => _selectDate(context),
-                              child: Text('Select date'),
+                              child: Text(
+                                'Select date',
+                                style: TextStyle(color: accentYellow),
+                              ),
                             )
                           ],
                         ),
@@ -421,47 +421,25 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
           setState(() {
             approvalstate = true;
           });
-          // FirebaseFirestore.instance.runTransaction(
-          //     (Transaction transaction) async {
-          //   CollectionReference reference =
-          //       FirebaseFirestore.instance
-          //           .collection('sessions');
-          //   await reference.add(({
-          //     'aproved': 'yes',
-          //     'state': '$stateGroupValue',
-          //     'sessionDate': '$selectedDate',
-          //     'sessionName':
-          //         '${snapshot.data.docs.first.data()["sessionName"]}',
-          //     'session_type':
-          //         '${snapshot.data.docs.first.data()["session_type"]}',
-          //     'sessionId':
-          //         '${snapshot.data.docs.first.data()["sessionId"]}',
-          //     'course_name':
-          //         '${snapshot.data.docs.first.data()["course_name"]}',
-          //     'session_description':
-          //         '${snapshot.data.docs.first.data()["session_description"]}',
-          //     'session_location':
-          //         '${snapshot.data.docs.first.data()["session_location"]}',
-          //     'session_requirements':
-          //         '${snapshot.data.docs.first.data()["session_requirements"]}',
-          //     'session_agenda':
-          //         '${snapshot.data.docs.first.data()["session_agenda"]}',
-          //     'tutorName':
-          //         '${snapshot.data.docs.first.data()["suitable_session_times"]}',
-          //     'tutor_email':
-          //         '${snapshot.data.docs.first.data()["tutorName"]}',
-          //     'session_duration':
-          //         '${snapshot.data.docs.first.data()["session_number_of_hours"]}',
-          //     'sessionDay':
-          //         '${snapshot.data.docs.first.data()["suitable_tutoring_days"]}',
-          //     'sessionTime':
-          //         '${snapshot.data.docs.first.data()["suitable_session_times"]}',
-          //     'image_url':
-          //         '${snapshot.data.docs.first.data()["image_url"]}',
-          //     'searchIndex':
-          //         '${snapshot.data.docs.first.data()["searchIndex"]}',
-          //   }));
-          // });
+          FirebaseFirestore.instance
+              .collection('add_session_request')
+              .where('sessionId', isEqualTo: this.id)
+              .get()
+              .then((value) => value.docs.forEach((element) {
+                    element.reference.update({
+                      'approved': 'yes',
+                      'state': '$stateGroupValue',
+                      'ses_date': '$selectedDate',
+                    }).then(
+                      (value) => print('Success!'),
+                    );
+                  }));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SessionRequestPage(),
+            ),
+          );
         },
         child: Text("Approve",
             textAlign: TextAlign.center, style: yellowButtonsTextStyle),
@@ -475,7 +453,25 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
         height: 50,
         minWidth: 190,
         disabledColor: Colors.grey,
-        onPressed: () {},
+        onPressed: () {
+          FirebaseFirestore.instance
+              .collection('add_session_request')
+              .where('sessionId', isEqualTo: this.id)
+              .get()
+              .then((value) {
+            value.docs.forEach((element) {
+              element.reference.delete().then((value) {
+                print('Success!');
+              });
+            });
+          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SessionRequestPage(),
+            ),
+          );
+        },
         child: Text("Reject",
             textAlign: TextAlign.center, style: yellowButtonsTextStyle),
       ),

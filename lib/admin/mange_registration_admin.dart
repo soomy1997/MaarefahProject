@@ -99,7 +99,7 @@ class _ManageRegistrationState extends State<ManageRegistration> {
       },
     );
 
-    final add_btn = Material(
+    final addBtn = Material(
       elevation: 2.0,
       borderRadius: BorderRadius.circular(6.0),
       color: accentYellow,
@@ -253,7 +253,7 @@ class _ManageRegistrationState extends State<ManageRegistration> {
                     SizedBox(
                       height: 20,
                     ),
-                    add_btn
+                    addBtn
                   ],
                 ),
               )

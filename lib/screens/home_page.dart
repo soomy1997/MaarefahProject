@@ -11,11 +11,14 @@ class HomePage extends StatefulWidget {
 
 class _HomeScreenState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  String courseName = "";
+  String sesName = "";
 
   Stream _data;
   Stream getDetails() {
-    return FirebaseFirestore.instance.collection('session').snapshots();
+    return FirebaseFirestore.instance
+        .collection('session')
+        .where('approved', isEqualTo: 'yes')
+        .snapshots();
   }
 
   navigateToCourseDetails(DocumentSnapshot post) {
@@ -61,7 +64,7 @@ class _HomeScreenState extends State<HomePage> {
                 child: TextField(
                   onChanged: (val) {
                     setState(() {
-                      courseName = val;
+                      sesName = val;
                     });
                   },
                   controller: searchController,
@@ -82,15 +85,23 @@ class _HomeScreenState extends State<HomePage> {
           Container(
             child: HomeCard(),
           ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            child: Text(
+              'Current Sessions',
+              style: h4,
+              textAlign: TextAlign.left,
+            ),
+          ),
           Expanded(
             //child: VerticalCards(),
             child: Container(
               width: MediaQuery.of(context).size.width,
               child: StreamBuilder(
-                stream: (courseName != "" && courseName != null)
+                stream: (sesName != "" && sesName != null)
                     ? FirebaseFirestore.instance
                         .collection('session')
-                        .where("searchIndex", arrayContains: courseName)
+                        .where("searchIndex", arrayContains: sesName)
                         .snapshots()
                     : _data,
                 builder: (context, snapshot) {

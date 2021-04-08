@@ -20,11 +20,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   OurUser _currentUser = OurUser();
   OurUser _cUser = OurUser();
-  OurUser get getCurrntUser => _currentUser;
-  Future<void> getUserInfo() async {
+
+  Future<void> currentUserInfo() async {
     User _firebaseUser = FirebaseAuth.instance.currentUser;
     _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
 
@@ -32,10 +31,11 @@ class _ProfilePageState extends State<ProfilePage> {
       _cUser = _currentUser;
     });
   }
+
   @override
   void initState() {
     super.initState();
-    getUserInfo();
+    currentUserInfo();
   }
 
   @override
@@ -72,18 +72,19 @@ class _ProfilePageState extends State<ProfilePage> {
                           .snapshots(),
                       builder: (BuildContext context,
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasError) {
+                          return Text('Something went wrong');
+                        }
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return Center(
                             child: CircularProgressIndicator(),
                           );
                         }
-                        if (snapshot.hasError) {
-                          return Text('Something went wrong');
-                        }
                         final userDoc = snapshot.data;
                         final user = userDoc.data();
-                        if (user['role'] == 'learner') {
+                        if (user['role'] == 'learner' ||
+                            user['role'] == 'pending tutor') {
                           return learnerContainerElement();
                         } else {
                           return tutorContainerElement();

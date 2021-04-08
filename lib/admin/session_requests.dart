@@ -24,7 +24,8 @@ class _SessionRequestPageState extends State<SessionRequestPage> {
       body: Container(
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
-              .collection('add_session_request')
+              .collection('session')
+              .where('approved', isEqualTo: 'no')
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return LinearProgressIndicator();
@@ -45,11 +46,22 @@ class _SessionRequestPageState extends State<SessionRequestPage> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: DataTable(
+                      onSelectAll: (b) {},
+                      sortColumnIndex: 0,
+                      sortAscending: true,
                       columns: [
-                        DataColumn(label: Text('Session ID')),
-                        DataColumn(label: Text('Session Name')),
-                        DataColumn(label: Text('Tutor Name')),
-                        DataColumn(label: Text('Option')),
+                        DataColumn(
+                          label: Text('Session ID'),
+                        ),
+                        DataColumn(
+                          label: Text('Session Name'),
+                        ),
+                        DataColumn(
+                          label: Text('Tutor Name'),
+                        ),
+                        DataColumn(
+                          label: Text('Option'),
+                        ),
                       ],
                       rows: _buildList(context, snapshot.data.docs),
                     ),
@@ -93,7 +105,7 @@ class _SessionRequestPageState extends State<SessionRequestPage> {
           showEditIcon: true,
         ),
       ],
-      selected: true | false,
+      //onSelectChanged: (b) {},
     );
   }
 }
@@ -106,11 +118,11 @@ class Record {
 
   Record.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['sessionId'] != null),
-        assert(map['sessionName'] != null),
-        assert(map['tutorName'] != null),
+        assert(map['ses_name'] != null),
+        assert(map['tutor_name'] != null),
         sessionId = map['sessionId'],
-        sessionName = map['sessionName'],
-        tutorName = map['tutorName'];
+        sessionName = map['ses_name'],
+        tutorName = map['tutor_name'];
 
   Record.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data(), reference: snapshot.reference);
