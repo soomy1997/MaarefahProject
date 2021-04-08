@@ -102,10 +102,10 @@ class _ManageRegistrationState extends State<ManageRegistration> {
       },
     );
 
-    final add_btn = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(10.0),
-      color: Color(0xffF9A21B),
+    final addBtn = Material(
+      elevation: 2.0,
+      borderRadius: BorderRadius.circular(6.0),
+      color: accentYellow,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width * 0.5,
         padding: EdgeInsets.all(
@@ -256,7 +256,7 @@ class _ManageRegistrationState extends State<ManageRegistration> {
                     SizedBox(
                       height: 20,
                     ),
-                    add_btn
+                    addBtn
                   ],
                 ),
               ],

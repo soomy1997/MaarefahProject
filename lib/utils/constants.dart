@@ -69,8 +69,13 @@ final phoneValidaton = MultiValidator([
 ]);
 
 final textAreaValidation = MultiValidator([
-  RequiredValidator(errorText: 'This field is required.78'),
+  RequiredValidator(errorText: 'This field is required.'),
   MinLengthValidator(30, errorText: 'Must be at least 30 characters.'),
+]);
+
+final textAreaValidation2 = MultiValidator([
+  RequiredValidator(errorText: 'This field is required.'),
+  MinLengthValidator(10, errorText: 'Must be at least 10 characters.'),
 ]);
 
 final textReviewValidation = MultiValidator([
@@ -161,7 +166,7 @@ AppBar myAppBar3(
   );
 }
 
-// title only 
+// title only
 AppBar myAppBar4(
   context, {
   String title,

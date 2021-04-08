@@ -205,7 +205,7 @@ class _ApplicantsDetailsPage extends State<ApplicantsDetailsPage> {
         context,
         title: 'Applicants Details',
       ),
-       endDrawer: Drawer(
+      endDrawer: Drawer(
         child: MainDrawer(),
       ),
       body: SingleChildScrollView(
@@ -215,11 +215,11 @@ class _ApplicantsDetailsPage extends State<ApplicantsDetailsPage> {
             padding: EdgeInsets.fromLTRB(12, 25, 12, 12),
             child: approvalstate
                 ? Text(
-                    'This session is Approved',
+                    'This request is approved',
                     style: h4.copyWith(color: Colors.green.shade800),
                   )
                 : Text(
-                    'This session needs approval...',
+                    'This request needs approval...',
                     style: h4.copyWith(color: Colors.grey),
                   ),
           ),

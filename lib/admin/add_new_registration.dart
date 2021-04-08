@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/component/successful_register_dialog.dart';
+import 'package:flutter_app_1/admin/admin_compnent/successful_register_dialog.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:intl/intl.dart';
 
