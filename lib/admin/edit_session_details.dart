@@ -59,20 +59,6 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                 if (!snapshot.hasData) return LinearProgressIndicator();
                 TextEditingController sesDate = TextEditingController(
                     text: snapshot.data.docs.first.data()['ses_date']);
-                DateTime selectedDate;
-                Future<void> _selectDate(BuildContext context) async {
-                  final DateTime picked = await showDatePicker(
-                      context: context,
-                      initialDate: selectedDate = DateTime.parse(sesDate.text),
-                      firstDate: DateTime(2015, 8),
-                      lastDate: DateTime(2101));
-                  if (picked != null && picked != selectedDate)
-                    setState(() {
-                      selectedDate = picked;
-                      sesDate.text = selectedDate.toLocal().toString();
-                    });
-                }
-
                 return Form(
                   key: _formKey,
                   child: Table(
@@ -570,14 +556,12 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                   ),
                                 ])),
                             Container(
-                              // width: 30,
-                              padding: EdgeInsets.all(20),
+                              padding: EdgeInsets.all(15),
                               child: Row(
-                                // mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   SizedBox(
-                                    width: 150,
+                                    width: 170,
                                     child: DateTimeField(
                                       format: format,
                                       onShowPicker:
@@ -589,6 +573,21 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                           lastDate: DateTime(2100),
                                         );
                                       },
+                                      decoration: InputDecoration(
+                                          suffixIcon: Icon(
+                                            Icons.date_range,
+                                            color: accentYellow,
+                                          ),
+                                          contentPadding: EdgeInsets.fromLTRB(
+                                              30.0, 15.0, 20.0, 15.0),
+                                          border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.white60,
+                                                  width: 15.0),
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0))),
+                                      resetIcon: null,
+                                      validator: textReviewValidation,
                                       initialValue:
                                           DateTime.parse(sesDate.text),
                                       onSaved: (val) {
@@ -596,38 +595,10 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                       },
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 10.0,
-                                  ),
-                                  MaterialButton(
-                                    onPressed: () => _selectDate(context),
-                                    child: Text(
-                                      'Select date',
-                                      style: TextStyle(color: accentYellow),
-                                    ),
-                                  )
                                 ],
                               ),
                             ),
                           ]),
-                      // TableRow(
-                      //     decoration: BoxDecoration(
-                      //         border: Border(
-                      //             bottom: BorderSide(
-                      //                 width: 1.0, color: Colors.grey.shade300))),
-                      //     children: [
-                      //       Container(
-                      //           padding: EdgeInsets.all(15),
-                      //           child: Text(
-                      //             'Attachements',
-                      //             style: h4,
-                      //           )),
-                      //       Container(
-                      //           padding: EdgeInsets.all(15),
-                      //           child: Text(
-                      //             'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-                      //           )),
-                      //     ]),
                     ],
                   ),
                 );
