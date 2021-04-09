@@ -1,32 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/admin/admin_session_details.dart';
 import 'package:flutter_app_1/admin/edit_session_details.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-
 import 'admin_compnent/main_drawer.dart';
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(ManageSessions());
-}
-
-class ManageSessions extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Manage Sessions',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: ManageSessionsPage(),
-    );
-  }
-}
 
 class ManageSessionsPage extends StatefulWidget {
   @override
@@ -119,7 +95,6 @@ class _ManageSessionsPageState extends State<ManageSessionsPage> {
           showEditIcon: true,
         ),
       ],
-      selected: true | false,
     );
   }
 }
