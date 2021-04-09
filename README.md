@@ -22,3 +22,11 @@ Open the ide and run  ```flutter pub get```
 - to run on flutter web you can see the folders inside Lib/Admin/
 - run on admin_homepage.dart
 
+## User Accounts:
+Learner user:
+- email: faizah@gmail.com
+- password: Faizah@1998
+
+Tutor user:
+- email: rawan@gmail.com
+- password: Rawan@1998
