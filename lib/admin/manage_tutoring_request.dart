@@ -43,43 +43,44 @@ class _ManageTutoingRequestState extends State<ManageTutoingRequestPage> {
       endDrawer: Drawer(
         child: MainDrawer(),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('tutoring_request')
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) return LinearProgressIndicator();
-          return Center(
-            child: Column(
-              children: <Widget>[
-                Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(50),
-                      child: Text(
-                        'Tutoring Requests',
-                        style: h1,
-                      ),
+      body: SingleChildScrollView(
+        child: Container(
+          child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('tutoring_request')
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return LinearProgressIndicator();
+              return Center(
+                child: Column(
+                  children: <Widget>[
+                    Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(50),
+                          child: Text(
+                            'Tutoring Requests',
+                            style: h1,
+                          ),
+                        ),
+                      ],
+                    ),
+                    DataTable(
+                      columns: [
+                        DataColumn(label: Text('Applicant uid')),
+                        DataColumn(label: Text('Applicant Name')),
+                        DataColumn(label: Text('Email')),
+                        DataColumn(label: Text('Option')),
+                      ],
+                      rows: _buildList(context, snapshot.data.docs),
+                      // columnSpacing: 30,
                     ),
                   ],
                 ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    columns: [
-                      DataColumn(label: Text('Applicant uid')),
-                      DataColumn(label: Text('Applicant \nName')),
-                      DataColumn(label: Text('Email')),
-                      DataColumn(label: Text('Option')),
-                    ],
-                    rows: _buildList(context, snapshot.data.docs),
-                    // columnSpacing: 30,
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
+              );
+            },
+          ),
+        ),
       ),
     );
   }
@@ -114,7 +115,6 @@ class _ManageTutoingRequestState extends State<ManageTutoingRequestPage> {
           showEditIcon: true,
         ),
       ],
-      selected: true | false,
     );
   }
 }
