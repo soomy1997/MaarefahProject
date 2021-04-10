@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_app_1/screens/TutorDetails.dart';
+import 'package:flutter_app_1/screens/tutorDetails.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
 class TutorsList extends StatefulWidget {
@@ -44,8 +44,16 @@ class _TutorsList extends State<TutorsList> {
               .where('role', isEqualTo: 'tutor')
               .snapshots(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) {
+              return Text('Something went wrong');
+            }
             if (!snapshot.hasData) {
               return Center(child: const Text('Loading events...'));
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }
             return GridView.builder(
               gridDelegate:

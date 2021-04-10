@@ -51,7 +51,7 @@ class _HomeCardState extends State<HomeCard> {
                
                 final userDoc = snapshot.data;
                 final user = userDoc.data();
-                if (user['role'] == 'learner') {
+                if (user['role'] == 'learner' || user['role'] == 'pending tutor') {
                   return learnerHomeCard();
                 } else {
                   return tutorHomeCard();

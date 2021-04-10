@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/admin/admin_compnent/dialogs.dart';
 import 'package:flutter_app_1/admin/admin_compnent/sign_out_dialog_box_admin.dart';
 import 'package:flutter_app_1/admin/admin_homepage.dart';
 import 'package:flutter_app_1/admin/manage_session.dart';
@@ -8,7 +9,12 @@ import 'package:flutter_app_1/utils/constants.dart';
 
 import '../session_requests.dart';
 
-class MainDrawer extends StatelessWidget {
+class MainDrawer extends StatefulWidget {
+  @override
+  _MainDrawerState createState() => _MainDrawerState();
+}
+
+class _MainDrawerState extends State<MainDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -138,17 +144,24 @@ class MainDrawer extends StatelessWidget {
                 fontSize: 18,
               ),
             ),
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return SignOutCustomDialogBox(
-                    descriptions: "Are you sure you want to sign out?",
-                    text: "Yes",
-                    text2: "No",
-                  );
-                },
-              );
+            onTap: () async {
+              // showDialog(
+              //   context: context,
+              //   builder: (BuildContext context) {
+              //     return SignOutCustomDialogBox(
+              //       descriptions: "Are you sure you want to sign out?",
+              //       text: "Yes",
+              //       text2: "No",
+              //     );
+              //   },
+              // );
+              final action = await Dialogs.yesAbortDialog(
+                  context, 'Sign Out', 'Are you sure you want to sign out?');
+              if (action == DialogAction.yes){
+                setState(() => null);
+              } else { 
+                setState(() => null);
+              }
             },
           ),
         ],

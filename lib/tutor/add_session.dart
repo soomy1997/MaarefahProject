@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/screen%20messages/tutor_add_session_congrats.dart';
 import 'package:flutter_app_1/services/database.dart';
@@ -19,6 +20,14 @@ class AddSessionPage extends StatefulWidget {
 
   @override
   _AddSessionPage createState() => _AddSessionPage();
+}
+
+//from https://stackoverflow.com/questions/29628989/how-to-capitalize-the-first-letter-of-a-string-in-dart
+extension CapExtension on String {
+  String get inCaps => '${this[0].toUpperCase()}${this.substring(1)}';
+  String get allInCaps => this.toUpperCase();
+  String get capitalizeFirstofEach =>
+      this.split(" ").map((str) => str.inCaps).join(" ");
 }
 
 bool visibilityValue = false;
@@ -101,25 +110,25 @@ class _AddSessionPage extends State<AddSessionPage> {
         FirebaseFirestore.instance
             .runTransaction((Transaction transaction) async {
           CollectionReference reference =
-              FirebaseFirestore.instance.collection('add_session_request');
+              FirebaseFirestore.instance.collection('session');
           await reference.add({
-            'sessionName': sessionName,
-            'session_type': '$valueChoose',
+            'ses_name': sessionName.capitalizeFirstofEach,
+            'ses_type': '$valueChoose',
             'sessionId': '$sessionId',
             'course_name': '$coursesValue',
-            'session_description': '$sessionDescription',
-            'session_location': '$locationGroupValue',
-            'session_requirements': '$sessionRequirements',
-            'session_agenda': '$sessionAgenda',
+            'ses_description': '$sessionDescription',
+            'ses_location': '$locationGroupValue',
+            'ses_requirement': '$sessionRequirements',
+            'ses_agenda': '$sessionAgenda',
             'academic_level': '${_cUser.academicLevel}',
-            'tutorName': '${_cUser.name}',
+            'tutor_name': '${_cUser.name}',
             'tutor_PhoneNum': '${_cUser.phoneNum}',
             'tutor_email': '${_cUser.email}',
-            'session_number_of_hours': sessionNumController.text,
-            'suitable_tutoring_days': '$daysGroupValue',
-            'suitable_session_times': '$timeGroupValue',
+            'ses_period': sessionNumController.text,
+            'session_day': '$daysGroupValue',
+            'session_time': '$timeGroupValue',
             'image_url': '$url',
-            'aproved': 'no',
+            'approved': 'no',
             'searchIndex': indexList,
           });
         });
@@ -130,6 +139,8 @@ class _AddSessionPage extends State<AddSessionPage> {
           ),
           (route) => false,
         );
+        _formKey.currentState.reset();
+        sessionNameController.clear();
       } else {
         setState(() {
           return AutovalidateMode.disabled;
@@ -179,6 +190,11 @@ class _AddSessionPage extends State<AddSessionPage> {
                           url,
                           fit: BoxFit.fill,
                           width: double.infinity,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+
+                            return Center(child: CircularProgressIndicator());
+                          },
                         )
                       : Placeholder(
                           fallbackHeight: 200,
@@ -258,7 +274,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                   items: sessionTypes.map((valueItem) {
                     return DropdownMenuItem(
                       value: valueItem,
-                      child: Text('Type: ' + valueItem),
+                      child: Text(valueItem),
                     );
                   }).toList(),
                 ),
@@ -311,7 +327,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                 TextFormField(
                   maxLines: 3,
                   style: h5,
-                  validator: textAreaValidation,
+                  validator: textAreaValidation2,
                   decoration: textInputDecoratuon.copyWith(
                       hintText: "Enter your text here"),
                   keyboardType: TextInputType.multiline,

@@ -104,9 +104,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   ),
                   GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) {
-                          return ManageTutoingRequestPage();
-                        }));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) {
+                              return ManageTutoingRequestPage();
+                            },
+                          ),
+                        );
                       },
                       child: card2('Totoring requests', Icons.file_copy)),
                 ],

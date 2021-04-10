@@ -1,31 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/admin/admin_session_details.dart';
+import 'package:flutter_app_1/admin/edit_session_details.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-
 import 'admin_compnent/main_drawer.dart';
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(ManageSessions());
-}
-
-class ManageSessions extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Manage Sessions',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: ManageSessionsPage(),
-    );
-  }
-}
 
 class ManageSessionsPage extends StatefulWidget {
   @override
@@ -47,7 +24,8 @@ class _ManageSessionsPageState extends State<ManageSessionsPage> {
         //
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
-              .collection('add_session_request')
+              .collection('session')
+              .where('approved', isEqualTo: 'yes')
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return LinearProgressIndicator();
@@ -107,7 +85,7 @@ class _ManageSessionsPageState extends State<ManageSessionsPage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        SessionDetailsPage(id: record.sessionId)),
+                        EditSessionDetailsPage(id: record.sessionId)),
               );
             },
             child: Text(
@@ -117,7 +95,6 @@ class _ManageSessionsPageState extends State<ManageSessionsPage> {
           showEditIcon: true,
         ),
       ],
-      selected: true | false,
     );
   }
 }
@@ -130,11 +107,11 @@ class Record {
 
   Record.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['sessionId'] != null),
-        assert(map['sessionName'] != null),
-        assert(map['tutorName'] != null),
+        assert(map['ses_name'] != null),
+        assert(map['tutor_name'] != null),
         sessionId = map['sessionId'],
-        sessionName = map['sessionName'],
-        tutorName = map['tutorName'];
+        sessionName = map['ses_name'],
+        tutorName = map['tutor_name'];
 
   Record.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data(), reference: snapshot.reference);

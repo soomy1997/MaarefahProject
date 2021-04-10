@@ -3,7 +3,7 @@ import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_app_1/tutor/tutor_component/TutorsList.dart';
+import 'package:flutter_app_1/tutor/tutor_component/tutorsList.dart';
 import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
