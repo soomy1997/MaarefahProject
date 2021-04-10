@@ -15,7 +15,10 @@ class _HomeScreenState extends State<HomePage> {
 
   Stream _data;
   Stream getDetails() {
-    return FirebaseFirestore.instance.collection('session').snapshots();
+    return FirebaseFirestore.instance
+        .collection('session')
+        .where('approved', isEqualTo: 'yes')
+        .snapshots();
   }
 
   navigateToCourseDetails(DocumentSnapshot post) {
