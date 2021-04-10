@@ -5,6 +5,8 @@ import 'package:flutter_app_1/admin/admin_compnent/main_drawer.dart';
 import 'package:flutter_app_1/admin/session_requests.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
+import 'admin_compnent/dialogs.dart';
+
 class SessionDetailsPage extends StatefulWidget {
   final String id;
   SessionDetailsPage({@required this.id});
@@ -417,29 +419,37 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
         minWidth: 190,
         padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
         disabledColor: Colors.grey,
-        onPressed: () {
-          setState(() {
-            approvalstate = true;
-          });
-          FirebaseFirestore.instance
-              .collection('session')
-              .where('sessionId', isEqualTo: this.id)
-              .get()
-              .then((value) => value.docs.forEach((element) {
-                    element.reference.update({
-                      'approved': 'yes',
-                      'state': '$stateGroupValue',
-                      'ses_date': '$selectedDate',
-                    }).then(
-                      (value) => print('Success!'),
-                    );
-                  }));
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SessionRequestPage(),
-            ),
-          );
+        onPressed: () async {
+          final action = await Dialogs.yesAbortDialog(context, 'Sure?',
+              'Are you sure you want\n to approve this session?');
+          if (action == DialogAction.yes) {
+            setState(
+              () => FirebaseFirestore.instance
+                  .collection('session')
+                  .where('sessionId', isEqualTo: this.id)
+                  .get()
+                  .then((value) => value.docs.forEach((element) {
+                        element.reference.update({
+                          'approved': 'yes',
+                          'state': '$stateGroupValue',
+                          'ses_date': '$selectedDate',
+                        }).then(
+                          (value) => print('Success!'),
+                        );
+                      })),
+            );
+            setState(() {
+              approvalstate = true;
+            });
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SessionRequestPage(),
+              ),
+            );
+          } else {
+            setState(() => null);
+          }
         },
         child: Text("Approve",
             textAlign: TextAlign.center, style: yellowButtonsTextStyle),

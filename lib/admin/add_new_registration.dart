@@ -154,19 +154,17 @@ class _AddNewRegisterState extends State<AddNewRegister> {
         });
       },
     );
-
     final loginButon = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(10.0),
-      color: Color(0xffF9A21B),
+      color: accentYellow,
       child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
+        height: 50,
+        minWidth: 190,
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
         onPressed: _submit,
         child: Text("Add New registration",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.normal)),
+            textAlign: TextAlign.center, style: yellowButtonsTextStyle),
       ),
     );
 
@@ -174,21 +172,6 @@ class _AddNewRegisterState extends State<AddNewRegister> {
       appBar: myAppBar2(
         context,
         title: 'Manage Registration',
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-              backgroundColor: Colors.blue),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.exit_to_app),
-              label: 'Sign Out',
-              backgroundColor: Colors.blue),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue[800],
-        onTap: _onItemTapped,
       ),
       body: buildCenter(
           passwordField, loginButon, userNameField, emailField, optionFild),
