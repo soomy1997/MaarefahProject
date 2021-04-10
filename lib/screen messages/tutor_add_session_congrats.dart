@@ -13,7 +13,7 @@ class _Congrats extends State<AddSessionCongrats> {
     final gotItButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(10.0),
-      color: Color(0xffF9A21B),
+      color: accentYellow,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
