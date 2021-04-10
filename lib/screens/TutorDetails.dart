@@ -40,12 +40,12 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
   }
 
   Stream<dynamic> getSessionsByTutor() {
-    var tname = widget.post.data()['name'];
+    // var tname = ;
     Stream<QuerySnapshot> x = FirebaseFirestore.instance
         .collection('session')
         .where(
           "tutor_name",
-          isEqualTo: tname,
+          isEqualTo: widget.post.data()['name'],
         )
         .where('approved', isEqualTo: 'yes')
         .snapshots();
@@ -55,12 +55,12 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
 
   int docCount = 0;
   Future<void> countSessions() async {
-    var tname = widget.post.data()['name'];
+    // var tname = ;
     QuerySnapshot x = await FirebaseFirestore.instance
         .collection('session')
         .where(
           "tutor_name",
-          isEqualTo: tname,
+          isEqualTo: widget.post.data()['name'],
         )
         .where('approved', isEqualTo: 'yes')
         .get();
@@ -72,12 +72,12 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
 
   int docCount2 = 0;
   Future<void> countReviews() async {
-    var tname = widget.post.data()['name'];
+    //var tname = ;
     QuerySnapshot x = await FirebaseFirestore.instance
         .collection('ratings')
         .where(
           "tutor_name",
-          isEqualTo: tname,
+          isEqualTo: widget.post.data()['name'],
         )
         .get();
     setState(() {
@@ -97,7 +97,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
 
   @override
   Widget build(BuildContext context) {
-    var thetutorname = widget.post.data()['name'];
+    // var thetutorname = widget.post.data()['name'];
     countSessions();
     return Scaffold(
       appBar: myAppBar1(
@@ -132,7 +132,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                     padding: EdgeInsets.fromLTRB(4, 20, 4, 20),
                     width: 300,
                     height: 70,
-                    child: Text(thetutorname,
+                    child: Text(widget.post.data()['name'],
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold)),
                   )
@@ -246,7 +246,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                       height: 220,
                       child: printreview()),
                   Container(
-                    child: sendreview(thetutorname),
+                    child: sendreview(widget.post.data()['name']),
                   ),
                 ],
               ),
@@ -339,13 +339,13 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
   }
 
   Widget printreview() {
-    var tname = widget.post.data()['name'];
+    // var tname = ;
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('ratings')
             .where(
               "tutor_name",
-              isEqualTo: tname,
+              isEqualTo: widget.post.data()['name'],
             )
             .snapshots(),
         builder: (context, snapshot) {
@@ -353,6 +353,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
             return Center(
                 child: const Text('There are no reviews on this tutor...'));
           }
+          
           return ListView.builder(
             itemCount: snapshot.data.docs.length,
             itemBuilder: (context, index) {
@@ -474,6 +475,9 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
         child: StreamBuilder(
           stream: x,
           builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: const Text('No sessions made yet...'));
+            }
             return ListView.builder(
               padding: const EdgeInsets.all(8),
               scrollDirection: Axis.horizontal,
