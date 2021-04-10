@@ -97,7 +97,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
 
   @override
   Widget build(BuildContext context) {
-    var thetutorname = widget.post.data()['name'];
+    var thetutorname = widget.post.data()['uid'];
     countSessions();
     return Scaffold(
       appBar: myAppBar1(
@@ -132,7 +132,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                     padding: EdgeInsets.fromLTRB(4, 20, 4, 20),
                     width: 300,
                     height: 70,
-                    child: Text(thetutorname,
+                    child: Text(widget.post.data()['name'],
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold)),
                   )
@@ -258,7 +258,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
   }
 
   Widget sendreview(dynamic aa) {
-    if (aa != _cUser.name) {
+    if (aa != _cUser.uid) {
       return Form(
         key: _formKey,
         child: Column(
