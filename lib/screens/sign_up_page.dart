@@ -66,7 +66,7 @@ class _SignUpPageState extends State<SignUpPage> {
       obscureText: true,
       validator: (input) {
         if (input.isEmpty) {
-          return "this field is required";
+          return "This field is required";
         }
         if (input != passController.text) {
           return "The Password and its confirmation do not match";
@@ -93,7 +93,7 @@ class _SignUpPageState extends State<SignUpPage> {
       validator: (input) {
         password = input;
         if (input.isEmpty) {
-          return "this field is required";
+          return "This field is required";
         }
         if (input.length < 7) {
           return "The Password must be at least 7 character and include a combination of uppercase , lowercase letters & numbers";
@@ -284,7 +284,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     SizedBox(
                       child: TextButton(
-                        child: Text("Already have account? Sign In.",
+                        child: Text("Already have account? Sign In",
                             textAlign: TextAlign.center,
                             style: style.copyWith(
                                 color: Colors.black,
