@@ -1,0 +1,48 @@
+2021/03/31-16:21:38.835 c06b Reusing MANIFEST /private/var/folders/8f/v_tnc3r146g93bj_gvp4r8wc0000gn/T/flutter_tools.gMp0Nc/flutter_tools_chrome_device.11yScN/Default/IndexedDB/http_localhost_60675.indexeddb.leveldb/MANIFEST-000001
+2021/03/31-16:21:38.835 c06b Recovering log #50
+2021/03/31-16:21:38.835 c06b Reusing old log /private/var/folders/8f/v_tnc3r146g93bj_gvp4r8wc0000gn/T/flutter_tools.gMp0Nc/flutter_tools_chrome_device.11yScN/Default/IndexedDB/http_localhost_60675.indexeddb.leveldb/000050.log 
+2021/03/31-16:21:39.126 1753f Level-0 table #56: started
+2021/03/31-16:21:39.275 1753f Level-0 table #56: 580 bytes OK
+2021/03/31-16:21:39.503 1753f Delete type=0 #50
+2021/03/31-16:21:39.534 1fd33 Manual compaction at level-0 from '\x00\x13\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x14\x00\x00\x00' @ 0 : 0; will stop at (end)
+2021/03/31-16:29:50.940 c06b Level-0 table #58: started
+2021/03/31-16:29:51.040 c06b Level-0 table #58: 2236 bytes OK
+2021/03/31-16:29:51.151 c06b Delete type=0 #55
+2021/03/31-16:29:51.154 c06b Manual compaction at level-0 from '\x00\x14\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x15\x00\x00\x00' @ 0 : 0; will stop at '\x00\x14\x00\x00\x05' @ 1057 : 1
+2021/03/31-16:29:51.154 c06b Compacting 1@0 + 1@1 files
+2021/03/31-16:29:51.244 c06b Generated table #59@0: 27 keys, 1299 bytes
+2021/03/31-16:29:51.244 c06b Compacted 1@0 + 1@1 files => 1299 bytes
+2021/03/31-16:29:51.457 c06b compacted to: files[ 0 1 1 0 0 0 0 ]
+2021/03/31-16:29:51.458 c06b Delete type=2 #58
+2021/03/31-16:29:51.459 12c3b Manual compaction at level-0 from '\x00\x14\x00\x00\x05' @ 1057 : 1 .. '\x00\x15\x00\x00\x00' @ 0 : 0; will stop at (end)
+2021/03/31-16:29:58.239 f49b Level-0 table #61: started
+2021/03/31-16:29:58.342 f49b Level-0 table #61: 2242 bytes OK
+2021/03/31-16:29:58.472 f49b Delete type=0 #57
+2021/03/31-16:29:58.473 f49b Delete type=2 #56
+2021/03/31-16:29:58.474 896f Manual compaction at level-0 from '\x00\x15\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x16\x00\x00\x00' @ 0 : 0; will stop at '\x00\x15\x00\x00\x05' @ 1114 : 1
+2021/03/31-16:29:58.474 896f Compacting 1@0 + 1@1 files
+2021/03/31-16:29:58.525 896f Generated table #62@0: 43 keys, 1461 bytes
+2021/03/31-16:29:58.526 896f Compacted 1@0 + 1@1 files => 1461 bytes
+2021/03/31-16:29:58.660 896f compacted to: files[ 0 1 1 0 0 0 0 ]
+2021/03/31-16:29:58.662 896f Delete type=2 #61
+2021/03/31-16:29:58.663 896f Manual compaction at level-0 from '\x00\x15\x00\x00\x05' @ 1114 : 1 .. '\x00\x16\x00\x00\x00' @ 0 : 0; will stop at (end)
+2021/03/31-18:02:08.337 21d3b Level-0 table #64: started
+2021/03/31-18:02:08.452 21d3b Level-0 table #64: 1584 bytes OK
+2021/03/31-18:02:08.537 21d3b Delete type=2 #59
+2021/03/31-18:02:08.537 21d3b Delete type=0 #60
+2021/03/31-18:02:08.539 21d3b Manual compaction at level-0 from (begin) .. (end); will stop at '\x00\x03\x01\x02\x01\x0d\x00_\x00_\x00s\x00a\x00k\x005\x000\x009\x002\x001\x006\x007\x007' @ 1159 : 1
+2021/03/31-18:02:08.539 21d3b Compacting 1@0 + 1@1 files
+2021/03/31-18:02:08.610 21d3b Generated table #65@0: 55 keys, 1557 bytes
+2021/03/31-18:02:08.610 21d3b Compacted 1@0 + 1@1 files => 1557 bytes
+2021/03/31-18:02:08.662 21d3b compacted to: files[ 0 1 1 0 0 0 0 ]
+2021/03/31-18:02:08.662 21d3b Delete type=2 #62
+2021/03/31-18:02:08.662 21d3b Delete type=2 #64
+2021/03/31-18:02:08.663 21d3b Manual compaction at level-0 from '\x00\x03\x01\x02\x01\x0d\x00_\x00_\x00s\x00a\x00k\x005\x000\x009\x002\x001\x006\x007\x007' @ 1159 : 1 .. (end); will stop at (end)
+2021/03/31-18:02:08.663 21d3b Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x03\x00\x002\x01\x04' @ 1154 : 1
+2021/03/31-18:02:08.663 21d3b Compacting 1@1 + 1@2 files
+2021/03/31-18:02:08.741 21d3b Generated table #66@1: 33 keys, 1411 bytes
+2021/03/31-18:02:08.741 21d3b Compacted 1@1 + 1@2 files => 1411 bytes
+2021/03/31-18:02:08.810 21d3b compacted to: files[ 0 0 1 0 0 0 0 ]
+2021/03/31-18:02:08.811 21d3b Delete type=2 #65
+2021/03/31-18:02:08.811 21d3b Delete type=2 #53
+2021/03/31-18:02:08.812 21d3b Manual compaction at level-1 from '\x00\x03\x00\x002\x01\x04' @ 1154 : 1 .. (end); will stop at (end)

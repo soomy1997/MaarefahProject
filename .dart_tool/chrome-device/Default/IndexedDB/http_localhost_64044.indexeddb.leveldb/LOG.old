@@ -1,0 +1,26 @@
+2021/04/07-05:32:54.199 2134b Reusing MANIFEST /private/var/folders/8f/v_tnc3r146g93bj_gvp4r8wc0000gn/T/flutter_tools.P1mXgN/flutter_tools_chrome_device.ZL0hUi/Default/IndexedDB/http_localhost_64044.indexeddb.leveldb/MANIFEST-000001
+2021/04/07-05:32:54.200 2134b Recovering log #6
+2021/04/07-05:32:54.200 2134b Reusing old log /private/var/folders/8f/v_tnc3r146g93bj_gvp4r8wc0000gn/T/flutter_tools.P1mXgN/flutter_tools_chrome_device.ZL0hUi/Default/IndexedDB/http_localhost_64044.indexeddb.leveldb/000006.log 
+2021/04/07-05:32:54.601 2156b Level-0 table #11: started
+2021/04/07-05:32:54.678 2156b Level-0 table #11: 579 bytes OK
+2021/04/07-05:32:54.961 2156b Delete type=0 #6
+2021/04/07-05:32:54.977 2781f Manual compaction at level-0 from '\x00\x04\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at (end)
+2021/04/07-05:38:41.950 ff1f Level-0 table #13: started
+2021/04/07-05:38:42.050 ff1f Level-0 table #13: 1601 bytes OK
+2021/04/07-05:38:42.186 ff1f Delete type=0 #10
+2021/04/07-05:38:42.195 ff1f Manual compaction at level-0 from (begin) .. (end); will stop at '\x00\x03\x01\x02\x01\x0e\x00_\x00_\x00s\x00a\x00k\x001\x009\x002\x009\x002\x008\x005\x009\x002' @ 190 : 1
+2021/04/07-05:38:42.195 ff1f Compacting 1@0 + 1@1 files
+2021/04/07-05:38:42.252 ff1f Generated table #14@0: 23 keys, 1231 bytes
+2021/04/07-05:38:42.285 ff1f Compacted 1@0 + 1@1 files => 1231 bytes
+2021/04/07-05:38:42.335 ff1f compacted to: files[ 0 1 1 0 0 0 0 ]
+2021/04/07-05:38:42.337 ff1f Delete type=2 #13
+2021/04/07-05:38:42.337 ff1f Delete type=2 #11
+2021/04/07-05:38:42.338 ff1f Manual compaction at level-0 from '\x00\x03\x01\x02\x01\x0e\x00_\x00_\x00s\x00a\x00k\x001\x009\x002\x009\x002\x008\x005\x009\x002' @ 190 : 1 .. (end); will stop at (end)
+2021/04/07-05:38:42.339 ff1f Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x03\x00\x002\x01\x04' @ 185 : 1
+2021/04/07-05:38:42.339 ff1f Compacting 1@1 + 1@2 files
+2021/04/07-05:38:42.411 ff1f Generated table #15@1: 33 keys, 1405 bytes
+2021/04/07-05:38:42.443 ff1f Compacted 1@1 + 1@2 files => 1405 bytes
+2021/04/07-05:38:42.498 ff1f compacted to: files[ 0 0 1 0 0 0 0 ]
+2021/04/07-05:38:42.498 ff1f Delete type=2 #14
+2021/04/07-05:38:42.498 ff1f Delete type=2 #8
+2021/04/07-05:38:42.501 ff1f Manual compaction at level-1 from '\x00\x03\x00\x002\x01\x04' @ 185 : 1 .. (end); will stop at (end)
