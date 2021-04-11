@@ -82,7 +82,6 @@ class _ManageRegistrationState extends State<ManageRegistration> {
                         DataColumn(label: Text('Session Name')),
                         DataColumn(label: Text('Session Id')),
                         DataColumn(label: Text('Tutor Name')),
-                        DataColumn(label: Text('Edit')),
                         DataColumn(label: Text('Delete')),
                       ],
                       rows: _buildList(context, snapshot.data.docs),
@@ -118,15 +117,6 @@ class _ManageRegistrationState extends State<ManageRegistration> {
         DataCell(Text(record.sessionName)),
         DataCell(Text(record.sessionId)),
         DataCell(Text(record.tutorName)),
-        DataCell(
-          IconButton(
-            icon: Icon(
-              Icons.edit,
-              color: accentYellow,
-            ),
-            onPressed: () {},
-          ),
-        ),
         DataCell(
           Icon(
             Icons.delete,
