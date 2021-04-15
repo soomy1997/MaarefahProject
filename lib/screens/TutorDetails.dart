@@ -166,7 +166,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Sessions', style: style),
+                        Text('Sesssions', style: style),
                       ],
                     ),
                   ],
