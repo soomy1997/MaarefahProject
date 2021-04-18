@@ -9,7 +9,7 @@ class ShareDialog1 extends StatefulWidget {
 class _ShareDialogState extends State<ShareDialog1> {
   String msg =
       'hello,there is important session happening now Download Maarefah application ';
-  String base64Image = "data:image/pic2.png";
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -78,8 +78,7 @@ class _ShareDialogState extends State<ShareDialog1> {
                     ],
                   ),
                   onPressed: () {
-                    FlutterShareMe()
-                        .shareToWhatsApp(base64Image: base64Image, msg: msg);
+                    FlutterShareMe().shareToWhatsApp(msg: msg);
                   },
                 ),
                 SizedBox(
