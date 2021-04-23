@@ -251,7 +251,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         (route) => false,
                       );
-                    } else {}
+                    } 
                   },
                   icon: Icon(Icons.logout),
                   label: Text("Sign Out"),

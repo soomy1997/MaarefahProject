@@ -71,7 +71,7 @@ class _TutorsList extends State<TutorsList> {
                       child: Column(
                         children: [
                           CircleAvatar(
-                            backgroundColor: Colors.grey,
+                            backgroundColor: secondaryLightGrey,
                             radius: 45,
                             child: Image.network(
                               snapshot.data.docs[index]['avatar_url'],

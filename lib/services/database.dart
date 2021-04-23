@@ -15,6 +15,7 @@ class OurDatabase {
         'role': user.role,
         'phoneNum': user.phoneNum,
         'teachingOverview': user.teachingOverview,
+        'avatar_url': user.avatarUrl,
       });
       retVal = 'success';
     } catch (e) {
@@ -35,6 +36,7 @@ class OurDatabase {
       retVal.gender = _docSnapshot.data()['gender'];
       retVal.phoneNum = _docSnapshot.data()['phoneNum'];
       retVal.teachingOverview = _docSnapshot.data()['teachingOverview'];
+      retVal.avatarUrl = _docSnapshot.data()['avatar_url'];
     } catch (e) {
       print(e);
     }

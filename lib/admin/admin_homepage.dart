@@ -8,27 +8,6 @@ import 'package:flutter_app_1/admin/mange_registration_admin.dart';
 import 'package:flutter_app_1/admin/session_requests.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(DashBoard());
-}
-
-class DashBoard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Admin Dashboard',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: AdminDashboard(),
-    );
-  }
-}
-
 class AdminDashboard extends StatefulWidget {
   @override
   _AdminDashboardState createState() => _AdminDashboardState();
@@ -39,14 +18,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Admin DashBoard',
-            style: TextStyle(
-              color: Colors.white,
-            )),
-        backgroundColor: secondaryDarkBlue,
-        centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.white),
+      appBar: myAppBar2(
+        context,
+        title: 'Admin DashBoard',
       ),
       endDrawer: Drawer(
         child: MainDrawer(),
@@ -113,7 +87,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           ),
                         );
                       },
-                      child: card2('Totoring requests', Icons.file_copy)),
+                      child: card2('Tutoring requests', Icons.file_copy)),
                 ],
               )
             ],

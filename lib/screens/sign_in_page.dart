@@ -66,12 +66,16 @@ class _SignInPageState extends State<SignInPage> {
           child: Padding(
             padding: const EdgeInsets.all(36.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: 35.0,
-                  child: Text("Sign In", style: h1),
+                  width: MediaQuery.of(context).size.width,
+                  child: Image(
+                    height: 170.0,
+                    width: 150,
+                    image: AssetImage("images/appLogo2.PNG"),
+                  ),
                 ),
                 SizedBox(
                   height: 35.0,
@@ -146,7 +150,7 @@ class _SignInPageState extends State<SignInPage> {
                             fontSize: 15),
                         children: <TextSpan>[
                           TextSpan(
-                            text: ' Create one.',
+                            text: ' Sign Up.',
                             style: style.copyWith(
                                 color: accentYellow, fontSize: 15),
                             recognizer: TapGestureRecognizer()

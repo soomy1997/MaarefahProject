@@ -9,6 +9,7 @@ class OurUser {
   String role;
   String phoneNum;
   String teachingOverview;
+  String avatarUrl;
 
   OurUser({
     this.uid,
@@ -19,6 +20,7 @@ class OurUser {
     this.role,
     this.phoneNum,
     this.teachingOverview,
+    this.avatarUrl,
   });
 
   OurUser.fromDocumentSnapshot({DocumentSnapshot doc}) {
@@ -30,5 +32,6 @@ class OurUser {
     role = doc.data()['role'];
     phoneNum = doc.data()['phoneNum'];
     teachingOverview = doc.data()['teachingOverview'];
+    avatarUrl =doc.data()['avatar_url'];
   }
 }
