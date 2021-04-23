@@ -3,6 +3,7 @@ import 'package:flutter_app_1/models/users.dart';
 
 class OurDatabase {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   Future<String> createUser(OurUser user) async {
     String retVal = 'error';
     try {
@@ -22,6 +23,20 @@ class OurDatabase {
       print(e);
     }
     return retVal;
+  }
+
+  final String uid;
+  OurDatabase({this.uid});
+
+  final CollectionReference brewCollection =
+      FirebaseFirestore.instance.collection('users');
+  Future<void> updateUserData(
+      String name, String email, String academicLevel) async {
+    return await brewCollection.doc(this.uid).set({
+      'name': name,
+      'email': email,
+      'academicLevel': academicLevel,
+    });
   }
 
   Future<OurUser> getuserInfo(String uid) async {

@@ -284,7 +284,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     SizedBox(
                       child: TextButton(
-                        child: Text("Already have account? Sign In.",
+                        child: Text("Already have account? Sign In",
                             textAlign: TextAlign.center,
                             style: style.copyWith(
                                 color: Colors.black,

@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_app_1/services/database.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/screens/course_details.dart';
+import 'package:flutter_app_1/models/users.dart';
 
 class RegisteredSessions extends StatefulWidget {
   @override
@@ -18,6 +21,24 @@ navigateToCourseDetails(BuildContext context, DocumentSnapshot post) {
 }
 
 class _RegisteredSessionsState extends State<RegisteredSessions> {
+  OurUser _currentUser = OurUser();
+  OurUser _cUser = OurUser();
+
+  Future<void> currentUserInfo() async {
+    User _firebaseUser = FirebaseAuth.instance.currentUser;
+    _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
+
+    setState(() {
+      _cUser = _currentUser;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    currentUserInfo();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: myAppBar1(
@@ -37,6 +58,7 @@ class _RegisteredSessionsState extends State<RegisteredSessions> {
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('registration')
+                    .where('uid', isEqualTo: _cUser.uid)
                     .snapshots(),
                 builder: (context, snapshot) {
                   return ListView.builder(
