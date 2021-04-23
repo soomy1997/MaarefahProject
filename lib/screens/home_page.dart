@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_1/component/home_card.dart';
 import 'package:flutter_app_1/screens/course_details.dart';
 import 'package:flutter_app_1/utils/constants.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -102,6 +103,7 @@ class _HomeScreenState extends State<HomePage> {
                     ? FirebaseFirestore.instance
                         .collection('session')
                         .where("searchIndex", arrayContains: sesName)
+                        .where("approved", isEqualTo: 'yes')
                         .snapshots()
                     : _data,
                 builder: (context, snapshot) {
@@ -189,8 +191,7 @@ class _HomeScreenState extends State<HomePage> {
                                                                     .only(
                                                                 left: 5.0),
                                                         child: Text(
-                                                          doc.data()[
-                                                              'session_date'],
+                                                          "${doc.data()['ses_date']}",
                                                           style: TextStyle(
                                                             color: Colors
                                                                 .grey.shade800,

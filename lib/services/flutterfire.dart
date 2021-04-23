@@ -5,11 +5,30 @@ import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/services/database.dart';
 
 class CurrentUser extends ChangeNotifier {
+  CurrentUser currentusr;
   OurUser _currentUser = OurUser();
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   OurUser get getCurrntUser => _currentUser;
+
+  Future<bool> validatePassword(String password) async {
+    var firebaseUser = await _auth.currentUser;
+    var authCredentials = EmailAuthProvider.credential(
+        email: firebaseUser.email, password: password);
+    try {
+      var authResult =
+          await firebaseUser.reauthenticateWithCredential(authCredentials);
+      return authResult.user != null;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> validateCurrentPassword(String password) async {
+    return await validatePassword(password);
+  }
 
   static saveUser(User user) {
     Map<String, String> userData = {
@@ -71,6 +90,8 @@ class CurrentUser extends ChangeNotifier {
       _user.role = 'learner';
       _user.phoneNum = '';
       _user.teachingOverview = '';
+      _user.avatarUrl =
+          'https://firebasestorage.googleapis.com/v0/b/ma-arefah-app.appspot.com/o/tutoravatars%2FdefaultAvatar.png?alt=media&token=7970deb7-cd62-401c-8e31-7936adb9d454';
       String _returnString = await OurDatabase().createUser(_user);
       if (_returnString == 'success') {
         return 'success';
