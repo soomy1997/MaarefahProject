@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app_1/admin/admin_compnent/dialogs.dart';
+
 import 'package:flutter_app_1/utils/constants.dart';
-import 'package:flutter_app_1/admin/admin_compnent/successful_register_dialog.dart' as a;
+import 'package:flutter_app_1/admin/admin_compnent/successful_register_dialog.dart'
+    as a;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_app_1/services/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_app_1/models/users.dart';
 
 import 'tutorDetails.dart';
 
@@ -24,8 +30,50 @@ class _CourseDetailsState extends State<CourseDetails> {
                 )));
   }
 
+  //getting current user information
+  OurUser _currentUser = OurUser();
+  OurUser _cUser;
+  OurUser get getCurrntUser => _currentUser;
+  Future<void> getUserInfo() async {
+    User _firebaseUser = FirebaseAuth.instance.currentUser;
+    _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
+    setState(() {
+      _cUser = _currentUser;
+    });
+  }
+
+  User user;
+  Future<void> getUserData() async {
+    User userData = FirebaseAuth.instance.currentUser;
+    setState(() {
+      user = userData;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
+    void _sendToServer() {
+      FirebaseFirestore.instance
+          .runTransaction((Transaction transaction) async {
+        CollectionReference reference =
+            FirebaseFirestore.instance.collection('registration');
+        await reference.add({
+          'ses_name': '${widget.post.data()["ses_name"]}',
+          'l_name': '${_cUser.name}',
+          'sessionId': '${widget.post.data()["sessionId"]}',
+          'course_name': '${widget.post.data()['course_name']}',
+          'academic_level': '${_cUser.academicLevel}',
+          'uid': '${_cUser.uid}'
+        });
+      });
+    }
+
     return Scaffold(
       appBar: myAppBar1(
         context,
@@ -51,47 +99,69 @@ class _CourseDetailsState extends State<CourseDetails> {
             padding: const EdgeInsets.only(bottom: 20, top: 10),
             child: Image.network(widget.post.data()['image_url']),
             height: 180,
-            width: MediaQuery.of(context).size.width,
           ),
           Container(
             padding: const EdgeInsets.only(bottom: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                MaterialButton(
-                  highlightColor: Color(0xffB36D05),
-                  height: 50,
-                  minWidth: 190,
-                  color: accentYellow,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
+                SizedBox(
+                  child: MaterialButton(
+                    highlightColor: accentOrange,
+                    height: 50,
+                    color: accentYellow,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      ' Register Session',
+                      style: yellowButtonsTextStyle,
+                    ),
+                    onPressed: () async {
+                      final action = await WarningDialogs.yesAbortDialog(
+                          context,
+                          " ",
+                          "Are you sure you want to \nregister in this session?");
+                      if (action == DialogAction.yes) {
+                        setState(() => _sendToServer());
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return a.AlertDialog1();
+                            });
+                      } else {
+                        setState(() => null);
+                      }
+                    },
                   ),
-                  child: Text(
-                    ' Register Session',
-                    style: yellowButtonsTextStyle,
-                  ),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return a.AlertDialog1();
-                      },
-                    );
-                  },
                 ),
-                MaterialButton(
-                  height: 50,
-                  minWidth: 190,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  color: Colors.white,
-                  child: Text(
-                    'Zoom Meeting',
-                    style: whiteButtonsTextStyle.copyWith(
-                        color: Colors.indigoAccent.shade700),
-                  ),
-                  onPressed: () {},
+                Visibility(
+                  visible: true,
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('registration')
+                          .where('uid', isEqualTo: _cUser.uid)
+                          .where('sessionId',
+                              isEqualTo: widget.post.data()['sessionId'])
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData)
+                          return MaterialButton(
+                            height: 50,
+                            minWidth: 190,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            color: Colors.white,
+                            child: Text(
+                              'Zoom Meeting',
+                              style: whiteButtonsTextStyle.copyWith(
+                                  color: Colors.indigoAccent.shade700),
+                            ),
+                            onPressed: () {},
+                          );
+                        return SizedBox();
+                      }),
                 )
               ],
             ),
@@ -220,3 +290,12 @@ class _CourseDetailsState extends State<CourseDetails> {
     );
   }
 }
+
+
+
+
+/* _sendToServer();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return a.AlertDialog1();*/

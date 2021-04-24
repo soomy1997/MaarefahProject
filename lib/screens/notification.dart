@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_app_1/services/MessagingWidget.dart';
 
 import '../utils/constants.dart';
 
@@ -153,9 +156,11 @@ class _NotificationPage extends State<NotificationPage> {
           context,
           title: 'Notifications',
         ),
-        body: Container(
+        body: Container(child: MessagingWidget()));
+
+    /*Container(
           child: notificationList.isEmpty ? messageWidget() : notifications(),
-        ));
+        ));*/
   }
 }
 

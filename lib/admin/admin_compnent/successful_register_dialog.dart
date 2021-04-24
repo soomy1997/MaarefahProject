@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/utils/constants.dart';
 
 class AlertDialog1 extends StatefulWidget {
   @override
@@ -9,7 +10,7 @@ class _AlertDialogState extends State<AlertDialog1> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: buildStac());
   }
 
@@ -19,27 +20,21 @@ class _AlertDialogState extends State<AlertDialog1> {
       alignment: Alignment.topCenter,
       children: [
         Container(
-          height: 260,
+          height: 200,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
+            padding: const EdgeInsets.fromLTRB(10, 50, 10, 10),
             child: Column(
               children: [
-                SizedBox(
-                  height: 10,
-                ),
                 Text(
-                  'You successfuly registered the session',
-                  style: TextStyle(fontSize: 20),
+                  'You successfuly registered \nthe session',
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
-                  height: 70,
+                  height: 40,
                 ),
                 SizedBox(
-                  height: 40,
-                  width: 250,
                   child: MaterialButton(
-                    color: Colors.orangeAccent[400],
+                    color: accentYellow,
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -53,18 +48,6 @@ class _AlertDialogState extends State<AlertDialog1> {
             ),
           ),
         ),
-        Positioned(
-          child: CircleAvatar(
-            backgroundColor: Colors.orangeAccent[400],
-            radius: 50,
-            child: Icon(
-              Icons.check_outlined,
-              size: 50,
-              color: Colors.white,
-            ),
-          ),
-          top: -60,
-        )
       ],
     );
   }

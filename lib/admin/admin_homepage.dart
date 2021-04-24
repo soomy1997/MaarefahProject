@@ -113,7 +113,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           ),
                         );
                       },
-                      child: card2('Totoring requests', Icons.file_copy)),
+                      child: card2('Tutoring requests', Icons.file_copy)),
                 ],
               )
             ],
