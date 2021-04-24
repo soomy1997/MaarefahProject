@@ -132,7 +132,7 @@ class _TaughtSessionsState extends State<TaughtSessions> {
                                                       const EdgeInsets.only(
                                                           left: 5.0),
                                                   child: Text(
-                                                    doc.data()['session_date'],
+                                                    doc.data()['ses_date'],
                                                     style: TextStyle(
                                                       color:
                                                           Colors.grey.shade800,
