@@ -1,26 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/admin/admin_homepage.dart';
+import 'package:flutter_app_1/admin/services/admin_flutterfire.dart';
+import 'package:flutter_app_1/utils/constants.dart';
+import 'package:provider/provider.dart';
 
-class SignPage extends StatefulWidget {
-  SignPage({Key key, this.title}) : super(key: key);
+class AdminSignPage extends StatefulWidget {
+  AdminSignPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _SignPageState createState() => _SignPageState();
+  _AdminSignPageState createState() => _AdminSignPageState();
 }
 
-class _SignPageState extends State<SignPage> {
+class _AdminSignPageState extends State<AdminSignPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   final formKey = GlobalKey<FormState>();
   final TextEditingController passController = TextEditingController();
-  final TextEditingController pass2Controller = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   var password = "";
-  var userName = "";
-  var confirmPassword = "";
-  var gray = Colors.grey;
-  var red = Colors.red;
+  
   var color = Colors.grey;
-  var textColor = Colors.black;
+
+  void _loginUser(String email, String password, BuildContext context) async {
+    CurrentAdmin _currentUser =
+        Provider.of<CurrentAdmin>(context, listen: false);
+    try {
+      String _returnString = await _currentUser.loginUser(email, password);
+
+      if (_returnString == 'success') {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AdminDashboard(),
+          ),
+          (route) => false,
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Icorrect login info'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +59,6 @@ class _SignPageState extends State<SignPage> {
         }
         if (input.length < 7) {
           return "The Password must be at least 7 character and include a combination of uppercase , lowercase letters & numbers";
-        }
-        if (input != password) {
-          return "The Password and its confirmation do not match";
         }
         if (!validateStructure(input)) {
           return "The Password must be at least 7 character and include a combination of uppercase , lowercase letters & numbers";
@@ -56,26 +80,19 @@ class _SignPageState extends State<SignPage> {
               borderSide: BorderSide(color: color, width: 15.0),
               borderRadius: BorderRadius.circular(5.0))),
     );
-    final userNameField = TextFormField(
-      obscureText: true,
-      controller: pass2Controller,
-      validator: (input) {
-        userName = input;
-        if (input.isEmpty) {
-          return "this field is required";
-        }
-
-        return null;
-      },
+    final emailNameField = TextFormField(
+      obscureText: false,
+      controller: emailController,
+      validator: emailValidation,
       style: TextStyle(fontSize: 18),
       decoration: InputDecoration(
           errorMaxLines: 3,
           prefixIcon: Icon(
-            Icons.perm_identity,
+            Icons.email,
             color: color,
           ),
           contentPadding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
-          hintText: "username",
+          hintText: "Email",
           border: OutlineInputBorder(
               borderSide: BorderSide(color: color, width: 15.0),
               borderRadius: BorderRadius.circular(5.0))),
@@ -96,32 +113,32 @@ class _SignPageState extends State<SignPage> {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: InkWell(
-              child: Icon(
-                Icons.close,
-                color: Colors.white,
-              ),
-            ),
-          )
-        ],
-        leading: InkWell(
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: Color(0xff14213C),
-      ),
-      body: buildCenter(passwordField, loginButon, userNameField),
+      // appBar: AppBar(
+      //   actions: [
+      //     Padding(
+      //       padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      //       child: InkWell(
+      //         child: Icon(
+      //           Icons.close,
+      //           color: Colors.white,
+      //         ),
+      //       ),
+      //     )
+      //   ],
+      //   leading: InkWell(
+      //     child: Icon(
+      //       Icons.arrow_back_ios,
+      //       color: Colors.white,
+      //     ),
+      //   ),
+      //   backgroundColor: Color(0xff14213C),
+      // ),
+      body: buildCenter(passwordField, loginButon, emailNameField),
     );
   }
 
   Widget buildCenter(TextFormField passwordField, Material loginButon,
-      TextFormField userNameField) {
+      TextFormField emailNameField) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: SingleChildScrollView(
@@ -144,8 +161,7 @@ class _SignPageState extends State<SignPage> {
                   SizedBox(
                     height: 15,
                   ),
-                  Text(
-                      "Enter your Username and password for signing in. Thanks",
+                  Text("Enter your Email and password for signing in. Thanks",
                       textAlign: TextAlign.center,
                       style: style.copyWith(
                         fontSize: 16,
@@ -157,7 +173,7 @@ class _SignPageState extends State<SignPage> {
                   SizedBox(
                     height: 20.0,
                     width: double.infinity,
-                    child: Text("Username",
+                    child: Text("Email",
                         textAlign: TextAlign.start,
                         style: style.copyWith(
                             color: Colors.black,
@@ -165,7 +181,7 @@ class _SignPageState extends State<SignPage> {
                             fontSize: 15)),
                   ),
                   SizedBox(height: 10.0),
-                  userNameField,
+                  emailNameField,
                   SizedBox(height: 10.0),
                   SizedBox(
                     height: 20.0,
@@ -195,14 +211,9 @@ class _SignPageState extends State<SignPage> {
   _submit() {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
-      // here code
+      _loginUser(emailController.text, passController.text, context);
     }
-    if (passController.text.length < 7) {
-      /*setState(() {
-        password="Password Must be at least 7 numbers";
-        textColor=Colors.red;
-      });*/
-    }
+    if (passController.text.length < 7) {}
   }
 
   bool validateStructure(String value) {

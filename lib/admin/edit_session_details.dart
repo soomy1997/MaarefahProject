@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_app_1/admin/admin_compnent/dialogs.dart';
 import 'package:flutter_app_1/admin/manage_session.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -19,6 +20,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
   final String id;
   _EditSessionDetailsPage({@required this.id});
   final format = DateFormat("dd-MM-yyyy");
+  String formattedDate;
   String locationValueChoose,
       stateValueChoose,
       sessionTypeValueChoose,
@@ -29,15 +31,16 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
       sessionDescription,
       sessionAgenda,
       sesssionRequirements,
-      tutorName,
-      sessionDate;
+      tutorName;
+
+  DateTime sessionDate;
 
   List coursesList = [
     'CS321 Object Oriented Programming 1',
     'MATH 311: Discrete Math',
     'CS532: Database Design',
     'Operating Systems',
-    'Java Programming: 2 Books in 1'
+    'Java Programming: 2 Books in 1',
   ];
   List levelList = ["4th", "5th", "6th", "7th", "8th", "9th", "10th"];
   List sessionTypes = ["College Courses", "Additional Skills Courses"];
@@ -83,7 +86,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                             Container(
                                 padding: EdgeInsets.all(15),
                                 child: Text(snapshot.data.docs.first
-                                    .data()["sessionId"])),
+                                    .data()['sessionId'])),
                           ]),
                       TableRow(
                           decoration: BoxDecoration(
@@ -104,7 +107,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                   obscureText: false,
                                   validator: nameValidation,
                                   initialValue: snapshot.data.docs.first
-                                      .data()["ses_name"],
+                                      .data()['ses_name'],
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     suffixIcon: Icon(
@@ -188,8 +191,8 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                       'Additional Skills Courses'
                                   ? TextFormField(
                                       obscureText: false,
-                                      //validator: nameValidation,
-                                      initialValue: 'null',
+                                      validator: nameValidation,
+                                      initialValue: 'Not Applicable',
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
                                         suffixIcon: Icon(
@@ -517,7 +520,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                 padding: EdgeInsets.all(15),
                                 child: Text(
                                   snapshot.data.docs.first
-                                      .data()['sesssion_day'],
+                                      .data()['session_day'],
                                 )),
                           ]),
                       TableRow(
@@ -588,10 +591,10 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                                   BorderRadius.circular(5.0))),
                                       resetIcon: null,
                                       validator: textReviewValidation,
-                                      initialValue:
-                                          DateTime.parse(sesDate.text),
+                                      initialValue: DateTimeField.tryParse(
+                                          sesDate.text, format),
                                       onSaved: (val) {
-                                        sessionDate = val.toString();
+                                        sessionDate = val;
                                       },
                                     ),
                                   ),
@@ -612,9 +615,12 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
       child: MaterialButton(
         padding: EdgeInsets.fromLTRB(48.0, 0, 48.0, 0),
         disabledColor: Colors.grey,
-        onPressed: () {
-          if (_formKey.currentState.validate()) {
-            _formKey.currentState.save();
+        onPressed: () async {
+          // if (_formKey.currentState.validate()) {
+          _formKey.currentState.save();
+          final action = await Dialogs.yesAbortDialog(context, 'Are you sure?',
+              'are you sure you want to edit this session?');
+          if (action == DialogAction.yes) {
             FirebaseFirestore.instance
                 .collection('session')
                 .where('sessionId', isEqualTo: this.id)
@@ -631,7 +637,8 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                         'academic_level': '$levelValueChoose',
                         'tutorName': '$tutorName',
                         'state': '$stateValueChoose',
-                        'ses_date': '$sessionDate',
+                        'ses_date':
+                            '${formattedDate = DateFormat('dd-MM-yyyy').format(sessionDate)}',
                       }).then(
                         (value) => print('Success!'),
                       );
@@ -642,7 +649,10 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                 builder: (context) => ManageSessionsPage(),
               ),
             );
+          } else {
+            setState(() => null);
           }
+          //   }
         },
         child: Text("Edit",
             textAlign: TextAlign.center, style: yellowButtonsTextStyle),
@@ -656,26 +666,32 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
       child: MaterialButton(
         padding: EdgeInsets.fromLTRB(40.0, 0, 40.0, 0),
         disabledColor: Colors.grey,
-        onPressed: () {
+        onPressed: () async {
           if (_formKey.currentState.validate()) {
             _formKey.currentState.save();
-            FirebaseFirestore.instance
-                .collection('session')
-                .where('sessionId', isEqualTo: this.id)
-                .get()
-                .then((value) {
-              value.docs.forEach((element) {
-                element.reference.delete().then((value) {
-                  print('Success!');
+            final action = await WarningDialogs.yesAbortDialog(context,
+                'Warning', 'Are you sure you want to delete this session?');
+            if (action == DialogAction.yes) {
+              FirebaseFirestore.instance
+                  .collection('session')
+                  .where('sessionId', isEqualTo: this.id)
+                  .get()
+                  .then((value) {
+                value.docs.forEach((element) {
+                  element.reference.delete().then((value) {
+                    print('Success!');
+                  });
                 });
               });
-            });
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ManageSessionsPage(),
-              ),
-            );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ManageSessionsPage(),
+                ),
+              );
+            } else {
+              setState(() => null);
+            }
           }
         },
         child: Text("Delete",
