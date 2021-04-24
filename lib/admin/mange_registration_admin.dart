@@ -53,7 +53,7 @@ class _ManageRegistrationState extends State<ManageRegistration> {
                         DataColumn(label: Text('Learner name')),
                         DataColumn(label: Text('Session Name')),
                         DataColumn(label: Text('Session Id')),
-                        DataColumn(label: Text('Tutor Name')),
+                        //DataColumn(label: Text('Tutor Name')),
                         DataColumn(label: Text('Delete')),
                       ],
                       rows: _buildList(context, snapshot.data.docs),
@@ -88,7 +88,7 @@ class _ManageRegistrationState extends State<ManageRegistration> {
         DataCell(Text(record.learnerName)),
         DataCell(Text(record.sessionName)),
         DataCell(Text(record.sessionId)),
-        DataCell(Text(record.tutorName)),
+        //DataCell(Text(record.tutorName)),
         DataCell(
           Icon(
             Icons.delete,
@@ -125,7 +125,6 @@ class _ManageRegistrationState extends State<ManageRegistration> {
       },
     );
   }
-
 }
 
 class Record {
@@ -133,7 +132,7 @@ class Record {
   final String sessionId;
   final String learnerName;
   final String sessionName;
-  final String tutorName;
+  // final String tutorName;
   final DocumentReference reference;
 
   Record.fromMap(Map<String, dynamic> map, {this.reference})
@@ -141,17 +140,16 @@ class Record {
         assert(map['l_name'] != null),
         assert(map['ses_name'] != null),
         assert(map['sessionId'] != null),
-        assert(map['tutor_name'] != null),
+        // assert(map['tutor_name'] != null),
         regId = map['reg_id'],
         learnerName = map['l_name'],
         sessionName = map['ses_name'],
-        sessionId = map['sessionId'],
-        tutorName = map['tutor_name'];
+        sessionId = map['sessionId'];
+  //tutorName = map['tutor_name'];
 
   Record.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data(), reference: snapshot.reference);
 
   @override
-  String toString() =>
-      "Record<$regId:$learnerName:$sessionName:$sessionId:$tutorName>";
+  String toString() => "Record<$regId:$learnerName:$sessionName:$sessionId>";
 }

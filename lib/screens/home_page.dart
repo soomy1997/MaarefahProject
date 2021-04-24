@@ -88,6 +88,7 @@ class _HomeScreenState extends State<HomePage> {
           ),
           Container(
             width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.fromLTRB(15, 20, 0, 15),
             child: Text(
               'Current Sessions',
               style: h4,
