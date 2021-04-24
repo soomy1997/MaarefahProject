@@ -257,7 +257,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         (route) => false,
                       );
-                    } 
+                    }
                   },
                   icon: Icon(Icons.logout),
                   label: Text("Sign Out"),
@@ -736,7 +736,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ],
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditAccountPage()),
+                    );
+                  },
                 ),
               ),
               CircleAvatar(
