@@ -13,6 +13,7 @@ import 'package:flutter_app_1/services/flutterfire.dart';
 import 'package:provider/provider.dart';
 import 'About.dart';
 import 'package:flutter_app_1/utils/constants.dart';
+import 'package:flutter_app_1/tutor/taught_sessions.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -147,7 +148,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: TextStyle(
                         fontSize: 16,
                       )),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TaughtSessions()),
+                    );
+                  },
                 ),
                 ListTile(
                   leading: Icon(
