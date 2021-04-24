@@ -744,7 +744,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ],
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditAccountPage()),
+                    );
+                  },
                 ),
               ),
               CircleAvatar(
