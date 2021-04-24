@@ -4,8 +4,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_app_1/admin/admin_compnent/main_drawer.dart';
 import 'package:flutter_app_1/admin/session_requests.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-
 import 'admin_compnent/dialogs.dart';
+import 'package:intl/intl.dart';
 
 class SessionDetailsPage extends StatefulWidget {
   final String id;
@@ -16,8 +16,6 @@ class SessionDetailsPage extends StatefulWidget {
 }
 
 class _SessionDetailsPage extends State<SessionDetailsPage> {
-  final userRef = FirebaseFirestore.instance.collection('users');
-
   final String id;
   _SessionDetailsPage({@required this.id});
 
@@ -28,7 +26,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
   bool isStateSelected = false;
 
   DateTime selectedDate = DateTime.now();
-
+  String formattedDate;
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -370,7 +368,8 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                         padding: EdgeInsets.all(10),
                         child: Row(
                           children: [
-                            Text("${selectedDate.toLocal()}".split(' ')[0]),
+                            Text(
+                                "${formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate)}"),
                             SizedBox(
                               width: 20.0,
                             ),
@@ -423,21 +422,20 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
           final action = await Dialogs.yesAbortDialog(context, 'Sure?',
               'Are you sure you want\n to approve this session?');
           if (action == DialogAction.yes) {
-            setState(
-              () => FirebaseFirestore.instance
-                  .collection('session')
-                  .where('sessionId', isEqualTo: this.id)
-                  .get()
-                  .then((value) => value.docs.forEach((element) {
-                        element.reference.update({
-                          'approved': 'yes',
-                          'state': '$stateGroupValue',
-                          'ses_date': '$selectedDate',
-                        }).then(
-                          (value) => print('Success!'),
-                        );
-                      })),
-            );
+            FirebaseFirestore.instance
+                .collection('session')
+                .where('sessionId', isEqualTo: this.id)
+                .get()
+                .then((value) => value.docs.forEach((element) {
+                      element.reference.update({
+                        'approved': 'yes',
+                        'state': '$stateGroupValue',
+                        'ses_date':
+                            '${formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate)}',
+                      }).then(
+                        (value) => print('Success!'),
+                      );
+                    }));
             setState(() {
               approvalstate = true;
             });
@@ -463,24 +461,30 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
         height: 50,
         minWidth: 190,
         disabledColor: Colors.grey,
-        onPressed: () {
-          FirebaseFirestore.instance
-              .collection('session')
-              .where('sessionId', isEqualTo: this.id)
-              .get()
-              .then((value) {
-            value.docs.forEach((element) {
-              element.reference.delete().then((value) {
-                print('Success!');
+        onPressed: () async {
+          final action = await WarningDialogs.yesAbortDialog(context,
+              'Warning!', 'Are you sure you want to reject this request?');
+          if (action == DialogAction.yes) {
+            FirebaseFirestore.instance
+                .collection('session')
+                .where('sessionId', isEqualTo: this.id)
+                .get()
+                .then((value) {
+              value.docs.forEach((element) {
+                element.reference.delete().then((value) {
+                  print('Success!');
+                });
               });
             });
-          });
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SessionRequestPage(),
-            ),
-          );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SessionRequestPage(),
+              ),
+            );
+          } else {
+            setState(() => null);
+          }
         },
         child: Text("Reject",
             textAlign: TextAlign.center, style: yellowButtonsTextStyle),

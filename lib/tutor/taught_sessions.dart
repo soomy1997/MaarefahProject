@@ -1,26 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_app_1/component/vertical_list.dart';
 import 'package:flutter_app_1/services/database.dart';
+import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/screens/course_details.dart';
 import 'package:flutter_app_1/models/users.dart';
 
-class RegisteredSessions extends StatefulWidget {
+class TaughtSessions extends StatefulWidget {
   @override
-  _RegisteredSessionsState createState() => _RegisteredSessionsState();
+  _TaughtSessionsState createState() => _TaughtSessionsState();
 }
 
-navigateToCourseDetails(BuildContext context, DocumentSnapshot post) {
-  Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => CourseDetails(
-                post: post,
-              )));
-}
-
-class _RegisteredSessionsState extends State<RegisteredSessions> {
+class _TaughtSessionsState extends State<TaughtSessions> {
   OurUser _currentUser = OurUser();
   OurUser _cUser = OurUser();
 
@@ -57,10 +50,15 @@ class _RegisteredSessionsState extends State<RegisteredSessions> {
               width: MediaQuery.of(context).size.width,
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
-                    .collection('registration')
-                    .where('uid', isEqualTo: _cUser.uid)
+                    .collection('session')
+                    .where(
+                      "tutor_name",
+                      isEqualTo: _cUser.name,
+                    )
+                    .where('approved', isEqualTo: 'yes')
                     .snapshots(),
                 builder: (context, snapshot) {
+                  if (!snapshot.hasData) return LinearProgressIndicator();
                   return ListView.builder(
                     itemCount: snapshot.data.docs.length,
                     itemBuilder: (context, index) {
@@ -134,7 +132,7 @@ class _RegisteredSessionsState extends State<RegisteredSessions> {
                                                       const EdgeInsets.only(
                                                           left: 5.0),
                                                   child: Text(
-                                                    doc.data()['session_date'],
+                                                    doc.data()['ses_date'],
                                                     style: TextStyle(
                                                       color:
                                                           Colors.grey.shade800,

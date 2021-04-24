@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/models/users.dart';
+import 'package:flutter_app_1/services/database.dart';
 import '../utils/constants.dart';
 
 class EditAccountPage extends StatefulWidget {
-  EditAccountPage({Key key, this.title}) : super(key: key);
-  final String title;
+  // EditAccountPage({Key key, this.title}) : super(key: key);
+  // final String title;
+  // final String post;
+  // EditAccountPage({
+  //   this.post,
+  // });
 
   @override
   _EditAccountPage createState() => _EditAccountPage();
 }
 
 class _EditAccountPage extends State<EditAccountPage> {
+  String _currentName;
+  String _currentEmail;
+  String _currentLevel;
+
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   String valueChoose;
 
@@ -18,19 +28,23 @@ class _EditAccountPage extends State<EditAccountPage> {
 
   bool isGenderSelected = false;
 
-
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    OurUser _currentUser = OurUser();
+    //String vv=widget.post.data()['name'];
+
     final nameFeild = TextFormField(
         validator: nameValidation,
+        onChanged: (val) => setState(() => _currentName = val),
         obscureText: false,
         style: h5,
         decoration: textInputDecoratuon.copyWith(
             hintText: 'Full Name', prefixIcon: Icon(Icons.person)));
     final emailField = TextFormField(
         validator: emailValidation,
+        onChanged: (val) => setState(() => _currentEmail = val),
         obscureText: false,
         keyboardType: TextInputType.emailAddress,
         style: h5,
@@ -42,17 +56,29 @@ class _EditAccountPage extends State<EditAccountPage> {
       borderRadius: BorderRadius.circular(10.0),
       color: Color(0xffF9A21B),
       child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
-        disabledColor: Colors.grey,
-        onPressed: isGenderSelected
-            ? () {
-                _formKey.currentState.validate();
-              }
-            : null,
-        child: Text("Confirm Changes",
-            textAlign: TextAlign.center, style: yellowButtonsTextStyle),
-      ),
+          minWidth: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
+          disabledColor: Colors.grey,
+          child: Text("Confirm Changes",
+              textAlign: TextAlign.center, style: yellowButtonsTextStyle),
+          onPressed: () async {
+            if (_formKey.currentState.validate()) {
+              await OurDatabase(uid: _currentUser.uid).updateUserData(
+                  _currentName ?? _currentUser.name,
+                  _currentEmail ?? _currentUser.email,
+                  _currentLevel ?? _currentUser.academicLevel);
+              Navigator.pop(context);
+            }
+          }
+
+          // isGenderSelected
+          //     ? () {
+          //         _formKey.currentState.validate();
+          //       }
+          //     : null,
+          // child: Text("Confirm Changes",
+          //     textAlign: TextAlign.center, style: yellowButtonsTextStyle),
+          ),
     );
 //arrow_back_ios
 
@@ -100,7 +126,7 @@ class _EditAccountPage extends State<EditAccountPage> {
                   value: valueChoose,
                   onChanged: (newValue) {
                     setState(() {
-                      valueChoose = newValue;
+                      _currentLevel = newValue;
                     });
                   },
                   validator: (value) =>

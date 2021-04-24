@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/admin/applicants_details.dart';
+import 'package:flutter_app_1/admin/approve_reject_tutoring_req.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-
 import 'admin_compnent/main_drawer.dart';
 
 Future<void> main() async {
@@ -34,7 +33,6 @@ class ManageTutoingRequestPage extends StatefulWidget {
 
 class _ManageTutoingRequestState extends State<ManageTutoingRequestPage> {
   @override
-  
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: myAppBar2(
@@ -48,7 +46,8 @@ class _ManageTutoingRequestState extends State<ManageTutoingRequestPage> {
         child: Container(
           child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
-                .collection('tutoring_request')
+                .collection('users')
+                .where('role', isEqualTo: 'pending tutor')
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) return LinearProgressIndicator();
@@ -64,7 +63,6 @@ class _ManageTutoingRequestState extends State<ManageTutoingRequestPage> {
                             style: h1,
                           ),
                         ),
-                        
                       ],
                     ),
                     DataTable(
@@ -107,7 +105,7 @@ class _ManageTutoingRequestState extends State<ManageTutoingRequestPage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        ApplicantsDetailsPage(id: record.uid)),
+                        ApproveRejTutoringReq(id: record.uid)),
               );
             },
             child: Text(

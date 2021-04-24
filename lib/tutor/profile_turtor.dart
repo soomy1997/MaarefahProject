@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_1/screens/About.dart';
 import 'package:flutter_app_1/screens/contact_us.dart';
 import 'package:flutter_app_1/screens/join_as_tutor.dart';
+import 'package:flutter_app_1/tutor/taught_sessions.dart';
 import 'package:flutter_app_1/utils/constants.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -24,6 +26,7 @@ class Profile extends StatelessWidget {
     );
   }
 }
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -40,6 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
         color: Colors.grey[300],
       );
     }
+
     containerElement() {
       return Padding(
         padding: const EdgeInsets.only(
@@ -84,7 +88,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: TextStyle(
                           fontSize: 16,
                         )),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TaughtSessions()),
+                      );
+                    },
                   ),
                   ListTile(
                     leading: Icon(
@@ -180,21 +190,21 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
 
-      return Scaffold(
-        appBar: myAppBar3(
-          context,
-          title: 'Account',
+    return Scaffold(
+      appBar: myAppBar3(
+        context,
+        title: 'Account',
+      ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Container(
+          color: Colors.white,
+          child: containerElement(),
         ),
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Container(
-            color: Colors.white,
-            child: containerElement(),
-          ),
-        ),
-      );
-   // }
+      ),
+    );
+    // }
   }
 
   Widget customTutor() {
@@ -375,5 +385,4 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-  
 }

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/admin/admin_compnent/dialogs.dart';
-import 'package:flutter_app_1/admin/admin_compnent/sign_out_dialog_box_admin.dart';
 import 'package:flutter_app_1/admin/admin_homepage.dart';
+import 'package:flutter_app_1/admin/admin_root/admin_root.dart';
 import 'package:flutter_app_1/admin/manage_session.dart';
 import 'package:flutter_app_1/admin/manage_tutoring_request.dart';
 import 'package:flutter_app_1/admin/mange_registration_admin.dart';
+import 'package:flutter_app_1/admin/services/admin_flutterfire.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-
+import 'package:provider/provider.dart';
 import '../session_requests.dart';
 
 class MainDrawer extends StatefulWidget {
@@ -145,21 +146,23 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
             ),
             onTap: () async {
-              // showDialog(
-              //   context: context,
-              //   builder: (BuildContext context) {
-              //     return SignOutCustomDialogBox(
-              //       descriptions: "Are you sure you want to sign out?",
-              //       text: "Yes",
-              //       text2: "No",
-              //     );
-              //   },
-              // );
-              final action = await Dialogs.yesAbortDialog(
+              final action = await WarningDialogs.yesAbortDialog(
                   context, 'Sign Out', 'Are you sure you want to sign out?');
-              if (action == DialogAction.yes){
-                setState(() => null);
-              } else { 
+              if (action == DialogAction.yes) {
+                CurrentAdmin _currentAdmin =
+                    Provider.of<CurrentAdmin>(context, listen: false);
+
+                String _returnString = await _currentAdmin.signOut();
+                if (_returnString == 'success') {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AdminRoute(),
+                    ),
+                    (route) => false,
+                  );
+                }
+              } else {
                 setState(() => null);
               }
             },

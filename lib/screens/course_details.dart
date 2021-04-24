@@ -5,6 +5,7 @@ import 'package:flutter_app_1/admin/admin_compnent/dialogs.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/admin/admin_compnent/successful_register_dialog.dart'
     as a;
+import 'package:flutter_app_1/admin/admin_compnent/share_popup.dart' as b;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -80,7 +81,14 @@ class _CourseDetailsState extends State<CourseDetails> {
         title: "Course Details",
         iconButton: IconButton(
           icon: Icon(Icons.ios_share),
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return b.ShareDialog1();
+              },
+            );
+          },
         ),
       ),
       body: Column(
@@ -89,7 +97,7 @@ class _CourseDetailsState extends State<CourseDetails> {
             padding: const EdgeInsets.only(top: 10),
             child: Center(
               child: Text(
-                widget.post.data()['course_name'],
+                widget.post.data()['ses_name'],
                 style: h4,
                 textAlign: TextAlign.center,
               ),

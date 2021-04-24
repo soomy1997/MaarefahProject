@@ -37,19 +37,18 @@ class _JoinTutorPage extends State<JoinTutorPage> {
       //No error in validator
       _formKey.currentState.save();
       FirebaseFirestore.instance
-          .runTransaction((Transaction transaction) async {
-        CollectionReference reference =
-            FirebaseFirestore.instance.collection('tutoring_request');
-        await reference.add({
-          'name': '${_cUser.name}',
-          'academicLevel': '${_cUser.academicLevel}',
-          'email': '${_cUser.email}',
-          'uid': '${_cUser.uid}',
-          'phoneNo': '$phoneNo',
-          'gender': '${_cUser.gender}',
-          'teachingOverview': '$teachingOverview'
-        });
-      });
+          .collection('users')
+          .where('uid', isEqualTo: _cUser.uid)
+          .get()
+          .then((value) => value.docs.forEach((element) {
+                element.reference.update({
+                  'phoneNum': '$phoneNo',
+                  'teachingOverview': '$teachingOverview',
+                  'role': 'pending tutor'
+                }).then(
+                  (value) => print('Success!'),
+                );
+              }));
       Navigator.push(
         context,
         MaterialPageRoute(

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/admin/add_new_registration.dart';
 import 'package:flutter_app_1/admin/admin_compnent/dialogs.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
@@ -19,21 +18,6 @@ class _ManageRegistrationState extends State<ManageRegistration> {
   bool sort;
   @override
   Widget build(BuildContext context) {
-    final addBtn = Material(
-      elevation: 2.0,
-      borderRadius: BorderRadius.circular(6.0),
-      color: accentYellow,
-      child: MaterialButton(
-        height: 50,
-        minWidth: 190,
-        padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          _submit();
-        },
-        child: Text("Add New Registration",
-            textAlign: TextAlign.center, style: yellowButtonsTextStyle),
-      ),
-    );
     return Scaffold(
       appBar: myAppBar2(
         context,
@@ -55,22 +39,10 @@ class _ManageRegistrationState extends State<ManageRegistration> {
                   children: <Widget>[
                     Center(
                       child: Container(
-                        padding: const EdgeInsets.only(left: 230),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(50),
-                              child: Text(
-                                'Manage Registeration',
-                                style: h1,
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.all(50),
-                              child: addBtn,
-                            ),
-                          ],
+                        padding: const EdgeInsets.all(50),
+                        child: Text(
+                          'Manage Registeration',
+                          style: h1,
                         ),
                       ),
                     ),
@@ -154,11 +126,6 @@ class _ManageRegistrationState extends State<ManageRegistration> {
     );
   }
 
-  void _submit() {
-    Navigator.push(context, MaterialPageRoute(builder: (c) {
-      return AddNewRegister();
-    }));
-  }
 }
 
 class Record {

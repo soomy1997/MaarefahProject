@@ -3,6 +3,7 @@ import 'package:flutter_app_1/models/users.dart';
 
 class OurDatabase {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   Future<String> createUser(OurUser user) async {
     String retVal = 'error';
     try {
@@ -15,12 +16,27 @@ class OurDatabase {
         'role': user.role,
         'phoneNum': user.phoneNum,
         'teachingOverview': user.teachingOverview,
+        'avatar_url': user.avatarUrl,
       });
       retVal = 'success';
     } catch (e) {
       print(e);
     }
     return retVal;
+  }
+
+  final String uid;
+  OurDatabase({this.uid});
+
+  final CollectionReference brewCollection =
+      FirebaseFirestore.instance.collection('users');
+  Future<void> updateUserData(
+      String name, String email, String academicLevel) async {
+    return await brewCollection.doc(this.uid).set({
+      'name': name,
+      'email': email,
+      'academicLevel': academicLevel,
+    });
   }
 
   Future<OurUser> getuserInfo(String uid) async {
@@ -35,6 +51,7 @@ class OurDatabase {
       retVal.gender = _docSnapshot.data()['gender'];
       retVal.phoneNum = _docSnapshot.data()['phoneNum'];
       retVal.teachingOverview = _docSnapshot.data()['teachingOverview'];
+      retVal.avatarUrl = _docSnapshot.data()['avatar_url'];
     } catch (e) {
       print(e);
     }
