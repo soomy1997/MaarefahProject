@@ -40,6 +40,11 @@ class CurrentUser extends ChangeNotifier {
     return userData;
   }
 
+  //Reset password
+  Future sendPassResetEmail(String email) async {
+    return _auth.sendPasswordResetEmail(email: email);
+  }
+
   Stream<OurUser> getCurrentUser(String uid) {
     return _firestore
         .collection('users')

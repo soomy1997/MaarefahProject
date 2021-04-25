@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_app_1/admin/admin_compnent/main_drawer.dart';
 import 'package:flutter_app_1/admin/session_requests.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-import 'admin_compnent/dialogs.dart';
+import '../component/dialogs.dart';
 import 'package:intl/intl.dart';
 
 class SessionDetailsPage extends StatefulWidget {

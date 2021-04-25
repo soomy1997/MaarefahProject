@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_1/component/home_card.dart';
 import 'package:flutter_app_1/screens/course_details.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   @override

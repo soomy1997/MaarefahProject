@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/admin/edit_session_details.dart';
 import 'package:flutter_app_1/utils/constants.dart';
+import '../component/dialogs.dart';
 import 'admin_compnent/main_drawer.dart';
 
 class ManageSessionsPage extends StatefulWidget {
@@ -50,7 +51,8 @@ class _ManageSessionsPageState extends State<ManageSessionsPage> {
                         DataColumn(label: Text('Session ID')),
                         DataColumn(label: Text('Session Name')),
                         DataColumn(label: Text('Tutor Name')),
-                        DataColumn(label: Text('Option')),
+                        DataColumn(label: Text('Edit')),
+                        DataColumn(label: Text('Delete'))
                       ],
                       rows: _buildList(context, snapshot.data.docs),
                       //columnSpacing: 20,
@@ -72,6 +74,10 @@ class _ManageSessionsPageState extends State<ManageSessionsPage> {
 
   DataRow _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
+    String _getSelectedRowId(String sessionId) {
+      print('sessionId:$sessionId');
+      return sessionId;
+    }
 
     return DataRow(
       cells: [
@@ -88,11 +94,40 @@ class _ManageSessionsPageState extends State<ManageSessionsPage> {
                         EditSessionDetailsPage(id: record.sessionId)),
               );
             },
-            child: Text(
-              'More',
+            child: Icon(
+              Icons.edit,
+              color: accentYellow,
             ),
           ),
-          showEditIcon: true,
+        ),
+        DataCell(
+          Icon(
+            Icons.delete,
+            color: accentOrange,
+          ),
+          onTap: () async {
+            _getSelectedRowId(record.sessionId);
+            final action = await WarningDialogs.yesAbortDialog(context,
+                "Warning", "Are you sure you want to \ndelete this Session?");
+            if (action == DialogAction.yes) {
+              setState(
+                () => FirebaseFirestore.instance
+                    .collection('session')
+                    .where('sessionId',
+                        isEqualTo: _getSelectedRowId(record.sessionId))
+                    .get()
+                    .then((value) {
+                  value.docs.forEach((element) {
+                    element.reference.delete().then((value) {
+                      print('Success!');
+                    });
+                  });
+                }),
+              );
+            } else {
+              setState(() => null);
+            }
+          },
         ),
       ],
     );

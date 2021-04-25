@@ -103,7 +103,7 @@ class _AddSessionPage extends State<AddSessionPage> {
         List<String> splitList = sessionName.split('');
         List<String> indexList = [];
         for (int i = 0; i < splitList.length; i++) {
-          for (int y = 1; y < splitList[i].length + 1; y++) {
+          for (int y = 0; y < splitList[i].length + 1; y++) {
             indexList.add(splitList[i].substring(0, y).toLowerCase());
           }
         }
