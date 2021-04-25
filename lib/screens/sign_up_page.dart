@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
 import 'package:flutter_app_1/screens/sign_in_page.dart';
@@ -283,21 +284,29 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 35.0,
                     ),
                     SizedBox(
-                      child: TextButton(
-                        child: Text("Already have account? Sign In",
-                            textAlign: TextAlign.center,
+                      child: RichText(
+                        text: TextSpan(
+                            text: 'Already have an Account?',
                             style: style.copyWith(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
-                                fontSize: 15)),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SignInPage(),
-                            ),
-                          );
-                        },
+                                fontSize: 15),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: ' Sign In.',
+                                style: style.copyWith(
+                                    color: accentYellow, fontSize: 15),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SignInPage(),
+                                      ),
+                                    );
+                                  },
+                              )
+                            ]),
                       ),
                     ),
                   ],
