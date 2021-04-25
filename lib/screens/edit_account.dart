@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/admin/admin_compnent/dialogs.dart';
+import 'package:flutter_app_1/component/dialogs.dart';
 import 'package:flutter_app_1/screens/profile.dart';
 import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/services/database.dart';
@@ -105,8 +105,6 @@ class _EditAccountPage extends State<EditAccountPage> {
             }
           }),
     );
-//arrow_back_ios
-
     return Scaffold(
       appBar: myAppBar2(
         context,
@@ -166,7 +164,7 @@ class _EditAccountPage extends State<EditAccountPage> {
                   style: h5,
                   isExpanded: true,
                   autofocus: false,
-                  value: valueChoose,
+                  value: _cUser.academicLevel,
                   onChanged: (newValue) {
                     setState(() {
                       newLevel = newValue;
@@ -177,7 +175,7 @@ class _EditAccountPage extends State<EditAccountPage> {
                   items: listItems.map((valueItem) {
                     return DropdownMenuItem(
                       value: valueItem,
-                      child: Text('Academic Level: ' + valueItem),
+                      child: Text(valueItem),
                     );
                   }).toList(),
                 ),

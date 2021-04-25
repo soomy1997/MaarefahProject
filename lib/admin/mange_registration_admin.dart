@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/admin/admin_compnent/dialogs.dart';
+import 'package:flutter_app_1/component/dialogs.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'admin_compnent/main_drawer.dart';
 

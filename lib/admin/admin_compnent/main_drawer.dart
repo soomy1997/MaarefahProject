@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/admin/admin_compnent/dialogs.dart';
+import 'package:flutter_app_1/component/dialogs.dart';
 import 'package:flutter_app_1/admin/admin_homepage.dart';
 import 'package:flutter_app_1/admin/admin_root/admin_root.dart';
 import 'package:flutter_app_1/admin/manage_session.dart';

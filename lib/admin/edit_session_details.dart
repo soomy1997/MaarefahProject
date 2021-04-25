@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_app_1/admin/admin_compnent/dialogs.dart';
+import 'package:flutter_app_1/component/dialogs.dart';
 import 'package:flutter_app_1/admin/manage_session.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';

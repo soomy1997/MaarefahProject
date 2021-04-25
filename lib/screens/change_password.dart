@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/services/locator.dart';
-import 'package:flutter_app_1/services/user_controller.dart';
+import 'package:flutter_app_1/services/flutterfire.dart';
 import 'package:flutter_app_1/utils/constants.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class ChangePassword extends StatefulWidget {
   @override
@@ -10,7 +11,65 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+  // Initially password is obscure
+  bool _obscureText = true;
+  bool _obscureText1 = true;
+  bool _obscureText2 = true;
+  // Toggles the password show status
+  void _togglePasswordStatus() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
+  void _togglePasswordStatus1() {
+    setState(() {
+      _obscureText1 = !_obscureText1;
+    });
+  }
+
+  void _togglePasswordStatus2() {
+    setState(() {
+      _obscureText2 = !_obscureText2;
+    });
+  }
+
+  FToast fToast;
+  void _showToast() {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: Colors.greenAccent,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.check),
+          SizedBox(
+            width: 12.0,
+          ),
+          Text("Successfully changed password"),
+        ],
+      ),
+    );
+
+    fToast.showToast(
+      child: toast,
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: Duration(seconds: 2),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fToast = FToast();
+    fToast.init(context);
+  }
+
   String newPassword;
+  String currentPass;
   var _passwordController = TextEditingController();
   var _newPasswordController = TextEditingController();
   var _confirmPasswordController = TextEditingController();
@@ -20,7 +79,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     //Create an instance of the current user.
     User user = await FirebaseAuth.instance.currentUser;
     //Pass in the password to updatePassword.
-    user.updatePassword('newPassword').then((_) {
+    user.updatePassword(newPassword).then((_) {
       print("Successfully changed password");
     }).catchError((error) {
       print("Password can't be changed" + error.toString());
@@ -39,16 +98,13 @@ class _ChangePasswordState extends State<ChangePassword> {
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
         disabledColor: Colors.grey,
         onPressed: () async {
-          UserController userController = locator.get<UserController>();
-          changePassword(newPassword);
-
-          checkCurrentPassValid = await userController.validateCurrentPassword(
+          CurrentUser auth = Provider.of<CurrentUser>(context, listen: false);
+          checkCurrentPassValid = await auth.validateCurrentPassword(
             _passwordController.text,
           );
-          // setState(() {});
-
-          if (_formKey.currentState.validate()) {
-            Navigator.pop(context);
+          if (_formKey.currentState.validate() && checkCurrentPassValid) {
+            changePassword(newPassword);
+            _showToast();
           }
         },
         child: Text("Save Changes",
@@ -75,17 +131,33 @@ class _ChangePasswordState extends State<ChangePassword> {
                   ),
                   SizedBox(height: 15.0),
                   TextFormField(
-                    obscureText: false,
-                    validator: passwordValidation,
+                    obscureText: _obscureText,
+                    validator: (val) {
+                      if (val.isEmpty) {
+                        return "This field is required";
+                      }
+                      if (checkCurrentPassValid == false) {
+                        return "Please double check your current password";
+                      }
+                      return null;
+                    },
                     style: h5,
                     decoration: textInputDecoratuon.copyWith(
                       hintText: '*******',
                       prefixIcon: Icon(Icons.lock),
-                      errorText: checkCurrentPassValid
-                          ? null
-                          : "Please double check your Current Password",
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureText
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: _togglePasswordStatus,
+                      ),
                     ),
                     controller: _passwordController,
+                    onSaved: (val) {
+                      currentPass = val;
+                    },
                   ),
                   SizedBox(height: 20.0),
                   SizedBox(
@@ -96,12 +168,21 @@ class _ChangePasswordState extends State<ChangePassword> {
                   ),
                   SizedBox(height: 15.0),
                   TextFormField(
-                    obscureText: true,
+                    obscureText: _obscureText1,
                     style: h5,
                     decoration: textInputDecoratuon.copyWith(
                       hintText: '*******',
                       prefixIcon: Icon(Icons.lock),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureText1
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: _togglePasswordStatus1,
+                      ),
                     ),
+                    validator: passwordValidation,
                     controller: _newPasswordController,
                     onChanged: (pass) {
                       newPassword = pass;
@@ -116,11 +197,19 @@ class _ChangePasswordState extends State<ChangePassword> {
                   ),
                   SizedBox(height: 15.0),
                   TextFormField(
-                    obscureText: true,
+                    obscureText: _obscureText2,
                     style: h5,
                     decoration: textInputDecoratuon.copyWith(
                       hintText: '*******',
                       prefixIcon: Icon(Icons.lock),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureText2
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: _togglePasswordStatus2,
+                      ),
                     ),
                     controller: _confirmPasswordController,
                     validator: (input) {

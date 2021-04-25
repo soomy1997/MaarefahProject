@@ -43,6 +43,15 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
+  // Initially password is obscure
+  bool _obscureText = true;
+  // Toggles the password show status
+  void _togglePasswordStatus() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final loginButon = Material(
@@ -118,7 +127,7 @@ class _SignInPageState extends State<SignInPage> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   child: TextFormField(
-                    obscureText: true,
+                    obscureText: _obscureText,
                     controller: _passwordField,
                     style: h5,
                     decoration: textInputDecoratuon.copyWith(
@@ -129,6 +138,14 @@ class _SignInPageState extends State<SignInPage> {
                         color: Colors.black,
                         fontWeight: FontWeight.normal,
                         fontSize: 15,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureText
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: _togglePasswordStatus,
                       ),
                     ),
                   ),

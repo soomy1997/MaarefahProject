@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/admin/edit_session_details.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-import 'admin_compnent/dialogs.dart';
+import '../component/dialogs.dart';
 import 'admin_compnent/main_drawer.dart';
 
 class ManageSessionsPage extends StatefulWidget {

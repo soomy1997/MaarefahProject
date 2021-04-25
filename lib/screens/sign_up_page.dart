@@ -53,9 +53,24 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
+  // Initially password is obscure
+  bool _obscureText = true;
+  bool _obscureText1 = true;
+  // Toggles the password show status
+  void _togglePasswordStatus() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
+  void _togglePasswordStatus1() {
+    setState(() {
+      _obscureText1 = !_obscureText1;
+    });
+  }
+
   @override
   void dispose() {
-    // TODO: implement dispose
     this.confirmPassController.dispose();
     this.passController.dispose();
     super.dispose();
@@ -64,7 +79,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     final passwordField = TextFormField(
-      obscureText: true,
+      obscureText: _obscureText,
       validator: (input) {
         if (input.isEmpty) {
           return "This field is required";
@@ -82,6 +97,12 @@ class _SignUpPageState extends State<SignUpPage> {
             Icons.lock_outlined,
             color: kTextLightColor,
           ),
+          suffixIcon: IconButton(
+            icon: Icon(
+              _obscureText ? Icons.visibility_off : Icons.visibility,
+            ),
+            onPressed: _togglePasswordStatus,
+          ),
           contentPadding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
           hintText: 'Confirm Password',
           border: OutlineInputBorder(
@@ -89,7 +110,7 @@ class _SignUpPageState extends State<SignUpPage> {
               borderRadius: BorderRadius.circular(5.0))),
     );
     final passwordField2 = TextFormField(
-      obscureText: true,
+      obscureText: _obscureText1,
       controller: passController,
       validator: (input) {
         password = input;
@@ -114,6 +135,12 @@ class _SignUpPageState extends State<SignUpPage> {
         prefixIcon: Icon(
           Icons.lock_outlined,
           color: kTextLightColor,
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(
+            _obscureText1 ? Icons.visibility_off : Icons.visibility,
+          ),
+          onPressed: _togglePasswordStatus1,
         ),
         contentPadding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
         hintText: 'Password',
@@ -226,7 +253,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       items: listItems.map((valueItem) {
                         return DropdownMenuItem(
                           value: valueItem,
-                          child: Text('Academic Level: ' + valueItem),
+                          child: Text(valueItem),
                         );
                       }).toList(),
                     ),
