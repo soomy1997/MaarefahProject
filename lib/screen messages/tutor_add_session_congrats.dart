@@ -51,7 +51,7 @@ class _Congrats extends State<AddSessionCongrats> {
                   height: 25,
                 ),
                 Text(
-                  "Your request to Join as a tutor is sent successfully, please wait for approval",
+                  "Your request to add a session is sent successfully, please wait for approval",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.grey,

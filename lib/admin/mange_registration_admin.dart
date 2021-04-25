@@ -52,7 +52,7 @@ class _ManageRegistrationState extends State<ManageRegistration> {
                         DataColumn(label: Text('Learner name')),
                         DataColumn(label: Text('Session Name')),
                         DataColumn(label: Text('Session Id')),
-                        // DataColumn(label: Text('Tutor Name')),
+                        //DataColumn(label: Text('Tutor Name')),
                         DataColumn(label: Text('Delete')),
                       ],
                       rows: _buildList(context, snapshot.data.docs),
@@ -87,7 +87,7 @@ class _ManageRegistrationState extends State<ManageRegistration> {
         DataCell(Text(record.learnerName)),
         DataCell(Text(record.sessionName)),
         DataCell(Text(record.sessionId)),
-        //  DataCell(Text(record.tutorName)),
+        //DataCell(Text(record.tutorName)),
         DataCell(
           Icon(
             Icons.delete,
@@ -139,7 +139,7 @@ class Record {
         assert(map['l_name'] != null),
         assert(map['ses_name'] != null),
         assert(map['sessionId'] != null),
-        //assert(map['tutor_name'] != null),
+        // assert(map['tutor_name'] != null),
         regId = map['reg_id'],
         learnerName = map['l_name'],
         sessionName = map['ses_name'],

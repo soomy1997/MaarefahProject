@@ -13,6 +13,7 @@ import 'package:flutter_app_1/services/flutterfire.dart';
 import 'package:provider/provider.dart';
 import 'About.dart';
 import 'package:flutter_app_1/utils/constants.dart';
+import 'package:flutter_app_1/tutor/taught_sessions.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -108,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        child: ListView(
+        child: Column(
           children: [
             customTutor(),
             SizedBox(
@@ -147,7 +148,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: TextStyle(
                         fontSize: 16,
                       )),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TaughtSessions()),
+                    );
+                  },
                 ),
                 ListTile(
                   leading: Icon(
@@ -235,32 +241,39 @@ class _ProfilePageState extends State<ProfilePage> {
                 // ),
               ],
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () async {
-                    CurrentUser _currentUser =
-                        Provider.of<CurrentUser>(context, listen: false);
-                    String _returnString = await _currentUser.signOut();
-                    if (_returnString == 'success') {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OurRout(),
+            Container(
+                padding: EdgeInsets.all(15.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: () async {
+                          CurrentUser _currentUser =
+                              Provider.of<CurrentUser>(context, listen: false);
+                          String _returnString = await _currentUser.signOut();
+                          if (_returnString == 'success') {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OurRout(),
+                              ),
+                              (route) => false,
+                            );
+                          } else {}
+                        },
+                        icon: Icon(
+                          Icons.logout,
+                          color: whiteBG,
                         ),
-                        (route) => false,
-                      );
-                    } 
-                  },
-                  icon: Icon(Icons.logout),
-                  label: Text("Sign Out"),
-                  style: ElevatedButton.styleFrom(
-                    primary: accentYellow,
-                  ),
-                ),
-              ],
-            ),
+                        label: Text(
+                          "Sign Out",
+                          style: yellowButtonsTextStyle,
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          primary: accentOrange,
+                        ),
+                      ),
+                    ])),
           ],
         ),
       ),
@@ -411,20 +424,20 @@ class _ProfilePageState extends State<ProfilePage> {
                       primary: accentOrange,
                     ),
                   ),
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.switch_account,
-                      color: whiteBG,
-                    ),
-                    label: Text(
-                      "Switch to Tutor",
-                      style: yellowButtonsTextStyle,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: accentYellow,
-                    ),
-                  ),
+                  //ElevatedButton.icon(
+                  //  onPressed: () {},
+                  //  icon: Icon(
+                  //    Icons.switch_account,
+                  //    color: whiteBG,
+                  //  ),
+                  //  label: Text(
+                  //    "Switch to Tutor",
+                  //    style: yellowButtonsTextStyle,
+                  //  ),
+                  //  style: ElevatedButton.styleFrom(
+                  //    primary: accentYellow,
+                  //  ),
+                  //),
                 ],
               ),
             ),
@@ -620,6 +633,7 @@ class _ProfilePageState extends State<ProfilePage> {
       "${_cUser.name}",
       style: style,
     );
+
     Text edit = Text(
       "Edit",
       style: editStyle,
@@ -721,7 +735,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ],
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditAccountPage()),
+                    );
+                  },
                 ),
               ),
               CircleAvatar(
