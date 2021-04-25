@@ -467,15 +467,6 @@ class _ProfilePageState extends State<ProfilePage> {
     SizedBox spacer = SizedBox(
       height: 15,
     );
-    // return StreamBuilder(
-    //     stream: FirebaseFirestore.instance.collection('users').snapshots(),
-    //     builder: (context, snapshot) {
-    //       if (!snapshot.hasData)
-    //         return Container(
-    //           alignment: FractionalOffset.center,
-    //           child: CircularProgressIndicator(),
-    //         );
-    //       OurUser users = CurrentUser().getCurrntUser;
     return Column(
       children: <Widget>[
         Container(

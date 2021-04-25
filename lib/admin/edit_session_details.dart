@@ -105,7 +105,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                 padding: EdgeInsets.all(15),
                                 child: TextFormField(
                                   obscureText: false,
-                                  validator: nameValidation,
+                                  validator: textAreaValidation2,
                                   initialValue: snapshot.data.docs.first
                                       .data()['ses_name'],
                                   decoration: InputDecoration(
@@ -191,7 +191,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                       'Additional Skills Courses'
                                   ? TextFormField(
                                       obscureText: false,
-                                      validator: nameValidation,
+                                      validator: textAreaValidation2,
                                       initialValue: 'Not Applicable',
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
@@ -245,7 +245,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                 padding: EdgeInsets.all(15),
                                 child: TextFormField(
                                   obscureText: false,
-                                  validator: nameValidation,
+                                  validator: textAreaValidation2,
                                   initialValue: snapshot.data.docs.first
                                       .data()['ses_description'],
                                   decoration: InputDecoration(
@@ -279,7 +279,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                 padding: EdgeInsets.all(15),
                                 child: TextFormField(
                                   obscureText: false,
-                                  validator: nameValidation,
+                                  validator: textAreaValidation2,
                                   initialValue: snapshot.data.docs.first
                                       .data()['ses_agenda'],
                                   decoration: InputDecoration(
@@ -360,7 +360,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                 padding: EdgeInsets.all(15),
                                 child: TextFormField(
                                   obscureText: false,
-                                  validator: nameValidation,
+                                  validator: textAreaValidation2,
                                   initialValue: snapshot.data.docs.first
                                       .data()['ses_requirement'],
                                   decoration: InputDecoration(
@@ -440,7 +440,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                 padding: EdgeInsets.all(15),
                                 child: TextFormField(
                                   obscureText: false,
-                                  validator: nameValidation,
+                                  validator: textAreaValidation2,
                                   initialValue: snapshot.data.docs.first
                                       .data()['tutor_name'],
                                   decoration: InputDecoration(
@@ -608,6 +608,46 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
               }));
     }
 
+    void _sendToServer() async {
+      //  if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      final action = await Dialogs.yesAbortDialog(context, 'Are you sure?',
+          'are you sure you want to edit this session?');
+      if (action == DialogAction.yes) {
+        FirebaseFirestore.instance
+            .collection('session')
+            .where('sessionId', isEqualTo: this.id)
+            .get()
+            .then((value) => value.docs.forEach((element) {
+                  element.reference.update({
+                    'ses_name': '$sessionName',
+                    'session_type': '$typeValueChoose',
+                    'course_name': '$coursesValueChoose',
+                    'ses_description': '$sessionDescription',
+                    'ses_agenda': '$sessionAgenda',
+                    'ses_location': '$locationValueChoose',
+                    'ses_requirements': '$sesssionRequirements',
+                    'academic_level': '$levelValueChoose',
+                    'tutor_name': '$tutorName',
+                    'state': '$stateValueChoose',
+                    'ses_date':
+                        '${formattedDate = DateFormat('dd-MM-yyyy').format(sessionDate)}',
+                  }).then(
+                    (value) => print('Success!'),
+                  );
+                }));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ManageSessionsPage(),
+          ),
+        );
+      } else {
+        setState(() => null);
+      }
+      //  }
+    }
+
     final editButton = Material(
       elevation: 2.0,
       borderRadius: BorderRadius.circular(6.0),
@@ -615,44 +655,8 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
       child: MaterialButton(
         padding: EdgeInsets.fromLTRB(48.0, 0, 48.0, 0),
         disabledColor: Colors.grey,
-        onPressed: () async {
-          // if (_formKey.currentState.validate()) {
-          _formKey.currentState.save();
-          final action = await Dialogs.yesAbortDialog(context, 'Are you sure?',
-              'are you sure you want to edit this session?');
-          if (action == DialogAction.yes) {
-            FirebaseFirestore.instance
-                .collection('session')
-                .where('sessionId', isEqualTo: this.id)
-                .get()
-                .then((value) => value.docs.forEach((element) {
-                      element.reference.update({
-                        'sessionName': '$sessionName',
-                        'session_type': '$typeValueChoose',
-                        'course_name': '$coursesValueChoose',
-                        'session_description': '$sessionDescription',
-                        'session_agenda': '$sessionAgenda',
-                        'session_location': '$locationValueChoose',
-                        'session_requirements': '$sesssionRequirements',
-                        'academic_level': '$levelValueChoose',
-                        'tutorName': '$tutorName',
-                        'state': '$stateValueChoose',
-                        'ses_date':
-                            '${formattedDate = DateFormat('dd-MM-yyyy').format(sessionDate)}',
-                      }).then(
-                        (value) => print('Success!'),
-                      );
-                    }));
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ManageSessionsPage(),
-              ),
-            );
-          } else {
-            setState(() => null);
-          }
-          //   }
+        onPressed: () {
+          _sendToServer();
         },
         child: Text("Edit",
             textAlign: TextAlign.center, style: yellowButtonsTextStyle),

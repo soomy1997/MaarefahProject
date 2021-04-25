@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/screens/send_email.dart';
 import 'package:flutter_app_1/screens/sign_up_page.dart';
 import 'package:flutter_app_1/utils/tabbed_app.dart';
 import 'package:provider/provider.dart';
@@ -159,6 +160,36 @@ class _SignInPageState extends State<SignInPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => SignUpPage(),
+                                  ),
+                                );
+                              },
+                          )
+                        ]),
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                SizedBox(
+                  height: 35,
+                  child: RichText(
+                    text: TextSpan(
+                        text: 'Forget Password?',
+                        style: style.copyWith(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 15),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: ' Reset here',
+                            style: style.copyWith(
+                                color: accentYellow, fontSize: 15),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SendEmailPage(),
                                   ),
                                 );
                               },
