@@ -9,6 +9,8 @@ Ma’arefah Application is inspired by a real initiative in Collge of Computer S
 ## Requirements 
 - Any Operating System (ie. MacOS X, Linux, Windows)
 - Any IDE with Flutter SDK installed (ie. IntelliJ, Android Studio, VSCode etc)
+- Android Jellybean 4.1.x or newer.
+- iOS 8 or newer
 
 ## Installation
 Open the ide and run  ```flutter pub get```
