@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'About.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/tutor/taught_sessions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -135,6 +136,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Icons.photo_camera_front,
                         color: Colors.blue[800],
                       ),
+<<<<<<< HEAD
                       title: Text("My zoom link",
                           style: TextStyle(
                             fontSize: 16,
@@ -201,10 +203,71 @@ class _ProfilePageState extends State<ProfilePage> {
                           )),
                       onTap: () {
                         /*Navigator.push(
+=======
+                    )),
+                ListTile(
+                    leading: Icon(
+                      Icons.photo_camera_front,
+                      color: Colors.blue[800],
+                    ),
+                    title: Text("My zoom link",
+                        style: TextStyle(
+                          fontSize: 16,
+                        )),
+                    onTap: () {
+                      const url =
+                          "https://us04web.zoom.us/j/76518082507?pwd=TE5ISzJ1UEdPMlNTK05ETTdZa1JKUT09";
+                      if (canLaunch(url) != null) launch(url);
+                    }),
+
+                ListTile(
+                  leading: Icon(
+                    Icons.collections_bookmark_rounded,
+                    color: Colors.orange,
+                  ),
+                  title: Text("Taught sessions",
+                      style: TextStyle(
+                        fontSize: 16,
+                      )),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TaughtSessions()),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.lock,
+                    color: Colors.greenAccent,
+                  ),
+                  title: Text("Change Password",
+                      style: TextStyle(
+                        fontSize: 16,
+                      )),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChangePassword()),
+                    );
+                  },
+                ),
+
+                ListTile(
+                  leading: Icon(Icons.card_membership_outlined,
+                      color: Colors.brown[200]),
+                  title: Text("Certifications",
+                      style: TextStyle(
+                        fontSize: 16,
+                      )),
+                  onTap: () {
+                    /*Navigator.push(
+>>>>>>> 430bb410c307054f56adbc34c4491057e2cf2702
                         context,
                         MaterialPageRoute(
                             builder: (context) => JoinTutorPage()),
                       );*/
+<<<<<<< HEAD
                       },
                     ),
                     Container(
@@ -281,6 +344,79 @@ class _ProfilePageState extends State<ProfilePage> {
                           style: ElevatedButton.styleFrom(
                             primary: accentOrange,
                           ),
+=======
+                  },
+                ),
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      "Support",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+                ListTile(
+                  leading: Icon(
+                    Icons.location_on_outlined,
+                    color: Colors.red,
+                  ),
+                  title: Text("About Us",
+                      style: TextStyle(
+                        fontSize: 16,
+                      )),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AboutPage()));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.email,
+                    color: Colors.blue[200],
+                  ),
+                  title: Text("Contact Us",
+                      style: TextStyle(
+                        fontSize: 16,
+                      )),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Account()));
+                  },
+                ),
+              ],
+            ),
+            Container(
+                padding: EdgeInsets.all(15.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: () async {
+                          CurrentUser _currentUser =
+                              Provider.of<CurrentUser>(context, listen: false);
+                          String _returnString = await _currentUser.signOut();
+                          if (_returnString == 'success') {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OurRout(),
+                              ),
+                              (route) => false,
+                            );
+                          } else {}
+                        },
+                        icon: Icon(
+                          Icons.logout,
+                          color: whiteBG,
+                        ),
+                        label: Text(
+                          "Sign Out",
+                          style: yellowButtonsTextStyle,
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          primary: accentOrange,
+>>>>>>> 430bb410c307054f56adbc34c4491057e2cf2702
                         ),
                       ])),
             ],
@@ -490,15 +626,6 @@ class _ProfilePageState extends State<ProfilePage> {
     SizedBox spacer = SizedBox(
       height: 15,
     );
-    // return StreamBuilder(
-    //     stream: FirebaseFirestore.instance.collection('users').snapshots(),
-    //     builder: (context, snapshot) {
-    //       if (!snapshot.hasData)
-    //         return Container(
-    //           alignment: FractionalOffset.center,
-    //           child: CircularProgressIndicator(),
-    //         );
-    //       OurUser users = CurrentUser().getCurrntUser;
     return Column(
       children: <Widget>[
         Container(
@@ -756,9 +883,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   onPressed: () {
                     Navigator.push(
+<<<<<<< HEAD
                         context,
                         MaterialPageRoute(
                             builder: (context) => EditAccountPage()));
+=======
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditAccountPage()),
+                    );
+>>>>>>> 430bb410c307054f56adbc34c4491057e2cf2702
                   },
                 ),
               ),

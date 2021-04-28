@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/admin/admin_compnent/dialogs.dart';
+import 'package:flutter_app_1/component/dialogs.dart';
 import 'package:flutter_app_1/admin/manage_tutoring_request.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'admin_compnent/main_drawer.dart';
@@ -37,11 +37,14 @@ class _ApproveRejTutoringReqState extends State<ApproveRejTutoringReq> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                          radius: 60,
-                          backgroundImage: NetworkImage(
-                            snapshot.data.docs.first.data()['avatar_url'],
-                          )),
+                      ClipOval(
+                        child: Image.network(
+                          snapshot.data.docs.single['avatar_url'],
+                          fit: BoxFit.scaleDown,
+                          width: 50,
+                          height: 50,
+                        ),
+                      ),
                       SizedBox(
                         height: 8,
                       ),
@@ -198,19 +201,21 @@ class _ApproveRejTutoringReqState extends State<ApproveRejTutoringReq> {
                                     'Sure?',
                                     'Are you sure you want to reject this request?');
                                 if (action == DialogAction.yes) {
-                                   FirebaseFirestore.instance
+                                  FirebaseFirestore.instance
                                       .collection('users')
                                       .where('uid', isEqualTo: this.id)
                                       .get()
-                                      .then((value) =>
-                                          value.docs.forEach((element) {
-                                            element.reference.update({
-                                              'role': 'learner',
-                                            }).then(
-                                              (value) =>
-                                                  (value) => print('Success!'),
-                                            );
-                                          }),);
+                                      .then(
+                                        (value) =>
+                                            value.docs.forEach((element) {
+                                          element.reference.update({
+                                            'role': 'learner',
+                                          }).then(
+                                            (value) =>
+                                                (value) => print('Success!'),
+                                          );
+                                        }),
+                                      );
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(

@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/admin/admin_compnent/main_drawer.dart';
@@ -18,7 +17,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: myAppBar2(
+      appBar: myAppBar4(
         context,
         title: 'Admin DashBoard',
       ),
@@ -74,7 +73,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         return ManageRegistration();
                       }));
                     },
-                    child: card2('Manage Registration', Icons.auto_stories),
+                    child: card2(
+                        'Manage Session\n Registration', Icons.auto_stories),
                   ),
                   GestureDetector(
                       onTap: () {
@@ -145,7 +145,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
               ),
               Text(
                 text,
-                style: TextStyle(color: Colors.black, fontSize: 14),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                ),
+                textAlign: TextAlign.center,
               ),
             ],
           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app_1/admin/admin_compnent/dialogs.dart';
+import 'package:flutter_app_1/component/dialogs.dart';
 
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/admin/admin_compnent/successful_register_dialog.dart'

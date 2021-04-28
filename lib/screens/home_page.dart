@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_1/component/home_card.dart';
 import 'package:flutter_app_1/screens/course_details.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -45,16 +44,14 @@ class _HomeScreenState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: secondaryDarkBlue,
-        iconTheme: IconThemeData(color: Colors.white),
-        actions: [
-          new IconButton(
-            icon: Icon(Icons.filter_alt_outlined),
-            iconSize: 40,
-            onPressed: () => (0),
-          ),
-        ],
+      appBar: myAppBar3(
+        context,
+        title: '',
+        iconButton: IconButton(
+          icon: Icon(Icons.filter_alt_outlined),
+          iconSize: 40,
+          onPressed: () => (0),
+        ),
       ),
       body: Column(
         children: <Widget>[
@@ -90,13 +87,12 @@ class _HomeScreenState extends State<HomePage> {
             width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.fromLTRB(15, 20, 0, 15),
             child: Text(
-              'Current Sessions',
+              'Upcoming Sessions',
               style: h4,
               textAlign: TextAlign.left,
             ),
           ),
           Expanded(
-            //child: VerticalCards(),
             child: Container(
               width: MediaQuery.of(context).size.width,
               child: StreamBuilder(
@@ -125,7 +121,7 @@ class _HomeScreenState extends State<HomePage> {
                                             children: [
                                               Container(
                                                 height: 100,
-                                                width: 80,
+                                                width: 90,
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
                                                     fit: BoxFit.fill,

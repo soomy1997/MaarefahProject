@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_app_1/admin/admin_compnent/main_drawer.dart';
 import 'package:flutter_app_1/admin/session_requests.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-import 'admin_compnent/dialogs.dart';
+import '../component/dialogs.dart';
 import 'package:intl/intl.dart';
 
 class SessionDetailsPage extends StatefulWidget {
@@ -515,13 +515,13 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
           ),
           table(),
           Padding(
-            padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+            padding: EdgeInsets.all(20),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 approveButton,
                 SizedBox(
-                  width: 10,
+                  width: 20,
                 ),
                 rejectButton
               ],

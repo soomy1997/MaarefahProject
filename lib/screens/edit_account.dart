@@ -1,24 +1,39 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/component/dialogs.dart';
+import 'package:flutter_app_1/screens/profile.dart';
 import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/services/database.dart';
 import '../utils/constants.dart';
 
 class EditAccountPage extends StatefulWidget {
-  // EditAccountPage({Key key, this.title}) : super(key: key);
-  // final String title;
-  // final String post;
-  // EditAccountPage({
-  //   this.post,
-  // });
-
   @override
   _EditAccountPage createState() => _EditAccountPage();
 }
 
 class _EditAccountPage extends State<EditAccountPage> {
-  String _currentName;
-  String _currentEmail;
-  String _currentLevel;
+  OurUser _currentUser = OurUser();
+  OurUser _cUser = OurUser();
+
+  Future<void> currentUserInfo() async {
+    User _firebaseUser = FirebaseAuth.instance.currentUser;
+    _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
+
+    setState(() {
+      _cUser = _currentUser;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    currentUserInfo();
+  }
+
+  String newName;
+  String newEmail;
+  String newLevel;
 
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   String valueChoose;
@@ -32,24 +47,25 @@ class _EditAccountPage extends State<EditAccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    OurUser _currentUser = OurUser();
-    //String vv=widget.post.data()['name'];
-
     final nameFeild = TextFormField(
         validator: nameValidation,
-        onChanged: (val) => setState(() => _currentName = val),
+        initialValue: _cUser.name,
+        onChanged: (val) => setState(() => newName = val),
         obscureText: false,
         style: h5,
         decoration: textInputDecoratuon.copyWith(
-            hintText: 'Full Name', prefixIcon: Icon(Icons.person)));
+            //hintText: 'or old name if you dont want it to change',
+            prefixIcon: Icon(Icons.person)));
     final emailField = TextFormField(
         validator: emailValidation,
-        onChanged: (val) => setState(() => _currentEmail = val),
+        initialValue: _cUser.email,
+        onChanged: (val) => setState(() => newEmail = val),
         obscureText: false,
         keyboardType: TextInputType.emailAddress,
         style: h5,
         decoration: textInputDecoratuon.copyWith(
-            hintText: 'Email', prefixIcon: Icon(Icons.email)));
+            //hintText: 'Email',
+            prefixIcon: Icon(Icons.email)));
 
     final submitButon = Material(
       elevation: 5.0,
@@ -59,29 +75,36 @@ class _EditAccountPage extends State<EditAccountPage> {
           minWidth: MediaQuery.of(context).size.width,
           padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
           disabledColor: Colors.grey,
-          child: Text("Confirm Changes",
+          child: Text("Save Changes",
               textAlign: TextAlign.center, style: yellowButtonsTextStyle),
           onPressed: () async {
             if (_formKey.currentState.validate()) {
-              await OurDatabase(uid: _currentUser.uid).updateUserData(
-                  _currentName ?? _currentUser.name,
-                  _currentEmail ?? _currentUser.email,
-                  _currentLevel ?? _currentUser.academicLevel);
-              Navigator.pop(context);
+              final action = await Dialogs.yesAbortDialog(context, 'Sure?',
+                  'Are you sure you want to change your account informaion?');
+              if (action == DialogAction.yes) {
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .where('uid', isEqualTo: _cUser.uid)
+                    .get()
+                    .then((value) => value.docs.forEach((element) {
+                          element.reference.update({
+                            'name': '$newName',
+                            'email': '$newEmail',
+                            'academicLevel': '$newLevel',
+                          });
+                        }));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(),
+                  ),
+                );
+              } else {
+                setState(() => null);
+              }
             }
-          }
-
-          // isGenderSelected
-          //     ? () {
-          //         _formKey.currentState.validate();
-          //       }
-          //     : null,
-          // child: Text("Confirm Changes",
-          //     textAlign: TextAlign.center, style: yellowButtonsTextStyle),
-          ),
+          }),
     );
-//arrow_back_ios
-
     return Scaffold(
       appBar: myAppBar2(
         context,
@@ -108,11 +131,29 @@ class _EditAccountPage extends State<EditAccountPage> {
                     ],
                   ),
                 ),
+                Text(_cUser.name, style: TextStyle(color: Colors.white)),
                 SizedBox(height: 10.0),
+                SizedBox(
+                  height: 20.0,
+                  width: double.infinity,
+                  child: Text("New Name", textAlign: TextAlign.left, style: h4),
+                ),
                 nameFeild,
                 SizedBox(height: 15.0),
+                SizedBox(
+                  height: 20.0,
+                  width: double.infinity,
+                  child:
+                      Text("New Email", textAlign: TextAlign.left, style: h4),
+                ),
                 emailField,
                 SizedBox(height: 15.0),
+                SizedBox(
+                  height: 20.0,
+                  width: double.infinity,
+                  child: Text("New Academic Level",
+                      textAlign: TextAlign.left, style: h4),
+                ),
                 DropdownButtonFormField(
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -123,10 +164,10 @@ class _EditAccountPage extends State<EditAccountPage> {
                   style: h5,
                   isExpanded: true,
                   autofocus: false,
-                  value: valueChoose,
+                  value: _cUser.academicLevel,
                   onChanged: (newValue) {
                     setState(() {
-                      _currentLevel = newValue;
+                      newLevel = newValue;
                     });
                   },
                   validator: (value) =>
@@ -134,47 +175,9 @@ class _EditAccountPage extends State<EditAccountPage> {
                   items: listItems.map((valueItem) {
                     return DropdownMenuItem(
                       value: valueItem,
-                      child: Text('Academic Level: ' + valueItem),
+                      child: Text(valueItem),
                     );
                   }).toList(),
-                ),
-                SizedBox(height: 15.0),
-                SizedBox(
-                  height: 20.0,
-                  width: double.infinity,
-                  child: Text("Gender", textAlign: TextAlign.left, style: h4),
-                ),
-                SizedBox(height: 15),
-                Container(
-                  alignment: Alignment.topLeft,
-                  width: double.infinity,
-                  height: 55,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Radio(
-                            value: 'Male',
-                            groupValue: genderGroupValue,
-                            activeColor: Colors.orange,
-                            onChanged: (val) {
-                              setState(() {
-                                genderGroupValue = val;
-                                isGenderSelected = true;
-                              });
-                            }),
-                        Text('Male'),
-                        Radio(
-                            value: 'Female',
-                            groupValue: genderGroupValue,
-                            activeColor: Colors.orange,
-                            onChanged: (val) {
-                              setState(() {
-                                genderGroupValue = val;
-                                isGenderSelected = true;
-                              });
-                            }),
-                        Text('Female'),
-                      ]),
                 ),
                 SizedBox(height: 15),
                 submitButon,
