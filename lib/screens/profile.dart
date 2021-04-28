@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'About.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/tutor/taught_sessions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -129,16 +130,20 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     )),
                 ListTile(
-                  leading: Icon(
-                    Icons.photo_camera_front,
-                    color: Colors.blue[800],
-                  ),
-                  title: Text("My zoom link",
-                      style: TextStyle(
-                        fontSize: 16,
-                      )),
-                  onTap: () {},
-                ),
+                    leading: Icon(
+                      Icons.photo_camera_front,
+                      color: Colors.blue[800],
+                    ),
+                    title: Text("My zoom link",
+                        style: TextStyle(
+                          fontSize: 16,
+                        )),
+                    onTap: () {
+                      const url =
+                          "https://us04web.zoom.us/j/76518082507?pwd=TE5ISzJ1UEdPMlNTK05ETTdZa1JKUT09";
+                      if (canLaunch(url) != null) launch(url);
+                    }),
+
                 ListTile(
                   leading: Icon(
                     Icons.collections_bookmark_rounded,
@@ -171,22 +176,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     );
                   },
                 ),
-                ListTile(
-                  leading: Icon(
-                    Icons.rate_review_outlined,
-                    color: Colors.deepPurple,
-                  ),
-                  title: Text("Reviews & Ratings",
-                      style: TextStyle(
-                        fontSize: 16,
-                      )),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => JoinTutorPage()),
-                    );
-                  },
-                ),
+
                 ListTile(
                   leading: Icon(Icons.card_membership_outlined,
                       color: Colors.brown[200]),
