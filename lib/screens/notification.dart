@@ -16,15 +16,15 @@ class _NotificationPage extends State<NotificationPage> {
           child: Column(
             children: [
               SizedBox(
-                height: 50,
+                height: 70,
               ),
               Text(
-                "Sorry :(\nNothing's here yet",
+                "Sorry :(\nNothing's hewww yet",
                 style: h1,
                 textAlign: TextAlign.center,
               ),
               SizedBox(
-                height: 30,
+                height: 60,
               ),
               Image(
                 image: AssetImage("images/pic1.png"),

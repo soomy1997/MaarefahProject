@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/main.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
 class NoSearchFound extends StatefulWidget {
@@ -50,7 +51,7 @@ class _NoSearchFoundState extends State<NoSearchFound> {
                   height: 30,
                 ),
                 Image(
-                  image: AssetImage("images/oops.png"),
+                  image: AssetImage("images/error.png"),
                   height: MediaQuery.of(context).size.height * 0.50,
                   width: MediaQuery.of(context).size.width * 0.99,
                 ),
