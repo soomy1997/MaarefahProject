@@ -157,71 +157,71 @@ class _SignInPageState extends State<SignInPage> {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 35.0,
+                      ),
+                      loginButon,
+                      SizedBox(
+                        height: 80.0,
+                      ),
+                      SizedBox(
+                        height: 35,
+                        child: RichText(
+                          text: TextSpan(
+                              text: 'No account?',
+                              style: style.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 15),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: ' Sign Up.',
+                                  style: style.copyWith(
+                                      color: accentYellow, fontSize: 15),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => SignUpPage(),
+                                          ),
+                                          (route) => false);
+                                    },
+                                )
+                              ]),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      SizedBox(
+                        height: 35,
+                        child: RichText(
+                          text: TextSpan(
+                              text: 'Forget Password?',
+                              style: style.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 15),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: ' Reset here',
+                                  style: style.copyWith(
+                                      color: accentYellow, fontSize: 15),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SendEmailPage(),
+                                        ),
+                                      );
+                                    },
+                                )
+                              ]),
+                        ),
+                      ),
                     ],
-                  ),
-                ),
-                SizedBox(
-                  height: 35.0,
-                ),
-                loginButon,
-                SizedBox(
-                  height: 80.0,
-                ),
-                SizedBox(
-                  height: 35,
-                  child: RichText(
-                    text: TextSpan(
-                        text: 'No account?',
-                        style: style.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 15),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: ' Sign Up.',
-                            style: style.copyWith(
-                                color: accentYellow, fontSize: 15),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SignUpPage(),
-                                    ),
-                                    (route) => false);
-                              },
-                          )
-                        ]),
-                  ),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                SizedBox(
-                  height: 35,
-                  child: RichText(
-                    text: TextSpan(
-                        text: 'Forget Password?',
-                        style: style.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 15),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: ' Reset here',
-                            style: style.copyWith(
-                                color: accentYellow, fontSize: 15),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SendEmailPage(),
-                                  ),
-                                );
-                              },
-                          )
-                        ]),
                   ),
                 ),
               ],
