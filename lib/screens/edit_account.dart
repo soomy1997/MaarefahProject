@@ -75,7 +75,7 @@ class _EditAccountPage extends State<EditAccountPage> {
           minWidth: MediaQuery.of(context).size.width,
           padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
           disabledColor: Colors.grey,
-          child: Text("Confirm Changes",
+          child: Text("Save Changes",
               textAlign: TextAlign.center, style: yellowButtonsTextStyle),
           onPressed: () async {
             if (_formKey.currentState.validate()) {
