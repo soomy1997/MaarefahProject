@@ -173,12 +173,12 @@ class _SignInPageState extends State<SignInPage> {
                                 color: accentYellow, fontSize: 15),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SignUpPage(),
-                                  ),
-                                );
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SignUpPage(),
+                                    ),
+                                    (route) => false);
                               },
                           )
                         ]),

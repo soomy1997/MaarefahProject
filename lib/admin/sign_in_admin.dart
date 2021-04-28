@@ -19,7 +19,7 @@ class _AdminSignPageState extends State<AdminSignPage> {
   final TextEditingController passController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   var password = "";
-  
+
   var color = Colors.grey;
 
   void _loginUser(String email, String password, BuildContext context) async {
@@ -91,7 +91,7 @@ class _AdminSignPageState extends State<AdminSignPage> {
             Icons.email,
             color: color,
           ),
-          contentPadding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
+          contentPadding: EdgeInsets.all(20.0),
           hintText: "Email",
           border: OutlineInputBorder(
               borderSide: BorderSide(color: color, width: 15.0),
@@ -102,10 +102,10 @@ class _AdminSignPageState extends State<AdminSignPage> {
       borderRadius: BorderRadius.circular(10.0),
       color: Color(0xffF9A21B),
       child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
+        minWidth: MediaQuery.of(context).size.width * 0.50,
+        padding: EdgeInsets.all(20.0),
         onPressed: _submit,
-        child: Text("Get Started",
+        child: Text("Sign in",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.normal)),
@@ -113,26 +113,6 @@ class _AdminSignPageState extends State<AdminSignPage> {
     );
 
     return Scaffold(
-      // appBar: AppBar(
-      //   actions: [
-      //     Padding(
-      //       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      //       child: InkWell(
-      //         child: Icon(
-      //           Icons.close,
-      //           color: Colors.white,
-      //         ),
-      //       ),
-      //     )
-      //   ],
-      //   leading: InkWell(
-      //     child: Icon(
-      //       Icons.arrow_back_ios,
-      //       color: Colors.white,
-      //     ),
-      //   ),
-      //   backgroundColor: Color(0xff14213C),
-      // ),
       body: buildCenter(passwordField, loginButon, emailNameField),
     );
   }
@@ -145,19 +125,21 @@ class _AdminSignPageState extends State<AdminSignPage> {
         child: Container(
           color: Colors.white,
           child: Padding(
-            padding: const EdgeInsets.all(36.0),
+            padding: const EdgeInsets.all(100.0),
             child: Form(
               key: formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text("Welcome Back :)",
-                      textAlign: TextAlign.center,
-                      style: style.copyWith(
-                          fontSize: 28,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold)),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Image(
+                      height: 170.0,
+                      width: 150,
+                      image: AssetImage("images/appLogo2.PNG"),
+                    ),
+                  ),
                   SizedBox(
                     height: 15,
                   ),
@@ -172,7 +154,7 @@ class _AdminSignPageState extends State<AdminSignPage> {
                   ),
                   SizedBox(
                     height: 20.0,
-                    width: double.infinity,
+                    width: MediaQuery.of(context).size.width * 0.50,
                     child: Text("Email",
                         textAlign: TextAlign.start,
                         style: style.copyWith(
@@ -181,11 +163,14 @@ class _AdminSignPageState extends State<AdminSignPage> {
                             fontSize: 15)),
                   ),
                   SizedBox(height: 10.0),
-                  emailNameField,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.50,
+                    child: emailNameField,
+                  ),
                   SizedBox(height: 10.0),
                   SizedBox(
                     height: 20.0,
-                    width: double.infinity,
+                    width: MediaQuery.of(context).size.width * 0.50,
                     child: Text("Password",
                         textAlign: TextAlign.left,
                         style: style.copyWith(
@@ -194,7 +179,10 @@ class _AdminSignPageState extends State<AdminSignPage> {
                             fontSize: 15)),
                   ),
                   SizedBox(height: 10.0),
-                  passwordField,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.50,
+                    child: passwordField,
+                  ),
                   SizedBox(
                     height: 20.0,
                   ),

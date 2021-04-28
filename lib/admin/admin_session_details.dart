@@ -515,13 +515,13 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
           ),
           table(),
           Padding(
-            padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+            padding: EdgeInsets.all(20),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 approveButton,
                 SizedBox(
-                  width: 10,
+                  width: 20,
                 ),
                 rejectButton
               ],
