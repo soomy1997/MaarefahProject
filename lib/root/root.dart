@@ -19,7 +19,6 @@ class _OurRoutState extends State<OurRout> {
 
   @override
   void didChangeDependencies() async {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
 
     //get the state, check current User, set AuthStatus based on state

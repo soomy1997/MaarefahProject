@@ -202,43 +202,43 @@ class _ProfilePageState extends State<ProfilePage> {
                       );*/
                   },
                 ),
-                // Container(
-                //     margin: EdgeInsets.symmetric(horizontal: 20),
-                //     child: Text(
-                //       "Support",
-                //       style: TextStyle(
-                //         fontSize: 18,
-                //         fontWeight: FontWeight.bold,
-                //       ),
-                //     )),
-                // ListTile(
-                //   leading: Icon(
-                //     Icons.location_on_outlined,
-                //     color: Colors.red,
-                //   ),
-                //   title: Text("About Us",
-                //       style: TextStyle(
-                //         fontSize: 16,
-                //       )),
-                //   onTap: () {
-                //     Navigator.push(context,
-                //         MaterialPageRoute(builder: (context) => AboutPage()));
-                //   },
-                // ),
-                // ListTile(
-                //   leading: Icon(
-                //     Icons.email,
-                //     color: Colors.blue[200],
-                //   ),
-                //   title: Text("Contact Us",
-                //       style: TextStyle(
-                //         fontSize: 16,
-                //       )),
-                //   onTap: () {
-                //     Navigator.push(context,
-                //         MaterialPageRoute(builder: (context) => Account()));
-                //   },
-                // ),
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      "Support",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+                ListTile(
+                  leading: Icon(
+                    Icons.location_on_outlined,
+                    color: Colors.red,
+                  ),
+                  title: Text("About Us",
+                      style: TextStyle(
+                        fontSize: 16,
+                      )),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AboutPage()));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.email,
+                    color: Colors.blue[200],
+                  ),
+                  title: Text("Contact Us",
+                      style: TextStyle(
+                        fontSize: 16,
+                      )),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Account()));
+                  },
+                ),
               ],
             ),
             Container(

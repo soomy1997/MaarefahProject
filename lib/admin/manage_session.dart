@@ -55,7 +55,6 @@ class _ManageSessionsPageState extends State<ManageSessionsPage> {
                         DataColumn(label: Text('Delete'))
                       ],
                       rows: _buildList(context, snapshot.data.docs),
-                      //columnSpacing: 20,
                     ),
                   ),
                 ],
