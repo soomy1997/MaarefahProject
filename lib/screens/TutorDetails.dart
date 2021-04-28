@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_1/tutor/tutor_component/tutorsList.dart';
 import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/services/database.dart';
+import 'package:flutter_app_1/admin/admin_compnent/share_popup.dart' as b;
 import 'package:firebase_auth/firebase_auth.dart';
 import '../utils/constants.dart';
 
@@ -105,7 +106,14 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
         title: "Tutor Details",
         iconButton: IconButton(
           icon: Icon(Icons.ios_share),
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return b.ShareDialog1();
+              },
+            );
+          },
         ),
       ),
       body: Column(
@@ -224,7 +232,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Reviews', style: style),
+                        Text('Rating', style: style),
                       ],
                     ),
                   ],
