@@ -66,6 +66,9 @@ class _Congrats extends State<Congrats> {
                   height: MediaQuery.of(context).size.height * 0.45,
                   width: MediaQuery.of(context).size.width * 0.99,
                 ),
+                SizedBox(
+                  height: 30,
+                ),
                 gotItButton,
                 SizedBox(
                   height: 30,

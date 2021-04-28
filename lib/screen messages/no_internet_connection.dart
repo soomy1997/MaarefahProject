@@ -47,7 +47,7 @@ class _NoIntentConnectionState extends State<NoIntentConnection> {
                   height: 30,
                 ),
                 Image(
-                  image: AssetImage("images/client.jpg"),
+                  image: AssetImage("images/error.jpg"),
                   height: MediaQuery.of(context).size.height * 0.45,
                   width: MediaQuery.of(context).size.width * 0.99,
                 ),
