@@ -105,7 +105,6 @@ class _SessionRequestPageState extends State<SessionRequestPage> {
           showEditIcon: true,
         ),
       ],
-      //onSelectChanged: (b) {},
     );
   }
 }

@@ -19,7 +19,6 @@ class _AdminRouteState extends State<AdminRoute> {
 
   @override
   void didChangeDependencies() async {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
 
     //get the state, check current admin, set AuthStatus based on state

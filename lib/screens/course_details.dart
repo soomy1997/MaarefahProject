@@ -5,7 +5,7 @@ import 'package:flutter_app_1/component/dialogs.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/admin/admin_compnent/successful_register_dialog.dart'
     as a;
-import 'package:flutter_app_1/component/share_popup.dart' as b;
+import 'package:flutter_app_1/admin/admin_compnent/share_popup.dart' as b;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';

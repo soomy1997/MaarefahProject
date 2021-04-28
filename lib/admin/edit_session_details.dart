@@ -653,6 +653,8 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
       borderRadius: BorderRadius.circular(6.0),
       color: accentYellow,
       child: MaterialButton(
+        height: 50,
+        minWidth: 190,
         padding: EdgeInsets.fromLTRB(48.0, 0, 48.0, 0),
         disabledColor: Colors.grey,
         onPressed: () {
@@ -668,6 +670,8 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
       borderRadius: BorderRadius.circular(6.0),
       color: accentOrange,
       child: MaterialButton(
+        height: 50,
+        minWidth: 190,
         padding: EdgeInsets.fromLTRB(40.0, 0, 40.0, 0),
         disabledColor: Colors.grey,
         onPressed: () async {
