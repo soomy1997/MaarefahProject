@@ -16,6 +16,7 @@ class _SignInPageState extends State<SignInPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   TextEditingController _emailField = TextEditingController();
   TextEditingController _passwordField = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _loginUser(String email, String password, BuildContext context) async {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
@@ -103,115 +104,124 @@ class _SignInPageState extends State<SignInPage> {
                 SizedBox(
                   height: 35.0,
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: TextFormField(
-                    obscureText: false,
-                    controller: _emailField,
-                    style: h5,
-                    decoration: textInputDecoratuon.copyWith(
-                      hintText: 'example@gmail.com',
-                      prefixIcon: Icon(Icons.email),
-                      labelText: "Email",
-                      labelStyle: style.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 35.0,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: TextFormField(
-                    obscureText: _obscureText,
-                    controller: _passwordField,
-                    style: h5,
-                    decoration: textInputDecoratuon.copyWith(
-                      hintText: '*******',
-                      prefixIcon: Icon(Icons.lock),
-                      labelText: "Password",
-                      labelStyle: style.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15,
-                      ),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscureText
-                              ? Icons.visibility_off
-                              : Icons.visibility,
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: TextFormField(
+                          validator: emailValidation,
+                          obscureText: false,
+                          controller: _emailField,
+                          style: h5,
+                          decoration: textInputDecoratuon.copyWith(
+                            hintText: 'example@gmail.com',
+                            prefixIcon: Icon(Icons.email),
+                            labelText: "Email",
+                            labelStyle: style.copyWith(
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 15,
+                            ),
+                          ),
                         ),
-                        onPressed: _togglePasswordStatus,
                       ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 35.0,
-                ),
-                loginButon,
-                SizedBox(
-                  height: 80.0,
-                ),
-                SizedBox(
-                  height: 35,
-                  child: RichText(
-                    text: TextSpan(
-                        text: 'No account?',
-                        style: style.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 15),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: ' Sign Up.',
-                            style: style.copyWith(
-                                color: accentYellow, fontSize: 15),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SignUpPage(),
-                                    ),
-                                    (route) => false);
-                              },
-                          )
-                        ]),
-                  ),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                SizedBox(
-                  height: 35,
-                  child: RichText(
-                    text: TextSpan(
-                        text: 'Forget Password?',
-                        style: style.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 15),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: ' Reset here',
-                            style: style.copyWith(
-                                color: accentYellow, fontSize: 15),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SendEmailPage(),
-                                  ),
-                                );
-                              },
-                          )
-                        ]),
+                      SizedBox(
+                        height: 35.0,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: TextFormField(
+                          validator: passwordValidation,
+                          obscureText: _obscureText,
+                          controller: _passwordField,
+                          style: h5,
+                          decoration: textInputDecoratuon.copyWith(
+                            hintText: '*******',
+                            prefixIcon: Icon(Icons.lock),
+                            labelText: "Password",
+                            labelStyle: style.copyWith(
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 15,
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscureText
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                              ),
+                              onPressed: _togglePasswordStatus,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 35.0,
+                      ),
+                      loginButon,
+                      SizedBox(
+                        height: 80.0,
+                      ),
+                      SizedBox(
+                        height: 35,
+                        child: RichText(
+                          text: TextSpan(
+                              text: 'No account?',
+                              style: style.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 15),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: ' Sign Up.',
+                                  style: style.copyWith(
+                                      color: accentYellow, fontSize: 15),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => SignUpPage(),
+                                          ),
+                                          (route) => false);
+                                    },
+                                )
+                              ]),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      SizedBox(
+                        height: 35,
+                        child: RichText(
+                          text: TextSpan(
+                              text: 'Forget Password?',
+                              style: style.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 15),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: ' Reset here',
+                                  style: style.copyWith(
+                                      color: accentYellow, fontSize: 15),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SendEmailPage(),
+                                        ),
+                                      );
+                                    },
+                                )
+                              ]),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
