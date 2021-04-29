@@ -126,9 +126,9 @@ class _CourseDetailsState extends State<CourseDetails> {
                       style: yellowButtonsTextStyle,
                     ),
                     onPressed: () async {
-                      final action = await WarningDialogs.yesAbortDialog(
+                      final action = await Dialogs.yesAbortDialog(
                           context,
-                          " ",
+                          "Sure?",
                           "Are you sure you want to \nregister in this session?");
                       if (action == DialogAction.yes) {
                         setState(() => _sendToServer());
