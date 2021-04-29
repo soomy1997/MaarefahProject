@@ -10,6 +10,7 @@ import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/root/root.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
+import 'package:flutter_app_1/tutor/tutor_component/certificates.dart';
 import 'package:provider/provider.dart';
 import 'About.dart';
 import 'package:flutter_app_1/utils/constants.dart';
@@ -143,7 +144,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           "https://us04web.zoom.us/j/76518082507?pwd=TE5ISzJ1UEdPMlNTK05ETTdZa1JKUT09";
                       if (canLaunch(url) != null) launch(url);
                     }),
-
                 ListTile(
                   leading: Icon(
                     Icons.collections_bookmark_rounded,
@@ -176,7 +176,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     );
                   },
                 ),
-
                 ListTile(
                   leading: Icon(Icons.card_membership_outlined,
                       color: Colors.brown[200]),
@@ -185,11 +184,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         fontSize: 16,
                       )),
                   onTap: () {
-                    /*Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => JoinTutorPage()),
-                      );*/
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Certificates()),
+                    );
                   },
                 ),
                 Container(

@@ -1,4 +1,3 @@
-
 class Message {
   Message({
     this.title,
