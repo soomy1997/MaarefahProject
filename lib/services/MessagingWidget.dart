@@ -14,7 +14,7 @@ class _MessagingWidgetState extends State<MessagingWidget> {
           child: Column(
             children: [
               SizedBox(
-                height: 50,
+                height: 70,
               ),
               Text(
                 "Sorry :(\nNothing's here yet",

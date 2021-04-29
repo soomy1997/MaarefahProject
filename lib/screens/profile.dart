@@ -11,6 +11,7 @@ import 'package:flutter_app_1/root/root.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
 import 'package:flutter_app_1/tutor/tutor_component/certificates.dart';
+//import 'package:flutter_app_1/tutor/tutor_component/certificates.dart';
 import 'package:provider/provider.dart';
 import 'About.dart';
 import 'package:flutter_app_1/utils/constants.dart';
@@ -517,14 +518,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           alignment: Alignment.center,
                           child: CircleAvatar(
                             backgroundColor: Colors.grey,
-                            radius: 50,
-                            child: Text(
-                              "AB",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                            radius: 40,
+                            backgroundImage: NetworkImage(_cUser.avatarUrl),
                           ),
                         ),
                       ),
@@ -734,17 +729,11 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               CircleAvatar(
                 backgroundColor: Colors.grey,
-                child: Text(
-                  "AB",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
+                radius: 40,
+                backgroundImage: NetworkImage(_cUser.avatarUrl),
               ),
               st,
-              edit,
-              st,
+
               name,
               st,
               spacer,

@@ -48,13 +48,16 @@ class _AccountState extends State<Account> {
                     children: [
                       Image(
                         image: AssetImage("images/pic2.png"),
-                        height: MediaQuery.of(context).size.height * 0.30,
+                        height: MediaQuery.of(context).size.height * 0.24,
                         width: MediaQuery.of(context).size.width * 0.99,
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                     ],
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.55,
+                    height: MediaQuery.of(context).size.height * 0.60,
                     width: MediaQuery.of(context).size.width * 0.7,
                     decoration: boxShadow(),
                     child: Padding(
@@ -64,6 +67,9 @@ class _AccountState extends State<Account> {
                           children: [
                             Column(
                               children: [
+                                SizedBox(
+                                  height: 20,
+                                ),
                                 Text(
                                   "Contact Us",
                                   style: TextStyle(
@@ -71,12 +77,18 @@ class _AccountState extends State<Account> {
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
+                                SizedBox(
+                                  height: 20,
+                                ),
                                 Form(
                                     key: formKey,
                                     child: Column(
                                       children: [
                                         nameEntryField(),
                                         emailEntryField(),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
                                         Text(
                                           "Message",
                                           style: TextStyle(
@@ -227,26 +239,7 @@ class _AccountState extends State<Account> {
   }
 
   boxShadow() {
-    return BoxDecoration(color: Colors.grey[300], boxShadow: [
-      BoxShadow(
-        color: Color.fromRGBO(0, 0, 0, 0.1),
-        blurRadius: 6, // soften the shadow
-        spreadRadius: 3, //end the shadow
-        offset: Offset(
-          6.0, // Move to right 10  horizontally
-          2.0, // Move to bottom 10 Vertically
-        ),
-      ),
-      BoxShadow(
-        color: Color.fromRGBO(255, 255, 255, 0.5),
-        blurRadius: 6, // soften the shadow
-        spreadRadius: 3, //end the shadow
-        offset: Offset(
-          -6.0, // Move to right 10  horizontally
-          -2.0, // Move to bottom 10 Vertically
-        ),
-      ),
-    ]);
+    return BoxDecoration(color: Colors.grey[200], boxShadow: []);
   }
 
   void _send() {

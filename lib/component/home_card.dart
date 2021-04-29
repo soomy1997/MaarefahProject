@@ -48,16 +48,16 @@ class _HomeCardState extends State<HomeCard> {
                 if (snapshot.hasError) {
                   return Text('Something went wrong');
                 }
-               
+
                 final userDoc = snapshot.data;
                 final user = userDoc.data();
-                if (user['role'] == 'learner' || user['role'] == 'pending tutor') {
+                if (user['role'] == 'learner' ||
+                    user['role'] == 'pending tutor') {
                   return learnerHomeCard();
                 } else {
                   return tutorHomeCard();
                 }
-              }
-              );
+              });
         }
         return SignInPage();
       },
@@ -72,7 +72,14 @@ class _HomeCardState extends State<HomeCard> {
       ),
       height: 160,
       child: InkWell(
-        // onTap: press,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddSessionPage(),
+            ),
+          );
+        },
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: <Widget>[
@@ -102,7 +109,7 @@ class _HomeCardState extends State<HomeCard> {
                   ),
                   height: 160,
                   child: Image.asset(
-                    'images/pic4.png',
+                    'images/pic5.png',
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -122,20 +129,20 @@ class _HomeCardState extends State<HomeCard> {
                         horizontal: 20,
                       ),
                       child: Text(
-                        'submit\na new session!',
+                        'Submit\na new session!',
                         textAlign: TextAlign.center,
-                        style: h1,
+                        style: h4,
                       ),
                     ),
                     // it use the available space
                     Spacer(),
                     Padding(
                       padding: const EdgeInsets.symmetric(
+                        horizontal: 33,
                         vertical: 10,
-                        horizontal: 70,
                       ),
                       child: MaterialButton(
-                        color: Color(0xffF9A21B),
+                        color: accentYellow,
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -144,10 +151,12 @@ class _HomeCardState extends State<HomeCard> {
                             ),
                           );
                         },
-                        padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+                        padding: EdgeInsets.fromLTRB(10, 7.0, 10.0, 7.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
                         child: Text(
                           'Apply',
-                          style: yellowButtonsTextStyle,
+                          style: yellowButtonsTextStyle.copyWith(fontSize: 14),
                         ),
                       ),
                     ),
@@ -169,7 +178,14 @@ class _HomeCardState extends State<HomeCard> {
       ),
       height: 160,
       child: InkWell(
-        // onTap: press,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => JoinTutorPage(),
+            ),
+          );
+        },
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: <Widget>[
@@ -216,23 +232,23 @@ class _HomeCardState extends State<HomeCard> {
                     Spacer(),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
+                        horizontal: 10,
                       ),
                       child: Text(
-                        'Join Us as \nTutor !',
+                        'Share your creative \nwork and join us\nas a tutor!',
                         textAlign: TextAlign.center,
-                        style: h1,
+                        style: h4,
                       ),
                     ),
                     // it use the available space
                     Spacer(),
                     Padding(
                       padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
                         vertical: 10,
-                        horizontal: 12,
                       ),
                       child: MaterialButton(
-                        color: Color(0xffF9A21B),
+                        color: accentYellow,
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -241,10 +257,12 @@ class _HomeCardState extends State<HomeCard> {
                             ),
                           );
                         },
-                        padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+                        padding: EdgeInsets.fromLTRB(10, 7.0, 10.0, 7.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
                         child: Text(
                           'Request for Tutor',
-                          style: yellowButtonsTextStyle,
+                          style: yellowButtonsTextStyle.copyWith(fontSize: 14),
                         ),
                       ),
                     ),
