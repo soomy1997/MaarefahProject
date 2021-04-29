@@ -1,5 +1,8 @@
+import 'dart:io';
+import 'package:path/path.dart' as path;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/screens/registered_sessions.dart';
 import 'package:flutter_app_1/screens/change_password.dart';
@@ -10,6 +13,9 @@ import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/root/root.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
+import 'package:flutter_app_1/tutor/tutor_component/certificates.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'About.dart';
 import 'package:flutter_app_1/utils/constants.dart';
@@ -31,6 +37,48 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       _cUser = _currentUser;
     });
+  }
+
+  // String imageUrl;
+  String url;
+
+  uploadImage() async {
+    final _storage = FirebaseStorage.instance;
+    final _picker = ImagePicker();
+    PickedFile image;
+    //check permission for accessing photos
+    await Permission.photos.request();
+    var permissionStatus = await Permission.photos.status;
+    if (permissionStatus.isGranted) {
+      //Select Image
+      image = await _picker.getImage(source: ImageSource.gallery);
+      var file = File(image.path);
+      String fileName = path.basename(file.path);
+      if (image != null) {
+        //Upload to firebase
+        UploadTask uploadTask =
+            _storage.ref().child('avatarImages/' + fileName).putFile(file);
+        var imageUrl = await (await uploadTask).ref.getDownloadURL();
+        setState(() {
+          url = imageUrl.toString();
+        });
+        FirebaseFirestore.instance
+            .collection('users')
+            .where('uid', isEqualTo: _cUser.uid)
+            .get()
+            .then((value) => value.docs.forEach((element) {
+                  element.reference.update({
+                    'avatar_url': '$url',
+                  }).then(
+                    (value) => print('Success!'),
+                  );
+                }));
+      } else {
+        print('no path recieved');
+      }
+    } else {
+      print('permission denied..Grant permission and try again');
+    }
   }
 
   @override
@@ -129,6 +177,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     )),
                 ListTile(
+<<<<<<< HEAD
                   leading: Icon(
                     Icons.photo_camera_front,
                     color: Colors.blue[800],
@@ -139,6 +188,21 @@ class _ProfilePageState extends State<ProfilePage> {
                       )),
                   onTap: () {},
                 ),
+=======
+                    leading: Icon(
+                      Icons.photo_camera_front,
+                      color: Colors.blue[800],
+                    ),
+                    title: Text("My zoom link",
+                        style: TextStyle(
+                          fontSize: 16,
+                        )),
+                    onTap: () {
+                      const url =
+                          "https://us04web.zoom.us/j/76518082507?pwd=TE5ISzJ1UEdPMlNTK05ETTdZa1JKUT09";
+                      if (canLaunch(url) != null) launch(url);
+                    }),
+>>>>>>> 6094db653d7ac44c572863f2e6685d2d9bf393d5
                 ListTile(
                   leading: Icon(
                     Icons.collections_bookmark_rounded,
@@ -171,6 +235,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     );
                   },
                 ),
+<<<<<<< HEAD
                 ListTile(
                   leading: Icon(
                     Icons.rate_review_outlined,
@@ -187,6 +252,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     );
                   },
                 ),
+=======
+>>>>>>> 6094db653d7ac44c572863f2e6685d2d9bf393d5
                 ListTile(
                   leading: Icon(Icons.card_membership_outlined,
                       color: Colors.brown[200]),
@@ -195,11 +262,18 @@ class _ProfilePageState extends State<ProfilePage> {
                         fontSize: 16,
                       )),
                   onTap: () {
+<<<<<<< HEAD
                     /*Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => JoinTutorPage()),
                       );*/
+=======
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Certificates()),
+                    );
+>>>>>>> 6094db653d7ac44c572863f2e6685d2d9bf393d5
                   },
                 ),
                 Container(
@@ -424,20 +498,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       primary: accentOrange,
                     ),
                   ),
-                  //ElevatedButton.icon(
-                  //  onPressed: () {},
-                  //  icon: Icon(
-                  //    Icons.switch_account,
-                  //    color: whiteBG,
-                  //  ),
-                  //  label: Text(
-                  //    "Switch to Tutor",
-                  //    style: yellowButtonsTextStyle,
-                  //  ),
-                  //  style: ElevatedButton.styleFrom(
-                  //    primary: accentYellow,
-                  //  ),
-                  //),
                 ],
               ),
             ),
@@ -450,15 +510,15 @@ class _ProfilePageState extends State<ProfilePage> {
   boxShadow() {
     return BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
-        color: whiteBG,
+        color: Colors.grey[300],
         boxShadow: [
           BoxShadow(
             color: Color.fromRGBO(0, 0, 0, 0.1),
-            blurRadius: 20, // soften the shadow
-            spreadRadius: 10, //end the shadow
+            blurRadius: 6, // soften the shadow
+            spreadRadius: 3, //end the shadow
             offset: Offset(
-              0.0, // Move to right 10  horizontally
-              0.0, // Move to bottom 10 Vertically
+              6.0, // Move to right 10  horizontally
+              2.0, // Move to bottom 10 Vertically
             ),
           ),
           BoxShadow(
@@ -504,7 +564,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     alignment: Alignment.topRight,
                     child: FloatingActionButton(
                         elevation: 0,
-                        backgroundColor: whiteBG,
+                        backgroundColor: Colors.grey[300],
                         child: Column(
                           children: [
                             Icon(
@@ -536,24 +596,36 @@ class _ProfilePageState extends State<ProfilePage> {
                         padding: EdgeInsets.only(left: 50),
                         child: Align(
                           alignment: Alignment.center,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.grey,
-                            radius: 50,
-                            child: Text(
-                              "AB",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
+                          child: (url != null)
+                              ? CircleAvatar(
+                                  backgroundColor: Colors.grey,
+                                  radius: 50,
+                                  child: Image.network(
+                                    url,
+                                    fit: BoxFit.fill,
+                                    width: double.infinity,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return Center(
+                                          child: CircularProgressIndicator());
+                                    },
+                                  ))
+                              : CircleAvatar(
+                                  backgroundColor: Colors.grey,
+                                  radius: 50,
+                                  backgroundImage:
+                                      NetworkImage(_cUser.avatarUrl),
+                                ),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 60),
                         child: IconButton(
                           icon: Icon(Icons.camera_alt_rounded),
-                          onPressed: () {},
+                          onPressed: () {
+                            uploadImage();
+                          },
                         ),
                       )
                     ],
@@ -691,15 +763,15 @@ class _ProfilePageState extends State<ProfilePage> {
     boxShadow() {
       return BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20)),
-          color: whiteBG,
+          color: Colors.grey[300],
           boxShadow: [
             BoxShadow(
               color: Color.fromRGBO(0, 0, 0, 0.1),
-              blurRadius: 20, // soften the shadow
-              spreadRadius: 10, //end the shadow
+              blurRadius: 6, // soften the shadow
+              spreadRadius: 3, //end the shadow
               offset: Offset(
-                0.0, // Move to right 10  horizontally
-                0.0, // Move to bottom 10 Vertically
+                6.0, // Move to right 10  horizontally
+                2.0, // Move to bottom 10 Vertically
               ),
             ),
             BoxShadow(
@@ -727,7 +799,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 alignment: Alignment.topRight,
                 child: FloatingActionButton(
                   elevation: 0,
-                  backgroundColor: whiteBG,
+                  backgroundColor: Color(0XFFdae1eb),
                   child: Column(
                     children: [
                       Icon(
@@ -746,25 +818,62 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   onPressed: () {
                     Navigator.push(
+<<<<<<< HEAD
                         context,
                         MaterialPageRoute(
                             builder: (context) => EditAccountPage()));
+=======
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditAccountPage()),
+                    );
+>>>>>>> 6094db653d7ac44c572863f2e6685d2d9bf393d5
                   },
                 ),
               ),
-              CircleAvatar(
-                backgroundColor: Colors.grey,
-                child: Text(
-                  "AB",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 50),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: (url != null)
+                          ? CircleAvatar(
+                              backgroundColor: Colors.grey,
+                              radius: 50,
+                              child: Image.network(
+                                url,
+                                fit: BoxFit.fill,
+                                width: double.infinity,
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                },
+                              ))
+                          : CircleAvatar(
+                              backgroundColor: Colors.grey,
+                              radius: 50,
+                              backgroundImage: NetworkImage(_cUser.avatarUrl),
+                            ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 60),
+                    child: IconButton(
+                      icon: Icon(Icons.camera_alt_rounded),
+                      onPressed: () {
+                        uploadImage();
+                      },
+                    ),
+                  )
+                ],
               ),
               st,
-              edit,
-              st,
+
               name,
               st,
               spacer,
@@ -777,34 +886,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      acaLevel,
-                      acaValue,
-                      SizedBox(
-                        height: 10,
-                      ),
-                      gender,
-                      genderValue
-                    ],
+                    children: [acaLevel, acaValue, gender, genderValue],
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      email,
-                      emailValue,
-                      SizedBox(
-                        height: 10,
-                      ),
-                      phone,
-                      phoneValue
-                    ],
+                    children: [email, emailValue, phone, phoneValue],
                   )
                 ],
               ), // Him

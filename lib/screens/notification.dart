@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/services/MessagingWidget.dart';
+//import 'package:flutter_app_1/services/MessagingWidget.dart';
 
 import '../utils/constants.dart';
 
@@ -92,7 +92,7 @@ class _NotificationPage extends State<NotificationPage> {
                       .toList()),
             ),
 
-//yesterday
+// //yesterday
             Container(
                 padding: const EdgeInsets.only(top: 15),
                 child: DataTable(
@@ -154,7 +154,9 @@ class _NotificationPage extends State<NotificationPage> {
           context,
           title: 'Notifications',
         ),
-        body: Container(child: MessagingWidget()));
+        body: Container(child: Text('data')
+            //  MessagingWidget()
+            ));
 
     /*Container(
           child: notificationList.isEmpty ? messageWidget() : notifications(),
