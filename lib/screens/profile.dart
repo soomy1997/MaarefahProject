@@ -517,14 +517,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           alignment: Alignment.center,
                           child: CircleAvatar(
                             backgroundColor: Colors.grey,
-                            radius: 50,
-                            child: Text(
-                              "AB",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                            radius: 40,
+                            backgroundImage: NetworkImage(_cUser.avatarUrl),
                           ),
                         ),
                       ),
@@ -734,17 +728,11 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               CircleAvatar(
                 backgroundColor: Colors.grey,
-                child: Text(
-                  "AB",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
+                radius: 40,
+                backgroundImage: NetworkImage(_cUser.avatarUrl),
               ),
               st,
-              edit,
-              st,
+
               name,
               st,
               spacer,

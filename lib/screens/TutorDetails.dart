@@ -8,6 +8,7 @@ import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:flutter_app_1/admin/admin_compnent/share_popup.dart' as b;
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_app_1/screens/course_details.dart';
 import '../utils/constants.dart';
 
 // ignore: camel_case_types
@@ -118,35 +119,46 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
       ),
       body: Column(
         children: <Widget>[
-          Row(
-            children: [
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.grey,
-                      radius: 40,
-                      backgroundImage:
-                          NetworkImage(widget.post.data()['avatar_url']),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CourseDetails(),
+                  //post: widget.post.data(),
+                ),
+              );
+            },
+            child: Row(
+              children: [
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.grey,
+                        radius: 40,
+                        backgroundImage:
+                            NetworkImage(widget.post.data()['avatar_url']),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  Container(
-                    //margin: EdgeInsets.only(top: 20),
-                    padding: EdgeInsets.fromLTRB(4, 20, 4, 20),
-                    width: 300,
-                    height: 70,
-                    child: Text(widget.post.data()['name'],
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold)),
-                  )
-                ],
-              ),
-            ],
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    Container(
+                      //margin: EdgeInsets.only(top: 20),
+                      padding: EdgeInsets.fromLTRB(4, 20, 4, 20),
+                      width: 300,
+                      height: 70,
+                      child: Text(widget.post.data()['name'],
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -254,7 +266,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                       height: 220,
                       child: printreview()),
                   Container(
-                    child: sendreview(widget.post.data()['name']),
+                    child: sendreview(widget.post.data()['uid']),
                   ),
                 ],
               ),
@@ -337,10 +349,20 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
       );
     } else {
       return Container(
-        child: Text(
-          'You can not rate yourself',
-          style: style,
-          textAlign: TextAlign.center,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Container(
+            height: 40,
+            margin: EdgeInsets.all(5.0),
+            child: Text(
+              'You Can Not Rate Yourself..',
+              style: TextStyle(
+                  color: accentYellow,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 22),
+              textAlign: TextAlign.center,
+            ),
+          ),
         ),
       );
     }
