@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/services/MessagingWidget.dart';
-
 import '../utils/constants.dart';
 
 class NotificationPage extends StatefulWidget {
