@@ -1,5 +1,20 @@
 # Uncomment this line to define a global platform for your project
  platform :ios, '10.0'
+ use_frameworks!
+ # https://github.com/firebase/firebase-ios-sdk/issues/6339
+# Should be referenced for anything below that transitively uses GoogleUtilities
+def google_utilites
+  pod 'GoogleUtilities/AppDelegateSwizzler'
+  pod 'GoogleUtilities/Environment'
+  pod 'GoogleUtilities/ISASwizzler'
+  pod 'GoogleUtilities/Logger'
+  pod 'GoogleUtilities/MethodSwizzler'
+  pod 'GoogleUtilities/NSData+zlib'
+  pod 'GoogleUtilities/Network'
+  pod 'GoogleUtilities/Reachability'
+  pod 'GoogleUtilities/UserDefaults'
+end
+
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -29,6 +44,7 @@ flutter_ios_podfile_setup
 
 target 'Runner' do
   use_frameworks!
+  google_utilites
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))

@@ -52,9 +52,9 @@ List coursesList = [
   "Operating Systems"
 ];
 
-String locationGroupValue = '';
-String daysGroupValue = '';
-String timeGroupValue = '';
+String locationGroupValue = 'Online';
+String daysGroupValue = 'Sunday';
+String timeGroupValue = '8 PM';
 
 bool isLocationSelected = false;
 bool isDaySelected = false;
@@ -155,7 +155,7 @@ class _AddSessionPage extends State<AddSessionPage> {
         child: MaterialButton(
           minWidth: MediaQuery.of(context).size.width,
           padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
-          disabledColor: Colors.grey,
+          //disabledColor: Colors.grey,
           onPressed: isLocationSelected && isDaySelected && isTimeSelected
               ? () {
                   _sendToServer();

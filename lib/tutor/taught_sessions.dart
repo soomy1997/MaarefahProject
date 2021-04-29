@@ -1,16 +1,33 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_app_1/screens/course_details.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/models/users.dart';
 
 class TaughtSessions extends StatefulWidget {
+  final DocumentSnapshot post;
+
+  TaughtSessions({
+    this.post,
+  });
   @override
   _TaughtSessionsState createState() => _TaughtSessionsState();
 }
 
 class _TaughtSessionsState extends State<TaughtSessions> {
+  navigateToCourseDetails(DocumentSnapshot post) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CourseDetails(
+          post: post,
+        ),
+      ),
+    );
+  }
+
   OurUser _currentUser = OurUser();
   OurUser _cUser = OurUser();
 
@@ -63,121 +80,125 @@ class _TaughtSessionsState extends State<TaughtSessions> {
                       return SingleChildScrollView(
                         child: Column(
                           children: [
-                            Card(
-                              child: InkWell(
-                                child: Row(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Container(
-                                          height: 100,
-                                          width: 80,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              fit: BoxFit.fill,
-                                              image: NetworkImage(
-                                                doc.data()['image_url'],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                            InkWell(
+                              child: Card(
+                                child: InkWell(
+                                  child: Row(
+                                    children: [
+                                      Column(
                                         children: [
                                           Container(
-                                            constraints:
-                                                BoxConstraints(maxWidth: 300),
-                                            child: Text(
-                                              doc.data()['ses_name'],
-                                              style: TextStyle(
-                                                color: primaryBlack,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
+                                            height: 100,
+                                            width: 80,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: NetworkImage(
+                                                  doc.data()['image_url'],
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 17.0),
-                                            child: Text(
-                                              'By: ' + doc.data()['tutor_name'],
-                                              style: TextStyle(
-                                                color: primaryBlack,
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10.0),
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.calendar_today_outlined,
-                                                  size: 18,
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 5.0),
-                                                  child: Text(
-                                                    doc.data()['ses_date'],
-                                                    style: TextStyle(
-                                                      color:
-                                                          Colors.grey.shade800,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 15.0),
-                                                  child: Icon(
-                                                    Icons.access_time,
-                                                    size: 18,
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 5.0),
-                                                  child: Text(
-                                                    doc.data()['session_time'],
-                                                    style: TextStyle(
-                                                      color:
-                                                          Colors.grey.shade800,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
                                             ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ],
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              constraints:
+                                                  BoxConstraints(maxWidth: 300),
+                                              child: Text(
+                                                doc.data()['ses_name'],
+                                                style: TextStyle(
+                                                  color: primaryBlack,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 17.0),
+                                              child: Text(
+                                                'By: ' +
+                                                    doc.data()['tutor_name'],
+                                                style: TextStyle(
+                                                  color: primaryBlack,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons
+                                                        .calendar_today_outlined,
+                                                    size: 18,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 5.0),
+                                                    child: Text(
+                                                      doc.data()['ses_date'],
+                                                      style: TextStyle(
+                                                        color: Colors
+                                                            .grey.shade800,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 15.0),
+                                                    child: Icon(
+                                                      Icons.access_time,
+                                                      size: 18,
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 5.0),
+                                                    child: Text(
+                                                      doc.data()[
+                                                          'session_time'],
+                                                      style: TextStyle(
+                                                        color: Colors
+                                                            .grey.shade800,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                // onTap: () {
-                                //   navigateToCourseDetails(
-                                //     context,
-                                //     snapshot.data.docs[index],
-                                //   );
-                                // },
                               ),
+                              onTap: () {
+                                navigateToCourseDetails(
+                                    snapshot.data.docs[index]);
+                              },
                             ),
                           ],
                         ),
