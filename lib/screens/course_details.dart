@@ -263,28 +263,24 @@ class _CourseDetailsState extends State<CourseDetails> {
                             style: h5,
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            TextButton(
-                              child: const Text('View Profile'),
-                              onPressed: () {
-                                navigateToTutorDetails(
-                                  widget.post.data()['tutor_name'],
-                                );
-                              },
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            IconButton(
-                                icon: Icon(Icons.arrow_forward),
-                                onPressed: () {
-                                  navigateToTutorDetails(
-                                    widget.post.data()['tutor_name'],
-                                  );
-                                }),
-                          ],
+                        MaterialButton(
+                          onPressed: () {
+                            navigateToTutorDetails(
+                                widget.post.data()['tutor_name']);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              new Text(
+                                "View Profile ",
+                                style: whiteButtonsTextStyle,
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                color: kTextLightColor,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

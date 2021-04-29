@@ -41,6 +41,17 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
     print(_cUser);
   }
 
+  navigateToCourseDetails(DocumentSnapshot post) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CourseDetails(
+          post: post,
+        ),
+      ),
+    );
+  }
+
   Stream<dynamic> getSessionsByTutor() {
     // var tname = ;
     Stream<QuerySnapshot> x = FirebaseFirestore.instance
@@ -543,6 +554,9 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                             fontSize: 14,
                           ),
                         ),
+                        onTap: () {
+                          navigateToCourseDetails(snapshot.data.docs[index]);
+                        },
                       )
                     ],
                   ),

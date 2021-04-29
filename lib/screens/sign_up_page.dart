@@ -24,7 +24,7 @@ class _SignUpPageState extends State<SignUpPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   String valueChoose;
   List listItems = ["3th", "4th", "5th", "6th", "7th", "8th", "9th", "10th"];
-  String genderGroupValue = '';
+  String genderGroupValue = 'Female';
   String name, email, pass;
   //checkboxes
   bool isGenderSelected = false;
@@ -197,13 +197,9 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
     return Scaffold(
-      appBar: myAppBar1(
+      appBar: myAppBar2(
         context,
         title: 'Create Account',
-        iconButton: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () {},
-        ),
       ),
       body: Center(
         child: SingleChildScrollView(
