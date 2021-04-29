@@ -177,18 +177,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     )),
                 ListTile(
-<<<<<<< HEAD
-                  leading: Icon(
-                    Icons.photo_camera_front,
-                    color: Colors.blue[800],
-                  ),
-                  title: Text("My zoom link",
-                      style: TextStyle(
-                        fontSize: 16,
-                      )),
-                  onTap: () {},
-                ),
-=======
                     leading: Icon(
                       Icons.photo_camera_front,
                       color: Colors.blue[800],
@@ -200,9 +188,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     onTap: () {
                       const url =
                           "https://us04web.zoom.us/j/76518082507?pwd=TE5ISzJ1UEdPMlNTK05ETTdZa1JKUT09";
-                      if (canLaunch(url) != null) launch(url);
+                      // if (canLaunch(url) != null) launch(url);
                     }),
->>>>>>> 6094db653d7ac44c572863f2e6685d2d9bf393d5
                 ListTile(
                   leading: Icon(
                     Icons.collections_bookmark_rounded,
@@ -235,25 +222,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     );
                   },
                 ),
-<<<<<<< HEAD
-                ListTile(
-                  leading: Icon(
-                    Icons.rate_review_outlined,
-                    color: Colors.deepPurple,
-                  ),
-                  title: Text("Reviews & Ratings",
-                      style: TextStyle(
-                        fontSize: 16,
-                      )),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => JoinTutorPage()),
-                    );
-                  },
-                ),
-=======
->>>>>>> 6094db653d7ac44c572863f2e6685d2d9bf393d5
                 ListTile(
                   leading: Icon(Icons.card_membership_outlined,
                       color: Colors.brown[200]),
@@ -262,18 +230,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         fontSize: 16,
                       )),
                   onTap: () {
-<<<<<<< HEAD
-                    /*Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => JoinTutorPage()),
-                      );*/
-=======
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Certificates()),
                     );
->>>>>>> 6094db653d7ac44c572863f2e6685d2d9bf393d5
                   },
                 ),
                 Container(
@@ -818,16 +778,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   onPressed: () {
                     Navigator.push(
-<<<<<<< HEAD
                         context,
                         MaterialPageRoute(
                             builder: (context) => EditAccountPage()));
-=======
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EditAccountPage()),
-                    );
->>>>>>> 6094db653d7ac44c572863f2e6685d2d9bf393d5
                   },
                 ),
               ),
