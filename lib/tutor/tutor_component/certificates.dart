@@ -1,24 +1,15 @@
 import 'package:flutter/rendering.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_app_1/utils/constants.dart';
 
 class Certificates extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Certificates',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        backgroundColor: Color(0xff14213C),
-        leading: GestureDetector(
-          onTap: () {},
-          child: Icon(Icons.arrow_back_ios_sharp),
-        ),
+    return Scaffold(
+      appBar: myAppBar2(
+        context,
+        title: 'certificate',
       ),
       body: ListView(scrollDirection: Axis.vertical, children: <Widget>[
         Padding(
@@ -568,6 +559,6 @@ class Certificates extends StatelessWidget {
           ),
         ),
       ]),
-    ));
+    );
   }
 }

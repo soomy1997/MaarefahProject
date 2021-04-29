@@ -1,5 +1,8 @@
+import 'dart:io';
+import 'package:path/path.dart' as path;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/screens/registered_sessions.dart';
 import 'package:flutter_app_1/screens/change_password.dart';
@@ -11,7 +14,8 @@ import 'package:flutter_app_1/root/root.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
 import 'package:flutter_app_1/tutor/tutor_component/certificates.dart';
-//import 'package:flutter_app_1/tutor/tutor_component/certificates.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'About.dart';
 import 'package:flutter_app_1/utils/constants.dart';
@@ -34,6 +38,48 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       _cUser = _currentUser;
     });
+  }
+
+  // String imageUrl;
+  String url;
+
+  uploadImage() async {
+    final _storage = FirebaseStorage.instance;
+    final _picker = ImagePicker();
+    PickedFile image;
+    //check permission for accessing photos
+    await Permission.photos.request();
+    var permissionStatus = await Permission.photos.status;
+    if (permissionStatus.isGranted) {
+      //Select Image
+      image = await _picker.getImage(source: ImageSource.gallery);
+      var file = File(image.path);
+      String fileName = path.basename(file.path);
+      if (image != null) {
+        //Upload to firebase
+        UploadTask uploadTask =
+            _storage.ref().child('avatarImages/' + fileName).putFile(file);
+        var imageUrl = await (await uploadTask).ref.getDownloadURL();
+        setState(() {
+          url = imageUrl.toString();
+        });
+        FirebaseFirestore.instance
+            .collection('users')
+            .where('uid', isEqualTo: _cUser.uid)
+            .get()
+            .then((value) => value.docs.forEach((element) {
+                  element.reference.update({
+                    'avatar_url': '$url',
+                  }).then(
+                    (value) => print('Success!'),
+                  );
+                }));
+      } else {
+        print('no path recieved');
+      }
+    } else {
+      print('permission denied..Grant permission and try again');
+    }
   }
 
   @override
@@ -413,20 +459,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       primary: accentOrange,
                     ),
                   ),
-                  //ElevatedButton.icon(
-                  //  onPressed: () {},
-                  //  icon: Icon(
-                  //    Icons.switch_account,
-                  //    color: whiteBG,
-                  //  ),
-                  //  label: Text(
-                  //    "Switch to Tutor",
-                  //    style: yellowButtonsTextStyle,
-                  //  ),
-                  //  style: ElevatedButton.styleFrom(
-                  //    primary: accentYellow,
-                  //  ),
-                  //),
                 ],
               ),
             ),
@@ -516,18 +548,36 @@ class _ProfilePageState extends State<ProfilePage> {
                         padding: EdgeInsets.only(left: 50),
                         child: Align(
                           alignment: Alignment.center,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.grey,
-                            radius: 40,
-                            backgroundImage: NetworkImage(_cUser.avatarUrl),
-                          ),
+                          child: (url != null)
+                              ? CircleAvatar(
+                                  backgroundColor: Colors.grey,
+                                  radius: 50,
+                                  child: Image.network(
+                                    url,
+                                    fit: BoxFit.fill,
+                                    width: double.infinity,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return Center(
+                                          child: CircularProgressIndicator());
+                                    },
+                                  ))
+                              : CircleAvatar(
+                                  backgroundColor: Colors.grey,
+                                  radius: 50,
+                                  backgroundImage:
+                                      NetworkImage(_cUser.avatarUrl),
+                                ),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 60),
                         child: IconButton(
                           icon: Icon(Icons.camera_alt_rounded),
-                          onPressed: () {},
+                          onPressed: () {
+                            uploadImage();
+                          },
                         ),
                       )
                     ],
@@ -727,10 +777,46 @@ class _ProfilePageState extends State<ProfilePage> {
                   },
                 ),
               ),
-              CircleAvatar(
-                backgroundColor: Colors.grey,
-                radius: 40,
-                backgroundImage: NetworkImage(_cUser.avatarUrl),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 50),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: (url != null)
+                          ? CircleAvatar(
+                              backgroundColor: Colors.grey,
+                              radius: 50,
+                              child: Image.network(
+                                url,
+                                fit: BoxFit.fill,
+                                width: double.infinity,
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                },
+                              ))
+                          : CircleAvatar(
+                              backgroundColor: Colors.grey,
+                              radius: 50,
+                              backgroundImage: NetworkImage(_cUser.avatarUrl),
+                            ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 60),
+                    child: IconButton(
+                      icon: Icon(Icons.camera_alt_rounded),
+                      onPressed: () {
+                        uploadImage();
+                      },
+                    ),
+                  )
+                ],
               ),
               st,
 
