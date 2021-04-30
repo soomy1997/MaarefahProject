@@ -25,7 +25,7 @@ class CourseDetails extends StatefulWidget {
 }
 
 class _CourseDetailsState extends State<CourseDetails> {
-  navigateToTutorDetails(DocumentSnapshot post) {
+  navigateToTutorDetails(String post) {
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -262,7 +262,8 @@ class _CourseDetailsState extends State<CourseDetails> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => MyTutorDetails(
-                                        post: widget.post,
+                                        //post: widget.post,
+                                        post: widget.post.data()['uid'],
                                       )),
                             );
 
