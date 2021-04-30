@@ -6,6 +6,7 @@ import 'package:flutter_app_1/utils/tabbed_app.dart';
 import 'package:provider/provider.dart';
 import '../utils/constants.dart';
 import '../services/flutterfire.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -16,33 +17,6 @@ class _SignInPageState extends State<SignInPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   TextEditingController _emailField = TextEditingController();
   TextEditingController _passwordField = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  void _loginUser(String email, String password, BuildContext context) async {
-    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
-    try {
-      String _returnString = await _currentUser.loginUser(email, password);
-
-      if (_returnString == 'success') {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => TabbedApp(),
-          ),
-          (route) => false,
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Icorrect login info'),
-            duration: Duration(seconds: 2),
-          ),
-        );
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
 
   // Initially password is obscure
   bool _obscureText = true;
@@ -53,8 +27,41 @@ class _SignInPageState extends State<SignInPage> {
     });
   }
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    void _loginUser(String email, String password, BuildContext context) async {
+      CurrentUser _currentUser =
+          Provider.of<CurrentUser>(context, listen: false);
+      try {
+        String _returnString = await _currentUser.loginUser(email, password);
+
+        if (_returnString == 'success') {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TabbedApp(),
+            ),
+            (route) => false,
+          );
+        } else {
+          // _showToast();
+          Fluttertoast.showToast(
+            msg: "Icorrect email or Password",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        }
+      } catch (e) {
+        print(e);
+      }
+    }
+
     final loginButon = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(10.0),
@@ -63,7 +70,9 @@ class _SignInPageState extends State<SignInPage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          _loginUser(_emailField.text, _passwordField.text, context);
+          if (_formKey.currentState.validate()) {
+            _loginUser(_emailField.text, _passwordField.text, context);
+          }
         },
         child: Text("Sign In", style: yellowButtonsTextStyle),
       ),
@@ -85,7 +94,7 @@ class _SignInPageState extends State<SignInPage> {
                   child: Image(
                     height: 170.0,
                     width: 150,
-                    image: AssetImage("images/appLogo2.PNG"),
+                    image: AssetImage("images/logos.png"),
                   ),
                 ),
                 SizedBox(

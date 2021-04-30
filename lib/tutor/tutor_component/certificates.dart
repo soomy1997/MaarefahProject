@@ -2,6 +2,9 @@ import 'package:flutter/rendering.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/utils/constants.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Certificates extends StatelessWidget {
   @override
@@ -62,18 +65,38 @@ class Certificates extends StatelessWidget {
                                     SizedBox(
                                       width: 65,
                                     ),
-                                    new Icon(
-                                      Icons.file_download,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(
-                                      width: 3,
-                                    ),
-                                    new Text(
-                                      'DOWNLOAD',
-                                      style: new TextStyle(
+                                    new TextButton.icon(
+                                      onPressed: () async {
+                                        final status =
+                                            await Permission.storage.request();
+
+                                        if (status.isGranted) {
+                                          final externalDir =
+                                              await getExternalStorageDirectory();
+
+                                          final id =
+                                              await FlutterDownloader.enqueue(
+                                            url:
+                                                "https://firebasestorage.googleapis.com/v0/b/ma-arefah-app.appspot.com/o/certificates%2FVolunteer-Certificate.pdf?alt=media&token=1a9a5108-6ddb-4b37-ad08-2e6a3471d40f",
+                                            savedDir: externalDir.path,
+                                            fileName: "download",
+                                            showNotification: true,
+                                            openFileFromNotification: true,
+                                          );
+                                        } else {
+                                          print("Permission deined");
+                                        }
+                                      },
+                                      label: Text(
+                                        'DOWNLOAD',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      icon: Icon(
+                                        Icons.file_download,
                                         color: Colors.white,
-                                        fontSize: 16,
                                       ),
                                     )
                                   ],
@@ -140,18 +163,18 @@ class Certificates extends StatelessWidget {
                                     SizedBox(
                                       width: 65,
                                     ),
-                                    new Icon(
-                                      Icons.file_download,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(
-                                      width: 3,
-                                    ),
-                                    new Text(
-                                      'DOWNLOAD',
-                                      style: new TextStyle(
+                                    new TextButton.icon(
+                                      onPressed: () {},
+                                      label: Text(
+                                        'DOWNLOAD',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      icon: Icon(
+                                        Icons.file_download,
                                         color: Colors.white,
-                                        fontSize: 16,
                                       ),
                                     )
                                   ],
@@ -218,18 +241,18 @@ class Certificates extends StatelessWidget {
                                     SizedBox(
                                       width: 65,
                                     ),
-                                    new Icon(
-                                      Icons.file_download,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(
-                                      width: 3,
-                                    ),
-                                    new Text(
-                                      'DOWNLOAD',
-                                      style: new TextStyle(
+                                    new TextButton.icon(
+                                      onPressed: () {},
+                                      label: Text(
+                                        'DOWNLOAD',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      icon: Icon(
+                                        Icons.file_download,
                                         color: Colors.white,
-                                        fontSize: 16,
                                       ),
                                     )
                                   ],
@@ -296,18 +319,18 @@ class Certificates extends StatelessWidget {
                                     SizedBox(
                                       width: 65,
                                     ),
-                                    new Icon(
-                                      Icons.file_download,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(
-                                      width: 3,
-                                    ),
-                                    new Text(
-                                      'DOWNLOAD',
-                                      style: new TextStyle(
+                                    new TextButton.icon(
+                                      onPressed: () {},
+                                      label: Text(
+                                        'DOWNLOAD',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      icon: Icon(
+                                        Icons.file_download,
                                         color: Colors.white,
-                                        fontSize: 16,
                                       ),
                                     )
                                   ],
@@ -374,18 +397,18 @@ class Certificates extends StatelessWidget {
                                     SizedBox(
                                       width: 65,
                                     ),
-                                    new Icon(
-                                      Icons.file_download,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(
-                                      width: 3,
-                                    ),
-                                    new Text(
-                                      'DOWNLOAD',
-                                      style: new TextStyle(
+                                    new TextButton.icon(
+                                      onPressed: () {},
+                                      label: Text(
+                                        'DOWNLOAD',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      icon: Icon(
+                                        Icons.file_download,
                                         color: Colors.white,
-                                        fontSize: 16,
                                       ),
                                     )
                                   ],
@@ -452,18 +475,18 @@ class Certificates extends StatelessWidget {
                                     SizedBox(
                                       width: 65,
                                     ),
-                                    new Icon(
-                                      Icons.file_download,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(
-                                      width: 3,
-                                    ),
-                                    new Text(
-                                      'DOWNLOAD',
-                                      style: new TextStyle(
+                                    new TextButton.icon(
+                                      onPressed: () {},
+                                      label: Text(
+                                        'DOWNLOAD',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      icon: Icon(
+                                        Icons.file_download,
                                         color: Colors.white,
-                                        fontSize: 16,
                                       ),
                                     )
                                   ],
@@ -530,18 +553,18 @@ class Certificates extends StatelessWidget {
                                     SizedBox(
                                       width: 65,
                                     ),
-                                    new Icon(
-                                      Icons.file_download,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(
-                                      width: 3,
-                                    ),
-                                    new Text(
-                                      'DOWNLOAD',
-                                      style: new TextStyle(
+                                    new TextButton.icon(
+                                      onPressed: () {},
+                                      label: Text(
+                                        'DOWNLOAD',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      icon: Icon(
+                                        Icons.file_download,
                                         color: Colors.white,
-                                        fontSize: 16,
                                       ),
                                     )
                                   ],

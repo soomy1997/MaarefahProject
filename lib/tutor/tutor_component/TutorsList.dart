@@ -30,13 +30,9 @@ class _TutorsList extends State<TutorsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: myAppBar3(
+        appBar: myAppBar4(
           context,
           title: "Tutors List",
-          iconButton: IconButton(
-            icon: Icon(Icons.ios_share),
-            onPressed: () {},
-          ),
         ),
         body: StreamBuilder(
           stream: FirebaseFirestore.instance
@@ -88,7 +84,9 @@ class _TutorsList extends State<TutorsList> {
                           new MaterialButton(
                             padding: EdgeInsets.zero,
                             onPressed: () {
-                              navigateToTutorDetails(snapshot.data.docs[index]);
+                              print('chavhvhvcadlw ' +
+                                  snapshot.data.docs[index].data().toString());
+                              //  navigateToTutorDetails(snapshot.data.docs[index]);
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,

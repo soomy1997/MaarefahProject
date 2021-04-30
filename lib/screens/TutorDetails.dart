@@ -67,7 +67,21 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
   }
 
   int docCount = 0;
+  Future<int> getSessionsCount() async {
+    print("TUTRO NAME IS " + widget.post.data()['tutor_name'].toString());
+    var sessions = await FirebaseFirestore.instance
+        .collection("session")
+        .where("tutor_name", isEqualTo: widget.post.data()['tutor_name'])
+        .where("approved", isEqualTo: 'yes')
+        .get();
+
+    print("THE VALUE IN FUNCTION IS " + sessions.docs.length.toString());
+
+    return sessions.docs.length;
+  }
+
   Future<void> countSessions() async {
+    print('check name ' + widget.post.data()['name']);
     // var tname = ;
     QuerySnapshot x = await FirebaseFirestore.instance
         .collection('session')
@@ -84,13 +98,14 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
   }
 
   int docCount2 = 0;
+
   Future<void> countReviews() async {
     //var tname = ;
     QuerySnapshot x = await FirebaseFirestore.instance
         .collection('ratings')
         .where(
           "tutor_name",
-          isEqualTo: widget.post.data()['name'],
+          isEqualTo: widget.post.data()['tutor_name'],
         )
         .get();
     setState(() {
@@ -103,28 +118,32 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
   // ignore: must_call_super
   void initState() {
     super.initState();
-    countSessions();
+    // countSessions();
     countReviews();
     getUserInfo();
   }
 
   @override
   Widget build(BuildContext context) {
+    print('kdkdkkd' + widget.post.data()['tutor_name']);
+
     // var thetutorname = widget.post.data()['name'];
-    countSessions();
+    //  countSessions();
     return Scaffold(
       appBar: myAppBar1(
         context,
         title: "Tutor Details",
         iconButton: IconButton(
           icon: Icon(Icons.ios_share),
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return b.ShareDialog1();
-              },
-            );
+          onPressed: () async {
+            var g = await getSessionsCount();
+            print("CHECK THE COUNT HEREEEEE " + g.toString());
+            // showDialog(
+            //   context: context,
+            //   builder: (BuildContext context) {
+            //     return b.ShareDialog1();
+            //   },
+            // );
           },
         ),
       ),
@@ -162,7 +181,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                       padding: EdgeInsets.fromLTRB(4, 20, 4, 20),
                       width: 300,
                       height: 70,
-                      child: Text(widget.post.data()['name'],
+                      child: Text(widget.post.data()['tutor_name'],
                           style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold)),
                     )
@@ -171,6 +190,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
               ],
             ),
           ),
+          //widget.post.data()['name']
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -190,7 +210,14 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(docCount.toString(), style: h4),
+                        // Text(docCount.toString(), style: h4),
+                        FutureBuilder(
+                            future: getSessionsCount(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              print("snasssss" + snapshot.data.toString());
+                              return Text(snapshot.data.toString(), style: h4);
+                            })
                       ],
                     ),
                     SizedBox(height: 10),

@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_1/component/home_card.dart';
+import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/screens/course_details.dart';
+import 'package:flutter_app_1/services/database.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,6 +13,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomePage> {
+  //getting current user information
+  OurUser _currentUser = OurUser();
+  OurUser _cUser;
+  OurUser get getCurrntUser => _currentUser;
+  Future<OurUser> getUserInfo() async {
+    User _firebaseUser = FirebaseAuth.instance.currentUser;
+    _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
+    // setState(() {
+    //   _cUser = _currentUser;
+    // });
+    return _currentUser;
+  }
+
+  User user;
+  Future<void> getUserData() async {
+    User userData = FirebaseAuth.instance.currentUser;
+    setState(() {
+      user = userData;
+    });
+  }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String sesName = "";
 
@@ -21,12 +45,13 @@ class _HomeScreenState extends State<HomePage> {
         .snapshots();
   }
 
-  navigateToCourseDetails(DocumentSnapshot post) {
+  navigateToCourseDetails(DocumentSnapshot post, bool isUserRegistered) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => CourseDetails(
           post: post,
+          isUserRegistered: isUserRegistered,
         ),
       ),
     );
@@ -235,10 +260,26 @@ class _HomeScreenState extends State<HomePage> {
                                           ),
                                         ],
                                       ),
-                                      onTap: () {
+                                      onTap: () async {
+                                        var user = await getUserInfo();
+                                        print('session id ' +
+                                            snapshot
+                                                .data.docs[index]['sessionId']
+                                                .toString());
+                                        print('user id ' + user.uid);
+
+                                        var isUserRegistered =
+                                            await isUserRegisteredInSession(
+                                                user.uid,
+                                                snapshot.data
+                                                    .docs[index]['sessionId']
+                                                    .toString());
+
+                                        print("IS USER REGSISTERED: " +
+                                            isUserRegistered.toString());
                                         navigateToCourseDetails(
-                                          snapshot.data.docs[index],
-                                        );
+                                            snapshot.data.docs[index],
+                                            isUserRegistered);
                                       },
                                     ),
                                   ),
@@ -254,5 +295,19 @@ class _HomeScreenState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  Future<bool> isUserRegisteredInSession(String uid, String sessionID) async {
+    var result = await FirebaseFirestore.instance
+        .collection('registration')
+        .where('uid', isEqualTo: uid)
+        .where('sessionId', isEqualTo: sessionID)
+        .get();
+
+    if (result.docs.length == 0) {
+      return false; // user is not regsitred in the session
+    } else {
+      return true; // user is regsitered in the session
+    }
   }
 }

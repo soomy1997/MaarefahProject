@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app_1/component/dialogs.dart';
+import 'package:flutter_app_1/screens/TutorDetails.dart' as c;
 
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/admin/admin_compnent/successful_register_dialog.dart'
@@ -10,12 +11,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app_1/models/users.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'tutorDetails.dart';
 
 class CourseDetails extends StatefulWidget {
   final DocumentSnapshot post;
-  CourseDetails({this.post});
+  final bool isUserRegistered;
+  CourseDetails({this.post, this.isUserRegistered});
 
   @override
   _CourseDetailsState createState() => _CourseDetailsState();
@@ -59,6 +62,7 @@ class _CourseDetailsState extends State<CourseDetails> {
 
   @override
   Widget build(BuildContext context) {
+    print("from course details " + widget.isUserRegistered.toString());
     void _sendToServer() {
       FirebaseFirestore.instance
           .runTransaction((Transaction transaction) async {
@@ -110,68 +114,56 @@ class _CourseDetailsState extends State<CourseDetails> {
           ),
           Container(
             padding: const EdgeInsets.only(bottom: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                SizedBox(
-                  child: MaterialButton(
-                    highlightColor: accentOrange,
-                    height: 50,
-                    color: accentYellow,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.90,
+              child: widget.isUserRegistered
+                  ? MaterialButton(
+                      highlightColor: accentOrange,
+                      height: 50,
+                      minWidth: 200,
+                      color: accentYellow,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        ' Register Session',
+                        style: yellowButtonsTextStyle,
+                      ),
+                      onPressed: () async {
+                        final action = await Dialogs.yesAbortDialog(
+                            context,
+                            "Sure?",
+                            "Are you sure you want to \nregister in this session?");
+                        if (action == DialogAction.yes) {
+                          setState(() => _sendToServer());
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return a.AlertDialog1();
+                              });
+                        } else {
+                          setState(() => null);
+                        }
+                      },
+                    )
+                  : MaterialButton(
+                      height: 50,
+                      minWidth: 200,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      color: Colors.white,
+                      child: Text(
+                        'Zoom Meeting',
+                        style: whiteButtonsTextStyle.copyWith(
+                            color: Colors.indigoAccent.shade700),
+                      ),
+                      onPressed: () {
+                        const url =
+                            "https://us04web.zoom.us/j/76518082507?pwd=TE5ISzJ1UEdPMlNTK05ETTdZa1JKUT09";
+                        if (canLaunch(url) != null) launch(url);
+                      },
                     ),
-                    child: Text(
-                      ' Register Session',
-                      style: yellowButtonsTextStyle,
-                    ),
-                    onPressed: () async {
-                      final action = await Dialogs.yesAbortDialog(
-                          context,
-                          "Sure?",
-                          "Are you sure you want to \nregister in this session?");
-                      if (action == DialogAction.yes) {
-                        setState(() => _sendToServer());
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return a.AlertDialog1();
-                            });
-                      } else {
-                        setState(() => null);
-                      }
-                    },
-                  ),
-                ),
-                Visibility(
-                  visible: true,
-                  child: StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection('registration')
-                          .where('uid', isEqualTo: _cUser.uid)
-                          .where('sessionId',
-                              isEqualTo: widget.post.data()['sessionId'])
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData)
-                          return MaterialButton(
-                            height: 50,
-                            minWidth: 190,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            color: Colors.white,
-                            child: Text(
-                              'Zoom Meeting',
-                              style: whiteButtonsTextStyle.copyWith(
-                                  color: Colors.indigoAccent.shade700),
-                            ),
-                            onPressed: () {},
-                          );
-                        return SizedBox();
-                      }),
-                )
-              ],
             ),
           ),
           Expanded(
@@ -265,8 +257,24 @@ class _CourseDetailsState extends State<CourseDetails> {
                         ),
                         MaterialButton(
                           onPressed: () {
-                            navigateToTutorDetails(
-                                widget.post.data()['tutor_name']);
+                            print('cd,m' + widget.post.data().toString());
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyTutorDetails(
+                                        post: widget.post,
+                                      )),
+                            );
+
+                            // navigateToTutorDetails(
+                            //   widget.post
+                            //   );
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => MyTutorDetails(
+                            //             //  post: post,
+                            //             )));
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -294,9 +302,6 @@ class _CourseDetailsState extends State<CourseDetails> {
     );
   }
 }
-
-
-
 
 /* _sendToServer();
                     showDialog(
