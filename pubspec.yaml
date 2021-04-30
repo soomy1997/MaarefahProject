@@ -24,7 +24,7 @@ dependencies:
   number_inc_dec: ^0.6.6
   uuid: ^2.2.2
   crypto: ^2.1.5
-  image_picker: ^0.6.7+22
+  image_picker: ^0.6.7+22 
   image_picker_platform_interface: ^1.1.6
   http: ^0.12.2
   permission_handler: ^5.1.0+2
@@ -34,6 +34,8 @@ dependencies:
   flutter_rating_bar: ^4.0.0
   fluttertoast: ^7.1.8
   url_launcher: ^6.0.3
+  flutter_downloader: ^1.6.0
+  path_provider: ^2.0.1
 
   #firebase packages
   firebase_core: "0.7.0"

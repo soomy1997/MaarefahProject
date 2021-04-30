@@ -137,7 +137,7 @@ class _AdminSignPageState extends State<AdminSignPage> {
                     child: Image(
                       height: 170.0,
                       width: 150,
-                      image: AssetImage("images/appLogo2.PNG"),
+                      image: AssetImage("images/logos.png"),
                     ),
                   ),
                   SizedBox(
