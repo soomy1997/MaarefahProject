@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/component/dialogs.dart';
-import 'package:flutter_app_1/screens/profile.dart';
 import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/services/database.dart';
 import '../utils/constants.dart';
@@ -59,7 +58,7 @@ class _EditAccountPage extends State<EditAccountPage> {
     final emailField = TextFormField(
         validator: emailValidation,
         initialValue: _cUser.email,
-        onChanged: (val) => setState(() => newEmail = val),
+        onSaved: (val) => setState(() => newEmail = val),
         obscureText: false,
         keyboardType: TextInputType.emailAddress,
         style: h5,
@@ -79,6 +78,7 @@ class _EditAccountPage extends State<EditAccountPage> {
               textAlign: TextAlign.center, style: yellowButtonsTextStyle),
           onPressed: () async {
             if (_formKey.currentState.validate()) {
+              _formKey.currentState.save();
               final action = await Dialogs.yesAbortDialog(context, 'Sure?',
                   'Are you sure you want to change your account informaion?');
               if (action == DialogAction.yes) {
@@ -93,12 +93,7 @@ class _EditAccountPage extends State<EditAccountPage> {
                             'academicLevel': '$newLevel',
                           });
                         }));
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProfilePage(),
-                  ),
-                );
+                Navigator.pop(context);
               } else {
                 setState(() => null);
               }
