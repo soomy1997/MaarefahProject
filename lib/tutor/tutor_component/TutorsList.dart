@@ -12,7 +12,7 @@ class TutorsList extends StatefulWidget {
 }
 
 class _TutorsList extends State<TutorsList> {
-  navigateToTutorDetails(DocumentSnapshot post) {
+  navigateToTutorDetails(String post) {
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -88,7 +88,8 @@ class _TutorsList extends State<TutorsList> {
                           new MaterialButton(
                             padding: EdgeInsets.zero,
                             onPressed: () {
-                              navigateToTutorDetails(snapshot.data.docs[index]);
+                              navigateToTutorDetails(
+                                  snapshot.data.docs[index]['uid']);
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
