@@ -24,7 +24,7 @@ dependencies:
   number_inc_dec: ^0.6.6
   uuid: ^2.2.2
   crypto: ^2.1.5
-  image_picker: ^0.6.7+22
+  image_picker: ^0.6.7+22 
   image_picker_platform_interface: ^1.1.6
   http: ^0.12.2
   permission_handler: ^5.1.0+2

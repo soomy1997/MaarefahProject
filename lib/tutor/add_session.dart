@@ -384,6 +384,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                             }),
                         Text('Physical'),
                         Radio(
+                            autofocus: true,
                             value: 'Online',
                             groupValue: locationGroupValue,
                             activeColor: Colors.orange,
@@ -489,6 +490,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                             TableRow(
                               children: [
                                 Radio(
+                                    autofocus: true,
                                     value: 'Sunday',
                                     groupValue: daysGroupValue,
                                     activeColor: Colors.orange,
@@ -603,6 +605,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                             TableRow(
                               children: [
                                 Radio(
+                                    autofocus: true,
                                     value: '6 PM',
                                     groupValue: timeGroupValue,
                                     activeColor: Colors.orange,
