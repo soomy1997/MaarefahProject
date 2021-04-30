@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app_1/component/dialogs.dart';
 import 'package:flutter_app_1/screens/TutorDetails.dart' as c;
-
+import 'dart:math';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/admin/admin_compnent/successful_register_dialog.dart'
     as a;
@@ -64,6 +64,7 @@ class _CourseDetailsState extends State<CourseDetails> {
   Widget build(BuildContext context) {
     print("from course details " + widget.isUserRegistered.toString());
     void _sendToServer() {
+      var random = new Random();
       FirebaseFirestore.instance
           .runTransaction((Transaction transaction) async {
         CollectionReference reference =
@@ -74,7 +75,8 @@ class _CourseDetailsState extends State<CourseDetails> {
           'sessionId': '${widget.post.data()["sessionId"]}',
           'course_name': '${widget.post.data()['course_name']}',
           'academic_level': '${_cUser.academicLevel}',
-          'uid': '${_cUser.uid}'
+          'uid': '${_cUser.uid}',
+          'reg_id': random.nextInt(100).toString(),
         });
       });
     }
@@ -115,56 +117,55 @@ class _CourseDetailsState extends State<CourseDetails> {
           Container(
             padding: const EdgeInsets.only(bottom: 20),
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.90,
-              child: widget.isUserRegistered
-                  ? MaterialButton(
-                      highlightColor: accentOrange,
-                      height: 50,
-                      minWidth: 200,
-                      color: accentYellow,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        ' Register Session',
-                        style: yellowButtonsTextStyle,
-                      ),
-                      onPressed: () async {
-                        final action = await Dialogs.yesAbortDialog(
-                            context,
-                            "Sure?",
-                            "Are you sure you want to \nregister in this session?");
-                        if (action == DialogAction.yes) {
-                          setState(() => _sendToServer());
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return a.AlertDialog1();
-                              });
-                        } else {
-                          setState(() => null);
-                        }
-                      },
-                    )
-                  : MaterialButton(
-                      height: 50,
-                      minWidth: 200,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      color: Colors.white,
-                      child: Text(
-                        'Zoom Meeting',
-                        style: whiteButtonsTextStyle.copyWith(
-                            color: Colors.indigoAccent.shade700),
-                      ),
-                      onPressed: () {
-                        const url =
-                            "https://us04web.zoom.us/j/76518082507?pwd=TE5ISzJ1UEdPMlNTK05ETTdZa1JKUT09";
-                        if (canLaunch(url) != null) launch(url);
-                      },
-                    ),
-            ),
+                width: MediaQuery.of(context).size.width * 0.90,
+                child: widget.isUserRegistered
+                    ? MaterialButton(
+                        height: 50,
+                        minWidth: 200,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        color: Colors.white,
+                        child: Text(
+                          'Zoom Meeting',
+                          style: whiteButtonsTextStyle.copyWith(
+                              color: Colors.indigoAccent.shade700),
+                        ),
+                        onPressed: () {
+                          const url =
+                              "https://us04web.zoom.us/j/76518082507?pwd=TE5ISzJ1UEdPMlNTK05ETTdZa1JKUT09";
+                          if (canLaunch(url) != null) launch(url);
+                        },
+                      )
+                    : MaterialButton(
+                        highlightColor: accentOrange,
+                        height: 50,
+                        minWidth: 200,
+                        color: accentYellow,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          ' Register Session',
+                          style: yellowButtonsTextStyle,
+                        ),
+                        onPressed: () async {
+                          final action = await Dialogs.yesAbortDialog(
+                              context,
+                              "Sure?",
+                              "Are you sure you want to \nregister in this session?");
+                          if (action == DialogAction.yes) {
+                            setState(() => _sendToServer());
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return a.AlertDialog1();
+                                });
+                          } else {
+                            setState(() => null);
+                          }
+                        },
+                      )),
           ),
           Expanded(
             child: _buildListView(),

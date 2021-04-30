@@ -136,14 +136,14 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
         iconButton: IconButton(
           icon: Icon(Icons.ios_share),
           onPressed: () async {
-            var g = await getSessionsCount();
-            print("CHECK THE COUNT HEREEEEE " + g.toString());
-            // showDialog(
-            //   context: context,
-            //   builder: (BuildContext context) {
-            //     return b.ShareDialog1();
-            //   },
-            // );
+            //var g = await getSessionsCount();
+            //print("CHECK THE COUNT HEREEEEE " + g.toString());
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return b.ShareDialog1();
+              },
+            );
           },
         ),
       ),
