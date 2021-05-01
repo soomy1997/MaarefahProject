@@ -24,7 +24,27 @@ class CourseDetails extends StatefulWidget {
   _CourseDetailsState createState() => _CourseDetailsState();
 }
 
+// Future<String> tutorNameByUid() async {
+//   var sessions = await FirebaseFirestore.instance
+//       .collection("users")
+//       .where("uid", isEqualTo: widget.post)
+//       .limit(1)
+//       .get();
+//   var tt_name = sessions.docs[0].data()['name'];
+//   return tt_name;
+// }
+
 class _CourseDetailsState extends State<CourseDetails> {
+  Future<String> sessionNameByUid() async {
+    var sessions = await FirebaseFirestore.instance
+        .collection("session")
+        .where("sessionId", isEqualTo: widget.post.data()['sessionId'])
+        .limit(1)
+        .get();
+    var tt_name = sessions.docs[0].data()['name'];
+    return tt_name;
+  }
+
   navigateToTutorDetails(String post) {
     Navigator.push(
         context,
@@ -70,7 +90,11 @@ class _CourseDetailsState extends State<CourseDetails> {
             FirebaseFirestore.instance.collection('registration');
         await reference.add({
           'ses_name': '${widget.post.data()["ses_name"]}',
+          'image_url': '${widget.post.data()["image_url"]}',
           'l_name': '${_cUser.name}',
+          'tutor_name': '${widget.post.data()["tutor_name"]}',
+          'ses_date': '${widget.post.data()["ses_date"]}',
+          'session_time': '${widget.post.data()["session_time"]}',
           'sessionId': '${widget.post.data()["sessionId"]}',
           'course_name': '${widget.post.data()['course_name']}',
           'academic_level': '${_cUser.academicLevel}',
@@ -118,6 +142,24 @@ class _CourseDetailsState extends State<CourseDetails> {
               width: MediaQuery.of(context).size.width * 0.90,
               child: widget.isUserRegistered
                   ? MaterialButton(
+                      height: 50,
+                      minWidth: 200,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      color: Colors.white,
+                      child: Text(
+                        'Zoom Meeting',
+                        style: whiteButtonsTextStyle.copyWith(
+                            color: Colors.indigoAccent.shade700),
+                      ),
+                      onPressed: () {
+                        const url =
+                            "https://us04web.zoom.us/j/76518082507?pwd=TE5ISzJ1UEdPMlNTK05ETTdZa1JKUT09";
+                        if (canLaunch(url) != null) launch(url);
+                      },
+                    )
+                  : MaterialButton(
                       highlightColor: accentOrange,
                       height: 50,
                       minWidth: 200,
@@ -145,24 +187,6 @@ class _CourseDetailsState extends State<CourseDetails> {
                           setState(() => null);
                         }
                       },
-                    )
-                  : MaterialButton(
-                      height: 50,
-                      minWidth: 200,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      color: Colors.white,
-                      child: Text(
-                        'Zoom Meeting',
-                        style: whiteButtonsTextStyle.copyWith(
-                            color: Colors.indigoAccent.shade700),
-                      ),
-                      onPressed: () {
-                        const url =
-                            "https://us04web.zoom.us/j/76518082507?pwd=TE5ISzJ1UEdPMlNTK05ETTdZa1JKUT09";
-                        if (canLaunch(url) != null) launch(url);
-                      },
                     ),
             ),
           ),
@@ -178,8 +202,7 @@ class _CourseDetailsState extends State<CourseDetails> {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: StreamBuilder(
-        stream:
-            FirebaseFirestore.instance.collection('registration').snapshots(),
+        stream: FirebaseFirestore.instance.collection('session').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
@@ -193,48 +216,61 @@ class _CourseDetailsState extends State<CourseDetails> {
             child: Column(
               children: <Widget>[
                 Card(
+                  elevation: 5,
+                  margin: EdgeInsets.all(10.0),
                   child: Container(
                     padding: EdgeInsets.all(7.0),
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 9,
+                    height: MediaQuery.of(context).size.height / 8,
                     child: ListTile(
                       title: Text(
                         'Description',
                         style: h4,
                       ),
-                      subtitle: Text(widget.post.data()['ses_description']),
+                      subtitle: Text(
+                        widget.post.data()['ses_description'],
+                        style: h5,
+                      ),
                     ),
                   ),
                 ),
                 Card(
+                  elevation: 5,
+                  margin: EdgeInsets.all(10.0),
                   child: Container(
                     padding: EdgeInsets.all(7.0),
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 9,
+                    height: MediaQuery.of(context).size.height / 8,
                     child: ListTile(
                       title: Text(
                         'Agenda',
                         style: h4,
                       ),
-                      subtitle: Text(widget.post.data()['ses_agenda']),
+                      subtitle:
+                          Text(widget.post.data()['ses_agenda'], style: h5),
                     ),
                   ),
                 ),
                 Card(
+                  elevation: 5,
+                  margin: EdgeInsets.all(10.0),
                   child: Container(
                     padding: EdgeInsets.all(7.0),
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 9,
+                    height: MediaQuery.of(context).size.height / 8,
                     child: ListTile(
                       title: Text(
                         'Requirements',
                         style: h4,
                       ),
-                      subtitle: Text(widget.post.data()['ses_requirement']),
+                      subtitle: Text(widget.post.data()['ses_requirement'],
+                          style: h5),
                     ),
                   ),
                 ),
                 Card(
+                  elevation: 5,
+                  margin: EdgeInsets.all(10.0),
                   child: Container(
                     padding: EdgeInsets.all(7.0),
                     width: MediaQuery.of(context).size.width,
@@ -242,9 +278,11 @@ class _CourseDetailsState extends State<CourseDetails> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         ListTile(
-                          leading: Icon(
-                            Icons.person,
-                            size: 70,
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.grey,
+                            radius: 40,
+                            backgroundImage:
+                                NetworkImage(widget.post.data()['avatar_url']),
                           ),
                           title: Text(
                             'Speaker',
@@ -256,27 +294,6 @@ class _CourseDetailsState extends State<CourseDetails> {
                           ),
                         ),
                         MaterialButton(
-                          onPressed: () {
-                            print('cd,m' + widget.post.data().toString());
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MyTutorDetails(
-                                        //post: widget.post,
-                                        post: widget.post.data()['uid'],
-                                      )),
-                            );
-
-                            // navigateToTutorDetails(
-                            //   widget.post
-                            //   );
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => MyTutorDetails(
-                            //             //  post: post,
-                            //             )));
-                          },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
@@ -290,6 +307,15 @@ class _CourseDetailsState extends State<CourseDetails> {
                               ),
                             ],
                           ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyTutorDetails(
+                                        post: widget.post.data()['uid'],
+                                      )),
+                            );
+                          },
                         ),
                       ],
                     ),

@@ -212,10 +212,6 @@ class _TaughtSessionsState extends State<TaughtSessions> {
                               ),
                               onTap: () async {
                                 bool nn = true;
-
-                                // var ss = await isUserRegisteredInSession(
-                                //     widget.post.data()['uid'],
-                                //      snapshot.data.docs[index]['sessionId']);
                                 navigateToCourseDetails(
                                     snapshot.data.docs[index], nn);
                               },
