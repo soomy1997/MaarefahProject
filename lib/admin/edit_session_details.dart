@@ -625,7 +625,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                     'ses_description': '$sessionDescription',
                     'ses_agenda': '$sessionAgenda',
                     'ses_location': '$locationValueChoose',
-                    'ses_requirements': '$sesssionRequirements',
+                    'ses_requirement': '$sesssionRequirements',
                     'academic_level': '$levelValueChoose',
                     'tutor_name': '$tutorName',
                     // 'state': '$stateValueChoose',
