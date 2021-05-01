@@ -209,6 +209,22 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 ListTile(
                   leading: Icon(
+                    Icons.ad_units,
+                    color: Colors.orange,
+                  ),
+                  title: Text("Registered Session",
+                      style: TextStyle(
+                        fontSize: 16,
+                      )),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RegisteredSessions()));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
                     Icons.lock,
                     color: Colors.greenAccent,
                   ),

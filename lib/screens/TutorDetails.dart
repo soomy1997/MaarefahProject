@@ -53,6 +53,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
     );
   }
 
+//used
   Stream<dynamic> getSessionsByTutor() {
     // var tname = ;
     Stream<QuerySnapshot> x = FirebaseFirestore.instance
@@ -68,7 +69,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
     return x;
   }
 
-  Future<String> TutorNameByUid() async {
+  Future<String> tutorNameByUid() async {
     var sessions = await FirebaseFirestore.instance
         .collection("users")
         .where("uid", isEqualTo: widget.post)
@@ -86,9 +87,8 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
     return usera;
   }
 
-  int docCount = 0;
   Future<int> getSessionsCount() async {
-    var tutorName = await TutorNameByUid();
+    var tutorName = await tutorNameByUid();
 
     var sessions = await FirebaseFirestore.instance
         .collection("session")
@@ -96,63 +96,31 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
         .where("approved", isEqualTo: 'yes')
         .get();
 
-    print("THE VALUE IN FUNCTION IS " + sessions.docs.length.toString());
-
     return sessions.docs.length;
   }
 
-  Future<void> countSessions() async {
-    var tutorName = await TutorNameByUid();
-    print('check name ' + tutorName);
-    // var tname = ;
-    QuerySnapshot x = await FirebaseFirestore.instance
-        .collection('session')
-        .where(
-          "uid",
-          isEqualTo: widget.post,
-        )
-        .where('approved', isEqualTo: 'yes')
-        .get();
-    setState(() {
-      docCount = x.docs.length;
-    });
-    print(docCount);
-  }
+  Future<int> getCountReviews() async {
+    var tutorName = await tutorNameByUid();
 
-  int docCount2 = 0;
-
-  Future<void> countReviews() async {
-    var tutorName = await TutorNameByUid();
-    //var tname = ;
-    QuerySnapshot x = await FirebaseFirestore.instance
+    var x = await FirebaseFirestore.instance
         .collection('ratings')
         .where(
-          "tutor_name",
-          isEqualTo: tutorName,
+          "t_uid",
+          isEqualTo: widget.post,
         )
         .get();
-    setState(() {
-      docCount2 = x.docs.length;
-    });
-    print(docCount2);
+    return x.docs.length;
   }
 
   @override
   // ignore: must_call_super
   void initState() {
     super.initState();
-    // countSessions();
-    countReviews();
     getUserInfo();
-    //getTutorNameByUid();
   }
 
   @override
   Widget build(BuildContext context) {
-    //print('kdkdkkd' + widget.post.data().toString());
-
-    // var thetutorname = widget.post.data()['name'];
-    //  countSessions();
     return Scaffold(
       appBar: myAppBar1(
         context,
@@ -160,8 +128,6 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
         iconButton: IconButton(
           icon: Icon(Icons.ios_share),
           onPressed: () async {
-            //var g = await getSessionsCount();
-            //print("CHECK THE COUNT HEREEEEE " + g.toString());
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -173,49 +139,38 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
       ),
       body: Column(
         children: <Widget>[
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CourseDetails(),
-                  //post: widget.post.data(),
-                ),
-              );
+          FutureBuilder(
+            future: getuserinformation(),
+            builder: (context, snapshot) {
+              if (snapshot.data != null) {
+                //print('gassss' + snapshot.data['name']);
+                //return SizedBox();
+                return Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.grey,
+                        radius: 40,
+                        backgroundImage:
+                            NetworkImage(snapshot.data['avatar_url']),
+                      ),
+                    ),
+                    Container(
+                      //margin: EdgeInsets.only(top: 20),
+                      padding: EdgeInsets.fromLTRB(4, 20, 4, 20),
+                      width: 300,
+                      height: 70,
+                      child: Text(snapshot.data['name'],
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                );
+              } else {
+                return SizedBox();
+              }
             },
-            child: FutureBuilder(
-              future: getuserinformation(),
-              builder: (context, snapshot) {
-                if (snapshot.data != null) {
-                  //print('gassss' + snapshot.data['name']);
-                  //return SizedBox();
-                  return Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.grey,
-                          radius: 40,
-                          backgroundImage:
-                              NetworkImage(snapshot.data['avatar_url']),
-                        ),
-                      ),
-                      Container(
-                        //margin: EdgeInsets.only(top: 20),
-                        padding: EdgeInsets.fromLTRB(4, 20, 4, 20),
-                        width: 300,
-                        height: 70,
-                        child: Text(snapshot.data['name'],
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold)),
-                      ),
-                    ],
-                  );
-                } else {
-                  return SizedBox();
-                }
-              },
-            ),
           ),
           //widget.post.data()['name']
           Row(
@@ -242,7 +197,6 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                             future: getSessionsCount(),
                             builder:
                                 (BuildContext context, AsyncSnapshot snapshot) {
-                              print("snasssss" + snapshot.data.toString());
                               return Text(snapshot.data.toString(), style: h4);
                             })
                       ],
@@ -270,12 +224,12 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                 height: 80.0,
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(docCount2.toString(), style: h4),
-                      ],
-                    ),
+                    FutureBuilder(
+                        future: getCountReviews(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          return Text(snapshot.data.toString(), style: h4);
+                        }),
                     SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -435,12 +389,12 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
 
   Widget printreview() {
     // var tname = ;
-    var tutorName = TutorNameByUid();
+    //var tutorName = tutorNameByUid();
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('ratings')
             .where(
-              "uid",
+              "t_uid",
               isEqualTo: widget.post,
             )
             .snapshots(),
@@ -535,34 +489,37 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
 //  );
   }
 
-  void sendReviewToDB() {
-    // if (_formKey.currentState.validate()) {
-    //   //No error in validator
-    //   _formKey.currentState.save();
-    //   FirebaseFirestore.instance
-    //       .runTransaction((Transaction transaction) async {
-    //     CollectionReference reference =
-    //         FirebaseFirestore.instance.collection('ratings');
-    //     await reference.add({
-    //       'body': '$reviewtxt',
-    //       'l_name': _cUser.name,
-    //       'tutor_name': widget.post.data()['name'],
-    //       'rating': '$rating',
-    //       't_uid': widget.post.data()['uid'],
-    //     });
-    //   });
-    //   Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (context) => TutorsList(),
-    //     ),
-    //   );
-    // } else {
-    //   setState(() {
-    //     return AutovalidateMode.disabled;
-    //   });
-    // }
+  void sendReviewToDB() async {
+    var tutorName = await tutorNameByUid();
+
+    if (_formKey.currentState.validate()) {
+      //No error in validator
+      _formKey.currentState.save();
+      FirebaseFirestore.instance
+          .runTransaction((Transaction transaction) async {
+        CollectionReference reference =
+            FirebaseFirestore.instance.collection('ratings');
+        await reference.add({
+          'body': '$reviewtxt',
+          'l_name': _cUser.name,
+          'tutor_name': tutorName,
+          'rating': '$rating',
+          't_uid': widget.post,
+        });
+      });
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TutorsList(),
+        ),
+      );
+    } else {
+      setState(() {
+        return AutovalidateMode.disabled;
+      });
+    }
   }
+
   Future<bool> isUserRegisteredInSession(String uid, String sessionID) async {
     var result = await FirebaseFirestore.instance
         .collection('registration')
@@ -578,7 +535,6 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
   }
 
   Widget _buildCardListView() {
-    //if (getSessionsByTutor().Documents.length>0) {
     var x = getSessionsByTutor();
     return SizedBox(
         height: 200.0,
@@ -624,8 +580,6 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                           ),
                         ),
                         onTap: () async {
-                          print('hsjdhsjhfdheu' +
-                              snapshot.data.docs[index].toString());
                           var ss = await isUserRegisteredInSession(widget.post,
                               snapshot.data.docs[index]['sessionId']);
                           navigateToCourseDetails(
