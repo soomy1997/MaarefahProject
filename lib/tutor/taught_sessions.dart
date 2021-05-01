@@ -17,12 +17,13 @@ class TaughtSessions extends StatefulWidget {
 }
 
 class _TaughtSessionsState extends State<TaughtSessions> {
-  navigateToCourseDetails(DocumentSnapshot post) {
+  navigateToCourseDetails(DocumentSnapshot post, bool isUserRegistered) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => CourseDetails(
           post: post,
+          isUserRegistered: isUserRegistered,
         ),
       ),
     );
@@ -46,6 +47,20 @@ class _TaughtSessionsState extends State<TaughtSessions> {
     currentUserInfo();
   }
 
+  Future<bool> isUserRegisteredInSession(String uid, String sessionID) async {
+    var result = await FirebaseFirestore.instance
+        .collection('registration')
+        .where('uid', isEqualTo: uid)
+        .where('sessionId', isEqualTo: sessionID)
+        .get();
+
+    if (result.docs.length == 0) {
+      return false; // user is not regsitred in the session
+    } else {
+      return true; // user is regsitered in the session
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: myAppBar1(
@@ -66,8 +81,8 @@ class _TaughtSessionsState extends State<TaughtSessions> {
                 stream: FirebaseFirestore.instance
                     .collection('session')
                     .where(
-                      "tutor_name",
-                      isEqualTo: _cUser.name,
+                      "uid",
+                      isEqualTo: _cUser.uid,
                     )
                     .where('approved', isEqualTo: 'yes')
                     .snapshots(),
@@ -195,9 +210,10 @@ class _TaughtSessionsState extends State<TaughtSessions> {
                                   ),
                                 ),
                               ),
-                              onTap: () {
+                              onTap: () async {
+                                bool nn = true;
                                 navigateToCourseDetails(
-                                    snapshot.data.docs[index]);
+                                    snapshot.data.docs[index], nn);
                               },
                             ),
                           ],
