@@ -46,7 +46,7 @@ class _RegisteredSessionsState extends State<RegisteredSessions> {
     return Scaffold(
       appBar: myAppBar1(
         context,
-        title: "Registered Sessions",
+        title: "Rgistered Sessions",
         iconButton: IconButton(
           icon: Icon(Icons.ios_share),
           onPressed: () {},
