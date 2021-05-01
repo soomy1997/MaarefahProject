@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomePage> {
         .snapshots();
   }
 
-  navigateToCourseDetails(DocumentSnapshot post, bool isUserRegistered) {
+  navigateToCourseDetails(String post, bool isUserRegistered) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -278,7 +278,8 @@ class _HomeScreenState extends State<HomePage> {
                                         print("IS USER REGSISTERED: " +
                                             isUserRegistered.toString());
                                         navigateToCourseDetails(
-                                            snapshot.data.docs[index],
+                                            snapshot.data.docs[index]
+                                                ['sessionId'],
                                             isUserRegistered);
                                       },
                                     ),

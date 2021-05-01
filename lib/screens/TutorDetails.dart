@@ -32,16 +32,17 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
   OurUser _cUser;
   OurUser get getCurrntUser => _currentUser;
 
-  Future<void> getUserInfo() async {
+  Future<OurUser> getUserInfo() async {
     User _firebaseUser = FirebaseAuth.instance.currentUser;
-    _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
-    setState(() {
-      _cUser = _currentUser;
-    });
-    print(_cUser);
+    var currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
+    // setState(() {
+    //   _cUser = _currentUser;
+    // });
+    //
+    return currentUser;
   }
 
-  navigateToCourseDetails(DocumentSnapshot post, bool isUserRegistered) {
+  navigateToCourseDetails(String post, bool isUserRegistered) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -115,7 +116,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
   // ignore: must_call_super
   void initState() {
     super.initState();
-    getUserInfo();
+    //getUserInfo();
   }
 
   @override
@@ -283,9 +284,17 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                       width: double.infinity,
                       height: 220,
                       child: printreview()),
-                  Container(
-                    child: sendreview(widget.post),
-                  ),
+                  FutureBuilder(
+                      future: getUserInfo(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return SizedBox();
+                        } else {
+                          return Container(
+                            child: sendreview(widget.post, snapshot.data),
+                          );
+                        }
+                      }),
                 ],
               ),
             ),
@@ -295,8 +304,8 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
     );
   }
 
-  Widget sendreview(dynamic aa) {
-    if (aa != _cUser.uid) {
+  Widget sendreview(dynamic tutoruid, OurUser cUser) {
+    if (tutoruid != cUser.uid) {
       return Form(
         key: _formKey,
         child: Column(
@@ -490,7 +499,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
 
   void sendReviewToDB() async {
     var tutorName = await tutorNameByUid();
-
+    var currentUser = await getUserInfo();
     if (_formKey.currentState.validate()) {
       //No error in validator
       _formKey.currentState.save();
@@ -500,7 +509,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
             FirebaseFirestore.instance.collection('ratings');
         await reference.add({
           'body': '$reviewtxt',
-          'l_name': _cUser.name,
+          'l_name': currentUser.name,
           'tutor_name': tutorName,
           'rating': '$rating',
           't_uid': widget.post,
@@ -582,7 +591,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
                           var ss = await isUserRegisteredInSession(widget.post,
                               snapshot.data.docs[index]['sessionId']);
                           navigateToCourseDetails(
-                              snapshot.data.docs[index], ss);
+                              snapshot.data.docs[index]['sessionId'], ss);
                         },
                       )
                     ],

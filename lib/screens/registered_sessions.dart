@@ -12,7 +12,7 @@ class RegisteredSessions extends StatefulWidget {
 }
 
 class _RegisteredSessionsState extends State<RegisteredSessions> {
-  navigateToCourseDetails(DocumentSnapshot post, bool isUserRegistered) {
+  navigateToCourseDetails(String post, bool isUserRegistered) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -190,7 +190,8 @@ class _RegisteredSessionsState extends State<RegisteredSessions> {
                                         snapshot.data.docs[index]['sessionId']
                                             .toString());
                                     navigateToCourseDetails(
-                                        snapshot.data.docs[index], nn);
+                                        snapshot.data.docs[index]['sessionId'],
+                                        nn);
                                   },
                                 ),
                               ),
