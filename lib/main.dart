@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_1/root/root.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

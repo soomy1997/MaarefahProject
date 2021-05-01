@@ -165,6 +165,11 @@ class _EditAccountPage extends State<EditAccountPage> {
                       newLevel = newValue;
                     });
                   },
+                  onSaved: (newValue) {
+                    setState(() {
+                      newLevel = newValue;
+                    });
+                  },
                   validator: (value) =>
                       value == null ? 'This field is required.' : null,
                   items: listItems.map((valueItem) {

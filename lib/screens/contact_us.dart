@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app_1/utils/constants.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Account extends StatefulWidget {
   @override
@@ -21,12 +23,13 @@ class _AccountState extends State<Account> {
   String messageValue;
 
   final formKey = GlobalKey<FormState>();
+  FToast fToast;
 
-  var _selectedIndex = 3;
-  onItemPressed(index) {
-    if (index != _selectedIndex) {
-      setState(() => _selectedIndex = index);
-    }
+  @override
+  void initState() {
+    super.initState();
+    fToast = FToast();
+    fToast.init(context);
   }
 
   @override
@@ -243,7 +246,29 @@ class _AccountState extends State<Account> {
   }
 
   void _send() {
-    if (formKey.currentState.validate()) {}
+    if (formKey.currentState.validate()) {
+      formKey.currentState.save();
+      FirebaseFirestore.instance
+          .runTransaction((Transaction transaction) async {
+        CollectionReference reference =
+            FirebaseFirestore.instance.collection('contact_us_messages');
+        await reference.add({
+          'name': nameValue,
+          'email': emailValue,
+          'message': messageValue,
+        });
+      });
+      Fluttertoast.showToast(
+        msg: "Message has been sent succssfully",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      formKey.currentState.reset();
+    }
   }
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_1/services/MessagingWidget.dart';
 import '../utils/constants.dart';
 
 class NotificationPage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _NotificationPage extends State<NotificationPage> {
                 height: 70,
               ),
               Text(
-                "Sorry :(\nNothing's hewww yet",
+                "Sorry \nNothing's hewww yet",
                 style: h1,
                 textAlign: TextAlign.center,
               ),
@@ -152,10 +153,7 @@ class _NotificationPage extends State<NotificationPage> {
           context,
           title: 'Notifications',
         ),
-        body: Container(
-          child: Text('data'),
-          //MessagingWidget()
-        ));
+        body: Container(child: MessagingWidget()));
 
     /*Container(
           child: notificationList.isEmpty ? messageWidget() : notifications(),

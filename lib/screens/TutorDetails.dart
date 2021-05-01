@@ -55,7 +55,7 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
 
 //used
   Stream<dynamic> getSessionsByTutor() {
-    // var tname = ;
+    
     Stream<QuerySnapshot> x = FirebaseFirestore.instance
         .collection('session')
         .where(

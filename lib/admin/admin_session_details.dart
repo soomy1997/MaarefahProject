@@ -19,7 +19,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
   final String id;
   _SessionDetailsPage({@required this.id});
 
-  String stateGroupValue = '';
+  // String stateGroupValue = 'shown';
 
   bool approvalstate = false;
 
@@ -260,55 +260,55 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                             snapshot.data.docs.first.data()["tutor_name"],
                           )),
                     ]),
-                TableRow(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                                width: 1.0, color: Colors.grey.shade300))),
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(15),
-                        child: Row(children: [
-                          Text('State', style: h4),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Icon(
-                            Icons.edit,
-                            size: 20,
-                            color: Colors.grey,
-                          )
-                        ]),
-                      ),
-                      Container(
-                          padding: EdgeInsets.all(15),
-                          child: Row(
-                            children: [
-                              Radio(
-                                  value: 'shown',
-                                  groupValue: stateGroupValue,
-                                  activeColor: Colors.orange,
-                                  onChanged: (val) {
-                                    setState(() {
-                                      stateGroupValue = val;
-                                      isStateSelected = true;
-                                    });
-                                  }),
-                              Text('Shown'),
-                              Radio(
-                                  value: 'hidden',
-                                  groupValue: stateGroupValue,
-                                  activeColor: Colors.orange,
-                                  onChanged: (val) {
-                                    setState(() {
-                                      stateGroupValue = val;
-                                      isStateSelected = true;
-                                    });
-                                  }),
-                              Text('Hidden'),
-                            ],
-                          )),
-                    ]),
+                // TableRow(
+                //     decoration: BoxDecoration(
+                //         border: Border(
+                //             bottom: BorderSide(
+                //                 width: 1.0, color: Colors.grey.shade300))),
+                //     children: [
+                //       Container(
+                //         padding: EdgeInsets.all(15),
+                //         child: Row(children: [
+                //           Text('State', style: h4),
+                //           SizedBox(
+                //             width: 5,
+                //           ),
+                //           Icon(
+                //             Icons.edit,
+                //             size: 20,
+                //             color: Colors.grey,
+                //           )
+                //         ]),
+                //       ),
+                //       Container(
+                //           padding: EdgeInsets.all(15),
+                //           child: Row(
+                //             children: [
+                //               Radio(
+                //                   value: 'shown',
+                //                   groupValue: stateGroupValue,
+                //                   activeColor: Colors.orange,
+                //                   onChanged: (val) {
+                //                     setState(() {
+                //                       stateGroupValue = val;
+                //                       isStateSelected = true;
+                //                     });
+                //                   }),
+                //               Text('Shown'),
+                //               Radio(
+                //                   value: 'hidden',
+                //                   groupValue: stateGroupValue,
+                //                   activeColor: Colors.orange,
+                //                   onChanged: (val) {
+                //                     setState(() {
+                //                       stateGroupValue = val;
+                //                       isStateSelected = true;
+                //                     });
+                //                   }),
+                //               Text('Hidden'),
+                //             ],
+                //           )),
+                //     ]),
                 TableRow(
                     decoration: BoxDecoration(
                         border: Border(
@@ -429,7 +429,6 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                 .then((value) => value.docs.forEach((element) {
                       element.reference.update({
                         'approved': 'yes',
-                        'state': '$stateGroupValue',
                         'ses_date':
                             '${formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate)}',
                       }).then(

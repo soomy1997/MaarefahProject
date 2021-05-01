@@ -261,7 +261,7 @@ class _HomeCardState extends State<HomeCard> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12)),
                         child: Text(
-                          'Request for Tutor',
+                          'Join us as Tutor',
                           style: yellowButtonsTextStyle.copyWith(fontSize: 14),
                         ),
                       ),
