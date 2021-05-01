@@ -22,7 +22,6 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
   final format = DateFormat("dd-MM-yyyy");
   String formattedDate;
   String locationValueChoose,
-      stateValueChoose,
       sessionTypeValueChoose,
       levelValueChoose,
       typeValueChoose,
@@ -455,54 +454,54 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                   },
                                 )),
                           ]),
-                      TableRow(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      width: 1.0,
-                                      color: Colors.grey.shade300))),
-                          children: [
-                            Container(
-                                padding: EdgeInsets.all(15),
-                                child: Row(children: [
-                                  Text('State', style: h4),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                ])),
-                            Container(
-                                padding: EdgeInsets.fromLTRB(15, 10, 25, 10),
-                                child: DropdownButtonFormField(
-                                  decoration:
-                                      InputDecoration(border: InputBorder.none),
-                                  hint: Text('State'),
-                                  icon: Icon(Icons.arrow_drop_down),
-                                  style: h5,
-                                  isExpanded: true,
-                                  validator: (value) => value == null
-                                      ? '   This field is required'
-                                      : null,
-                                  value:
-                                      snapshot.data.docs.first.data()['state'],
-                                  onChanged: (newValue1) {
-                                    setState(() {
-                                      stateValueChoose = newValue1;
-                                    });
-                                  },
-                                  onSaved: (newValue1) {
-                                    setState(() {
-                                      stateValueChoose = newValue1;
-                                    });
-                                  },
-                                  items: statelList.map((valueItem1) {
-                                    return DropdownMenuItem(
-                                      value: valueItem1,
-                                      child: Text(valueItem1,
-                                          style: TextStyle(fontSize: 16)),
-                                    );
-                                  }).toList(),
-                                )),
-                          ]),
+                      // TableRow(
+                      //     decoration: BoxDecoration(
+                      //         border: Border(
+                      //             bottom: BorderSide(
+                      //                 width: 1.0,
+                      //                 color: Colors.grey.shade300))),
+                      //     children: [
+                      //       Container(
+                      //           padding: EdgeInsets.all(15),
+                      //           child: Row(children: [
+                      //             Text('State', style: h4),
+                      //             SizedBox(
+                      //               width: 5,
+                      //             ),
+                      //           ])),
+                      //       Container(
+                      //           padding: EdgeInsets.fromLTRB(15, 10, 25, 10),
+                      //           child: DropdownButtonFormField(
+                      //             decoration:
+                      //                 InputDecoration(border: InputBorder.none),
+                      //             hint: Text('State'),
+                      //             icon: Icon(Icons.arrow_drop_down),
+                      //             style: h5,
+                      //             isExpanded: true,
+                      //             validator: (value) => value == null
+                      //                 ? '   This field is required'
+                      //                 : null,
+                      //             value:
+                      //                 snapshot.data.docs.first.data()['state'],
+                      //             onChanged: (newValue1) {
+                      //               setState(() {
+                      //                 stateValueChoose = newValue1;
+                      //               });
+                      //             },
+                      //             onSaved: (newValue1) {
+                      //               setState(() {
+                      //                 stateValueChoose = newValue1;
+                      //               });
+                      //             },
+                      //             items: statelList.map((valueItem1) {
+                      //               return DropdownMenuItem(
+                      //                 value: valueItem1,
+                      //                 child: Text(valueItem1,
+                      //                     style: TextStyle(fontSize: 16)),
+                      //               );
+                      //             }).toList(),
+                      //           )),
+                      //     ]),
                       TableRow(
                           decoration: BoxDecoration(
                               border: Border(
@@ -629,7 +628,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                     'ses_requirements': '$sesssionRequirements',
                     'academic_level': '$levelValueChoose',
                     'tutor_name': '$tutorName',
-                    'state': '$stateValueChoose',
+                    // 'state': '$stateValueChoose',
                     'ses_date':
                         '${formattedDate = DateFormat('dd-MM-yyyy').format(sessionDate)}',
                   }).then(

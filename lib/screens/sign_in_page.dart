@@ -38,6 +38,7 @@ class _SignInPageState extends State<SignInPage> {
         String _returnString = await _currentUser.loginUser(email, password);
 
         if (_returnString == 'success') {
+          print('success');
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
@@ -46,10 +47,11 @@ class _SignInPageState extends State<SignInPage> {
             (route) => false,
           );
         } else {
-          // _showToast();
+          print('error');
+          //_showToast();
           Fluttertoast.showToast(
             msg: "Icorrect email or Password",
-            toastLength: Toast.LENGTH_LONG,
+            toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.red,
@@ -71,7 +73,8 @@ class _SignInPageState extends State<SignInPage> {
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
         onPressed: () {
           if (_formKey.currentState.validate()) {
-            _loginUser(_emailField.text, _passwordField.text, context);
+            _loginUser(
+                _emailField.text.trim(), _passwordField.text.trim(), context);
           }
         },
         child: Text("Sign In", style: yellowButtonsTextStyle),

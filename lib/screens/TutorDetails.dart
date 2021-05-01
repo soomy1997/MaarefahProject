@@ -61,7 +61,8 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
           "uid",
           isEqualTo: widget.post,
         )
-        .where('approved', isEqualTo: 'yes')
+        .where('approved', isEqualTo: 'no')
+        .where("state", isEqualTo: 'shown')
         .snapshots();
 
     return x;

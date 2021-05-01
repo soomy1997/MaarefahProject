@@ -109,10 +109,9 @@ class _ManageTutoingRequestState extends State<ManageTutoingRequestPage> {
               );
             },
             child: Text(
-              'More',
+              'view',
             ),
           ),
-          showEditIcon: true,
         ),
       ],
     );

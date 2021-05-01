@@ -17,6 +17,7 @@ import 'package:flutter_app_1/tutor/tutor_component/certificates.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'About.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/tutor/taught_sessions.dart';
@@ -188,7 +189,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     onTap: () {
                       const url =
                           "https://us04web.zoom.us/j/76518082507?pwd=TE5ISzJ1UEdPMlNTK05ETTdZa1JKUT09";
-                      // if (canLaunch(url) != null) launch(url);
+                      if (canLaunch(url) != null) launch(url);
                     }),
                 ListTile(
                   leading: Icon(
@@ -259,20 +260,20 @@ class _ProfilePageState extends State<ProfilePage> {
                         MaterialPageRoute(builder: (context) => AboutPage()));
                   },
                 ),
-                // ListTile(
-                //   leading: Icon(
-                //     Icons.email,
-                //     color: Colors.blue[200],
-                //   ),
-                //   title: Text("Contact Us",
-                //       style: TextStyle(
-                //         fontSize: 16,
-                //       )),
-                //   onTap: () {
-                //     Navigator.push(context,
-                //         MaterialPageRoute(builder: (context) => Account()));
-                //   },
-                // ),
+                ListTile(
+                  leading: Icon(
+                    Icons.email,
+                    color: Colors.blue[200],
+                  ),
+                  title: Text("Contact Us",
+                      style: TextStyle(
+                        fontSize: 16,
+                      )),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Account()));
+                  },
+                ),
               ],
             ),
             Container(

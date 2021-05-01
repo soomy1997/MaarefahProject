@@ -182,7 +182,21 @@ class _ChangePasswordState extends State<ChangePassword> {
                         onPressed: _togglePasswordStatus1,
                       ),
                     ),
-                    validator: passwordValidation,
+                    validator: (input) {
+                      if (input.isEmpty) {
+                        return "This field is required";
+                      }
+                      if (_passwordController.text == input) {
+                        return "Current password and new password are same";
+                      }
+                      if (input.length < 7) {
+                        return "Password must be at least 7 character";
+                      }
+                      if (!validateStructure(input)) {
+                        return "uppercase, lowercase letters & numbers required";
+                      }
+                      return null;
+                    },
                     controller: _newPasswordController,
                     onChanged: (pass) {
                       newPassword = pass;
@@ -235,5 +249,12 @@ class _ChangePasswordState extends State<ChangePassword> {
             )),
       ),
     );
+  }
+
+  bool validateStructure(String value) {
+    String pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regExp = new RegExp(pattern);
+    return regExp.hasMatch(value);
   }
 }
