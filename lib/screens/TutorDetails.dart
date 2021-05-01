@@ -55,15 +55,14 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
 
 //used
   Stream<dynamic> getSessionsByTutor() {
-    // var tname = ;
+    
     Stream<QuerySnapshot> x = FirebaseFirestore.instance
         .collection('session')
         .where(
           "uid",
           isEqualTo: widget.post,
         )
-        .where('approved', isEqualTo: 'no')
-        .where("state", isEqualTo: 'shown')
+        .where('approved', isEqualTo: 'yes')
         .snapshots();
 
     return x;

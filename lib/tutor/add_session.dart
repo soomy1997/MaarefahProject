@@ -51,6 +51,7 @@ List coursesList = [
   "Discreate Math",
   "Operating Systems",
   "Busniess Management",
+  "Human Computer Interaction",
 ];
 
 String locationGroupValue = 'Online';
@@ -131,6 +132,7 @@ class _AddSessionPage extends State<AddSessionPage> {
             'image_url': '$url',
             'approved': 'no',
             'searchIndex': indexList,
+            'avatar_url': '${_cUser.avatarUrl}',
           });
         });
         Navigator.pushAndRemoveUntil(

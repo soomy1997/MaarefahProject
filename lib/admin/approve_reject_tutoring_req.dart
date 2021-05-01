@@ -33,7 +33,7 @@ class _ApproveRejTutoringReqState extends State<ApproveRejTutoringReq> {
             return SingleChildScrollView(
               child: Center(
                 child: Container(
-                  padding: const EdgeInsets.all(100.0),
+                  padding: const EdgeInsets.all(30.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -126,6 +126,8 @@ class _ApproveRejTutoringReqState extends State<ApproveRejTutoringReq> {
                           Text(
                             snapshot.data.docs.first.data()['teachingOverview'],
                             style: h5,
+                            softWrap: true,
+                            overflow: TextOverflow.fade,
                           ),
                         ],
                       ),

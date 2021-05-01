@@ -40,6 +40,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
     'CS532: Database Design',
     'Operating Systems',
     'Java Programming: 2 Books in 1',
+    "Human Computer Interaction",
   ];
   List levelList = ["4th", "5th", "6th", "7th", "8th", "9th", "10th"];
   List sessionTypes = ["College Courses", "Additional Skills Courses"];
