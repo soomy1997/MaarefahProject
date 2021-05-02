@@ -29,7 +29,6 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
   String reviewtxt;
   var rating = 0.0;
   OurUser _currentUser = OurUser();
-  OurUser _cUser;
   OurUser get getCurrntUser => _currentUser;
 
   Future<OurUser> getUserInfo() async {
@@ -56,7 +55,6 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
 
 //used
   Stream<dynamic> getSessionsByTutor() {
-    
     Stream<QuerySnapshot> x = FirebaseFirestore.instance
         .collection('session')
         .where(

@@ -133,6 +133,7 @@ class _AddSessionPage extends State<AddSessionPage> {
             'approved': 'no',
             'searchIndex': indexList,
             'avatar_url': '${_cUser.avatarUrl}',
+            'uid': '${_cUser.uid}',
           });
         });
         Navigator.pushAndRemoveUntil(
