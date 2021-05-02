@@ -26,8 +26,9 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
 
   bool isStateSelected = false;
   DateTime sessionDate;
-  final format = DateFormat("dd-MM-yyyy");
-  DateTime selectedDate = DateTime.now();
+  final format = DateFormat("dd-MM-yyyy hh:mm a");
+  DateTime selectedDate ;
+ // = DateTime.now();
   String formattedDate;
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -316,42 +317,42 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                 //             ],
                 //           )),
                 //     ]),
-                TableRow(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                                width: 1.0, color: Colors.grey.shade300))),
-                    children: [
-                      Container(
-                          padding: EdgeInsets.all(15),
-                          child: Text(
-                            'Suitable Days',
-                            style: h4,
-                          )),
-                      Container(
-                          padding: EdgeInsets.all(15),
-                          child: Text(
-                            snapshot.data.docs.first.data()["session_day"],
-                          )),
-                    ]),
-                TableRow(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                                width: 1.0, color: Colors.grey.shade300))),
-                    children: [
-                      Container(
-                          padding: EdgeInsets.all(15),
-                          child: Text(
-                            'Suitable Times',
-                            style: h4,
-                          )),
-                      Container(
-                          padding: EdgeInsets.all(15),
-                          child: Text(
-                            snapshot.data.docs.first.data()["session_time"],
-                          )),
-                    ]),
+                // TableRow(
+                //     decoration: BoxDecoration(
+                //         border: Border(
+                //             bottom: BorderSide(
+                //                 width: 1.0, color: Colors.grey.shade300))),
+                //     children: [
+                //       Container(
+                //           padding: EdgeInsets.all(15),
+                //           child: Text(
+                //             'Suitable Days',
+                //             style: h4,
+                //           )),
+                //       Container(
+                //           padding: EdgeInsets.all(15),
+                //           child: Text(
+                //             snapshot.data.docs.first.data()["session_day"],
+                //           )),
+                //     ]),
+                // TableRow(
+                //     decoration: BoxDecoration(
+                //         border: Border(
+                //             bottom: BorderSide(
+                //                 width: 1.0, color: Colors.grey.shade300))),
+                //     children: [
+                //       Container(
+                //           padding: EdgeInsets.all(15),
+                //           child: Text(
+                //             'Suitable Times',
+                //             style: h4,
+                //           )),
+                //       Container(
+                //           padding: EdgeInsets.all(15),
+                //           child: Text(
+                //             snapshot.data.docs.first.data()["session_time"],
+                //           )),
+                //     ]),
                 TableRow(
                     decoration: BoxDecoration(
                         border: Border(
@@ -377,36 +378,46 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SizedBox(
-                              width: 170,
+                              width: 270,
                               child: DateTimeField(
                                 format: format,
-                                onShowPicker: (context, currentValue) async {
-                                  return await showDatePicker(
-                                    context: context,
-                                    firstDate: DateTime(1900),
-                                    initialDate: DateTime.now(),
-                                    lastDate: DateTime(2100),
-                                  );
-                                },
+                                validator: (date) =>
+                                    date == null ? 'Invalid date' : null,
                                 decoration: InputDecoration(
-                                    suffixIcon: Icon(
-                                      Icons.date_range,
-                                      color: accentYellow,
-                                    ),
-                                    contentPadding: EdgeInsets.fromLTRB(
-                                        30.0, 15.0, 20.0, 15.0),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.white60, width: 15.0),
-                                        borderRadius:
-                                            BorderRadius.circular(5.0))),
-                                resetIcon: null,
-                                validator: textReviewValidation,
+                                  suffixIcon: Icon(
+                                    Icons.date_range,
+                                    color: accentYellow,
+                                    size: 30,
+                                  ),
+                                  // hintText: 'Session Date and Time',
+                                  contentPadding: EdgeInsets.fromLTRB(
+                                      30.0, 15.0, 20.0, 15.0),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white60, width: 15.0),
+                                      borderRadius: BorderRadius.circular(5.0)),
+                                ),
                                 initialValue: parseddateTime,
-                                // DateTimeField.tryParse(
-                                //     sesDate.text, format),
-                                onSaved: (val) {
-                                  sessionDate = val;
+                                onShowPicker: (context, currentValue) async {
+                                  final date = await showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime(1900),
+                                      initialDate:
+                                          currentValue ?? DateTime.now(),
+                                      lastDate: DateTime(2100));
+                                  if (date != null) {
+                                    final time = await showTimePicker(
+                                      context: context,
+                                      initialTime: TimeOfDay.fromDateTime(
+                                          currentValue ?? DateTime.now()),
+                                    );
+                                    return DateTimeField.combine(date, time);
+                                  } else {
+                                    return currentValue;
+                                  }
+                                },
+                                onSaved: (dateTime) {
+                                  selectedDate = dateTime;
                                 },
                               ),
                             ),

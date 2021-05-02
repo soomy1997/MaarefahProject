@@ -58,6 +58,9 @@ class _ManageSessionsPageState extends State<ManageSessionsPage> {
                         rows: _buildList(context, snapshot.data.docs),
                       ),
                     ),
+                    SizedBox(
+                      height: 30,
+                    ),
                   ],
                 ),
               );

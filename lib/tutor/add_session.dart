@@ -86,19 +86,21 @@ class _AddSessionPage extends State<AddSessionPage> {
     });
   }
 
-  DateTime selectedDate = DateTime.now();
-  String formattedDate;
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-      });
-  }
+  final format = DateFormat("dd-MM-yyyy hh:mm a");
+  DateTime selectedDate;
+  // DateTime selectedDate = DateTime.now();
+  // String formattedDate;
+  // Future<void> _selectDate(BuildContext context) async {
+  //   final DateTime picked = await showDatePicker(
+  //       context: context,
+  //       initialDate: selectedDate,
+  //       firstDate: DateTime(2015, 8),
+  //       lastDate: DateTime(2101));
+  //   if (picked != null && picked != selectedDate)
+  //     setState(() {
+  //       selectedDate = picked;
+  //     });
+  // }
 
   // final format = DateFormat("hh:mm a");
   // TimeOfDay selectedTime;
@@ -114,19 +116,19 @@ class _AddSessionPage extends State<AddSessionPage> {
   //     });
   // }
 
-  TimeOfDay _time = TimeOfDay(hour: 7, minute: 15);
+  // TimeOfDay _time = TimeOfDay(hour: 7, minute: 15);
 
-  void _selectTime(BuildContext context) async {
-    final TimeOfDay newTime = await showTimePicker(
-      context: context,
-      initialTime: _time,
-    );
-    if (newTime != null) {
-      setState(() {
-        _time = newTime;
-      });
-    }
-  }
+  // void _selectTime(BuildContext context) async {
+  //   final TimeOfDay newTime = await showTimePicker(
+  //     context: context,
+  //     initialTime: _time,
+  //   );
+  //   if (newTime != null) {
+  //     setState(() {
+  //       _time = newTime;
+  //     });
+  //   }
+  // }
 
   @override
   void initState() {
@@ -163,8 +165,8 @@ class _AddSessionPage extends State<AddSessionPage> {
             'tutor_PhoneNum': '${_cUser.phoneNum}',
             'tutor_email': '${_cUser.email}',
             'ses_period': sessionNumController.text,
-            // 'session_day': '$daysGroupValue',
-            'session_time': _time.format(context),
+            'session_day': '',
+            'session_time': '',
             'image_url': '$url',
             'approved': 'no',
             'searchIndex': indexList,
@@ -248,9 +250,12 @@ class _AddSessionPage extends State<AddSessionPage> {
                   height: 15.0,
                 ),
                 SizedBox(
+                  width: double.infinity,
                   height: 40.0,
                   child: ElevatedButton.icon(
-                    icon: Icon(Icons.upload_rounded),
+                    icon: Icon(
+                      Icons.upload_rounded,
+                    ),
                     label: Text("upload image"),
                     style: ElevatedButton.styleFrom(
                       primary: accentYellow,
@@ -703,80 +708,128 @@ class _AddSessionPage extends State<AddSessionPage> {
                 SizedBox(
                   height: 20.0,
                   width: double.infinity,
-                  child: Text('Session Time',
+                  child: Text('Session Date and Time',
                       textAlign: TextAlign.left, style: h4),
                 ),
                 SizedBox(
                   height: 20.0,
                 ),
                 SizedBox(
-                  height: 20.0,
-                  child: Row(
-                    children: [
-                      Text('${_time.format(context)}'),
-                      // DateTimeField(
-                      //   format: format,
-                      //   onShowPicker: (context, currentValue) async {
-                      //     final TimeOfDay time = await showTimePicker(
-                      //       context: context,
-                      //       initialTime: TimeOfDay.fromDateTime(
-                      //           currentValue ?? DateTime.now()),
-                      //     );
-                      //     return time == null
-                      //         ? null
-                      //         : DateTimeField.convert(time);
-                      //   },
-                      // ),
-                      SizedBox(
-                        width: 50.0,
-                      ),
-                      MaterialButton(
-                        onPressed: () => _selectTime(context),
-                        child: Text(
-                          'Select time',
-                          style: TextStyle(color: accentYellow),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                SizedBox(
-                  height: 20.0,
+                  height: 50,
                   width: double.infinity,
-                  child: Text(
-                    "Session Date",
-                    textAlign: TextAlign.left,
-                    style: h4,
+                  child: DateTimeField(
+                    format: format,
+                    validator: (date) => date == null ? 'Invalid date' : null,
+                    decoration: InputDecoration(
+                      suffixIcon: Icon(
+                        Icons.date_range,
+                        color: accentYellow,
+                        size: 30,
+                      ),
+                      hintText: 'Session Date and Time',
+                      contentPadding:
+                          EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.white60, width: 15.0),
+                          borderRadius: BorderRadius.circular(5.0)),
+                    ),
+                    //initialValue: DateTime.now(),
+
+                    onShowPicker: (context, currentValue) async {
+                      final date = await showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate: currentValue ?? DateTime.now(),
+                          lastDate: DateTime(2100));
+                      if (date != null) {
+                        final time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.fromDateTime(
+                              currentValue ?? DateTime.now()),
+                        );
+                        return DateTimeField.combine(date, time);
+                      } else {
+                        return currentValue;
+                      }
+                    },
+                    onSaved: (dateTime) {
+                      selectedDate = dateTime;
+                    },
                   ),
                 ),
                 SizedBox(
                   height: 20.0,
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  height: 20.0,
-                  child: Row(
-                    children: [
-                      Text(
-                        "${formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate)}",
-                      ),
-                      SizedBox(
-                        width: 30.0,
-                      ),
-                      MaterialButton(
-                        onPressed: () => _selectDate(context),
-                        child: Text(
-                          'Select date',
-                          style: TextStyle(color: accentYellow),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(height: 35.0),
+                // SizedBox(
+                //   height: 20.0,
+                //   child: Row(
+                //     children: [
+                //       Text('${format.pattern}'),
+                //       Text('${_time.format(context)}'),
+                //       DateTimeField(
+                //         format: format,
+                //         onShowPicker: (context, currentValue) async {
+                //           final TimeOfDay time = await showTimePicker(
+                //             context: context,
+                //             initialTime: TimeOfDay.fromDateTime(
+                //                 currentValue ?? DateTime.now()),
+                //           );
+                //           return time == null
+                //               ? null
+                //               : DateTimeField.convert(time);
+                //         },
+                //       ),
+                //       SizedBox(
+                //         width: 50.0,
+                //       ),
+                //       MaterialButton(
+                //         onPressed: () => _selectTime(context),
+                //         child: Text(
+                //           'Select time',
+                //           style: TextStyle(color: accentYellow),
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 20.0,
+                // ),
+                // SizedBox(
+                //   height: 20.0,
+                //   width: double.infinity,
+                //   child: Text(
+                //     "Session Date",
+                //     textAlign: TextAlign.left,
+                //     style: h4,
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 20.0,
+                // ),
+                // SizedBox(
+                //   width: double.infinity,
+                //   height: 20.0,
+                //   child: Row(
+                //     children: [
+                //       Text(
+                //         "${formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate)}",
+                //       ),
+                //       SizedBox(
+                //         width: 30.0,
+                //       ),
+                //       MaterialButton(
+                //         onPressed: () => _selectDate(context),
+                //         child: Text(
+                //           'Select date',
+                //           style: TextStyle(color: accentYellow),
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
+                SizedBox(height: 20.0),
                 requistButton,
                 SizedBox(
                   height: 35.0,
