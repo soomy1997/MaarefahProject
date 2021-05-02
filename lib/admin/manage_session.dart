@@ -21,46 +21,48 @@ class _ManageSessionsPageState extends State<ManageSessionsPage> {
       endDrawer: Drawer(
         child: MainDrawer(),
       ),
-      body: Container(
-        //
-        child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('session')
-              .where('approved', isEqualTo: 'yes')
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) return LinearProgressIndicator();
-            return Center(
-              child: Column(
-                children: <Widget>[
-                  Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(50),
-                        child: Text(
-                          'Manage Sessions',
-                          style: h1,
+      body: SingleChildScrollView(
+        child: Container(
+          //
+          child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('session')
+                .where('approved', isEqualTo: 'yes')
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return LinearProgressIndicator();
+              return Center(
+                child: Column(
+                  children: <Widget>[
+                    Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(50),
+                          child: Text(
+                            'Manage Sessions',
+                            style: h1,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                      columns: [
-                        DataColumn(label: Text('Session ID')),
-                        DataColumn(label: Text('Session Name')),
-                        DataColumn(label: Text('Tutor Name')),
-                        DataColumn(label: Text('Edit')),
-                        DataColumn(label: Text('Delete'))
                       ],
-                      rows: _buildList(context, snapshot.data.docs),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                        columns: [
+                          DataColumn(label: Text('Session ID')),
+                          DataColumn(label: Text('Session Name')),
+                          DataColumn(label: Text('Tutor Name')),
+                          DataColumn(label: Text('Edit')),
+                          DataColumn(label: Text('Delete'))
+                        ],
+                        rows: _buildList(context, snapshot.data.docs),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
