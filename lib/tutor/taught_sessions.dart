@@ -17,7 +17,7 @@ class TaughtSessions extends StatefulWidget {
 }
 
 class _TaughtSessionsState extends State<TaughtSessions> {
-  navigateToCourseDetails(DocumentSnapshot post, bool isUserRegistered) {
+  navigateToCourseDetails(String post, bool isUserRegistered) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -209,7 +209,7 @@ class _TaughtSessionsState extends State<TaughtSessions> {
                               onTap: () async {
                                 bool nn = true;
                                 navigateToCourseDetails(
-                                    snapshot.data.docs[index], nn);
+                                    snapshot.data.docs[index]['sessionId'], nn);
                               },
                             ),
                           ],

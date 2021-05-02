@@ -12,7 +12,7 @@ class RegisteredSessions extends StatefulWidget {
 }
 
 class _RegisteredSessionsState extends State<RegisteredSessions> {
-  navigateToCourseDetails(DocumentSnapshot post, bool isUserRegistered) {
+  navigateToCourseDetails(String post, bool isUserRegistered) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -46,7 +46,7 @@ class _RegisteredSessionsState extends State<RegisteredSessions> {
     return Scaffold(
       appBar: myAppBar1(
         context,
-        title: "Rgistered Sessions",
+        title: "Registered Sessions",
         iconButton: IconButton(
           icon: Icon(Icons.ios_share),
           onPressed: () {},
@@ -186,8 +186,12 @@ class _RegisteredSessionsState extends State<RegisteredSessions> {
                                   ),
                                   onTap: () async {
                                     bool nn = true;
+                                    print("check here the info" +
+                                        snapshot.data.docs[index]['sessionId']
+                                            .toString());
                                     navigateToCourseDetails(
-                                        snapshot.data.docs[index], nn);
+                                        snapshot.data.docs[index]['sessionId'],
+                                        nn);
                                   },
                                 ),
                               ),
