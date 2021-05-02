@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app_1/admin/admin_compnent/main_drawer.dart';
@@ -24,7 +25,8 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
   bool approvalstate = false;
 
   bool isStateSelected = false;
-
+  DateTime sessionDate;
+  final format = DateFormat("dd-MM-yyyy");
   DateTime selectedDate = DateTime.now();
   String formattedDate;
   Future<void> _selectDate(BuildContext context) async {
@@ -50,6 +52,11 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return LinearProgressIndicator();
+            // TextEditingController sesDate = TextEditingController(
+            //     text: snapshot.data.docs.first.data()['time_stamp']);
+
+            var timestamp = snapshot.data.docs.first.data()['time_stamp'];
+            var parseddateTime = DateTime.parse(timestamp.toDate().toString());
 
             return Table(
               columnWidths: {
@@ -365,24 +372,66 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                             )
                           ])),
                       Container(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(15),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(
-                                "${formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate)}"),
                             SizedBox(
-                              width: 20.0,
-                            ),
-                            MaterialButton(
-                              onPressed: () => _selectDate(context),
-                              child: Text(
-                                'Select date',
-                                style: TextStyle(color: accentYellow),
+                              width: 170,
+                              child: DateTimeField(
+                                format: format,
+                                onShowPicker: (context, currentValue) async {
+                                  return await showDatePicker(
+                                    context: context,
+                                    firstDate: DateTime(1900),
+                                    initialDate: DateTime.now(),
+                                    lastDate: DateTime(2100),
+                                  );
+                                },
+                                decoration: InputDecoration(
+                                    suffixIcon: Icon(
+                                      Icons.date_range,
+                                      color: accentYellow,
+                                    ),
+                                    contentPadding: EdgeInsets.fromLTRB(
+                                        30.0, 15.0, 20.0, 15.0),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.white60, width: 15.0),
+                                        borderRadius:
+                                            BorderRadius.circular(5.0))),
+                                resetIcon: null,
+                                validator: textReviewValidation,
+                                initialValue: parseddateTime,
+                                // DateTimeField.tryParse(
+                                //     sesDate.text, format),
+                                onSaved: (val) {
+                                  sessionDate = val;
+                                },
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
+                      // Container(
+                      //   padding: EdgeInsets.all(10),
+                      //   child: Row(
+                      //     children: [
+                      //       Text(
+                      //           "${formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate)}"),
+                      //       SizedBox(
+                      //         width: 20.0,
+                      //       ),
+                      //       MaterialButton(
+                      //         onPressed: () => _selectDate(context),
+                      //         child: Text(
+                      //           'Select date',
+                      //           style: TextStyle(color: accentYellow),
+                      //         ),
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
                     ]),
                 TableRow(
                     decoration: BoxDecoration(
@@ -431,6 +480,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                         'approved': 'yes',
                         'ses_date':
                             '${formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate)}',
+                        'time_stamp': selectedDate,
                       }).then(
                         (value) => print('Success!'),
                       );

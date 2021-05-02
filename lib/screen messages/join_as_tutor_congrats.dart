@@ -18,10 +18,10 @@ class _Congrats extends State<Congrats> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => TabbedApp()),
-          );
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => TabbedApp()),
+              (route) => false);
         },
         child: Text(
           "Got it",

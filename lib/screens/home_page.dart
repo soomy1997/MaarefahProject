@@ -6,6 +6,7 @@ import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/screens/course_details.dart';
 import 'package:flutter_app_1/services/database.dart';
 import 'package:flutter_app_1/utils/constants.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -39,14 +40,14 @@ class _HomeScreenState extends State<HomePage> {
   String sesName = "";
 
   Stream _data;
-
   Stream getDetails() {
-    DateTime selectedDate = DateTime.now();
+    DateTime _now = DateTime.now();
+    DateTime _start = DateTime(_now.year, _now.month, _now.day, 0, 0);
+    var x = Timestamp.fromDate(_start);
     return FirebaseFirestore.instance
         .collection('session')
         .where('approved', isEqualTo: 'yes')
-        //.where("state", isEqualTo: 'shown')
-        // .where("ses_date", isNotEqualTo: '$selectedDate'.toString())
+        //.where('time_stamp', isGreaterThanOrEqualTo: x)
         .snapshots();
   }
 
@@ -135,6 +136,13 @@ class _HomeScreenState extends State<HomePage> {
                           itemCount: snapshot.data.docs.length,
                           itemBuilder: (context, index) {
                             DocumentSnapshot doc = snapshot.data.docs[index];
+                            // var x =
+                            //     DateTime.parse(' ${doc.data()['time_stamp']}')
+                            //         .month;
+                            DateTime myDateTime =
+                                (doc.data()['time_stamp']).toDate();
+                            var sesDate =
+                                DateFormat.yMMMd().add_jm().format(myDateTime);
                             return SingleChildScrollView(
                               child: Column(
                                 children: [
@@ -213,7 +221,7 @@ class _HomeScreenState extends State<HomePage> {
                                                                     .only(
                                                                 left: 5.0),
                                                         child: Text(
-                                                          "${doc.data()['ses_date']}",
+                                                          sesDate,
                                                           style: TextStyle(
                                                             color: Colors
                                                                 .grey.shade800,
@@ -261,6 +269,8 @@ class _HomeScreenState extends State<HomePage> {
                                         ],
                                       ),
                                       onTap: () async {
+                                        // print(
+                                        //     'this is timestamp' + x.toString());
                                         var user = await getUserInfo();
                                         print('session id ' +
                                             snapshot

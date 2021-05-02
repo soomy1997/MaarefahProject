@@ -60,8 +60,12 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return LinearProgressIndicator();
-                TextEditingController sesDate = TextEditingController(
-                    text: snapshot.data.docs.first.data()['ses_date']);
+                // TextEditingController sesDate = TextEditingController(
+                //     text: snapshot.data.docs.first.data()['ses_date']);
+
+                var timestamp = snapshot.data.docs.first.data()['time_stamp'];
+                var parseddateTime =
+                    DateTime.parse(timestamp.toDate().toString());
                 return Form(
                   key: _formKey,
                   child: Table(
@@ -591,8 +595,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                                   BorderRadius.circular(5.0))),
                                       resetIcon: null,
                                       validator: textReviewValidation,
-                                      initialValue: DateTimeField.tryParse(
-                                          sesDate.text, format),
+                                      initialValue: parseddateTime,
                                       onSaved: (val) {
                                         sessionDate = val;
                                       },
@@ -632,6 +635,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                     // 'state': '$stateValueChoose',
                     'ses_date':
                         '${formattedDate = DateFormat('dd-MM-yyyy').format(sessionDate)}',
+                    'time_stamp': sessionDate,
                   }).then(
                     (value) => print('Success!'),
                   );
