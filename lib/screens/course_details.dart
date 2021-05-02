@@ -173,6 +173,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                                       "Sure?",
                                       "Are you sure you want to \nregister in this session?");
                                   if (action == DialogAction.yes) {
+                                    var random = new Random();
                                     setState(
                                       () => FirebaseFirestore.instance
                                           .runTransaction(
@@ -198,7 +199,9 @@ class _CourseDetailsState extends State<CourseDetails> {
                                               '${snapshot.data['course_name']}',
                                           'academic_level':
                                               '${_cUser.academicLevel}',
-                                          'uid': '${_cUser.uid}'
+                                          'uid': '${_cUser.uid}',
+                                          'reg_id':
+                                              random.nextInt(100).toString(),
                                         });
                                       }),
                                     );

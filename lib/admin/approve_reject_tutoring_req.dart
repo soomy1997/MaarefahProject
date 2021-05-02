@@ -155,7 +155,7 @@ class _ApproveRejTutoringReqState extends State<ApproveRejTutoringReq> {
                                       'Sure?',
                                       'Are you sure you want to approve this request?');
                                   if (action == DialogAction.yes) {
-                                    setState(() => FirebaseFirestore.instance
+                                    FirebaseFirestore.instance
                                         .collection('users')
                                         .where('uid', isEqualTo: this.id)
                                         .get()
@@ -171,7 +171,8 @@ class _ApproveRejTutoringReqState extends State<ApproveRejTutoringReq> {
                                                       return AlertDialog();
                                                     }),
                                               );
-                                            })));
+                                            }));
+
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(

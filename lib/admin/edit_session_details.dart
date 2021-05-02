@@ -19,7 +19,7 @@ class EditSessionDetailsPage extends StatefulWidget {
 class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
   final String id;
   _EditSessionDetailsPage({@required this.id});
-  final format = DateFormat("dd-MM-yyyy");
+
   String formattedDate;
   String locationValueChoose,
       sessionTypeValueChoose,
@@ -33,6 +33,8 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
       tutorName;
 
   DateTime sessionDate;
+  final format = DateFormat("dd-MM-yyyy hh:mm a");
+  DateTime selectedDate;
 
   List coursesList = [
     'CS321 Object Oriented Programming 1',
@@ -507,46 +509,46 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                       //             }).toList(),
                       //           )),
                       //     ]),
-                      TableRow(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      width: 1.0,
-                                      color: Colors.grey.shade300))),
-                          children: [
-                            Container(
-                                padding: EdgeInsets.all(15),
-                                child: Text(
-                                  'Session Days',
-                                  style: h4,
-                                )),
-                            Container(
-                                padding: EdgeInsets.all(15),
-                                child: Text(
-                                  snapshot.data.docs.first
-                                      .data()['session_day'],
-                                )),
-                          ]),
-                      TableRow(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      width: 1.0,
-                                      color: Colors.grey.shade300))),
-                          children: [
-                            Container(
-                                padding: EdgeInsets.all(15),
-                                child: Text(
-                                  'Session Times',
-                                  style: h4,
-                                )),
-                            Container(
-                                padding: EdgeInsets.all(15),
-                                child: Text(
-                                  snapshot.data.docs.first
-                                      .data()['session_time'],
-                                )),
-                          ]),
+                      // TableRow(
+                      //     decoration: BoxDecoration(
+                      //         border: Border(
+                      //             bottom: BorderSide(
+                      //                 width: 1.0,
+                      //                 color: Colors.grey.shade300))),
+                      //     children: [
+                      //       Container(
+                      //           padding: EdgeInsets.all(15),
+                      //           child: Text(
+                      //             'Session Days',
+                      //             style: h4,
+                      //           )),
+                      //       Container(
+                      //           padding: EdgeInsets.all(15),
+                      //           child: Text(
+                      //             snapshot.data.docs.first
+                      //                 .data()['session_day'],
+                      //           )),
+                      //     ]),
+                      // TableRow(
+                      //     decoration: BoxDecoration(
+                      //         border: Border(
+                      //             bottom: BorderSide(
+                      //                 width: 1.0,
+                      //                 color: Colors.grey.shade300))),
+                      //     children: [
+                      //       Container(
+                      //           padding: EdgeInsets.all(15),
+                      //           child: Text(
+                      //             'Session Times',
+                      //             style: h4,
+                      //           )),
+                      //       Container(
+                      //           padding: EdgeInsets.all(15),
+                      //           child: Text(
+                      //             snapshot.data.docs.first
+                      //                 .data()['session_time'],
+                      //           )),
+                      //     ]),
                       TableRow(
                           decoration: BoxDecoration(
                               border: Border(
@@ -568,36 +570,50 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   SizedBox(
-                                    width: 170,
+                                    width: 270,
                                     child: DateTimeField(
                                       format: format,
+                                      validator: (date) =>
+                                          date == null ? 'Invalid date' : null,
+                                      decoration: InputDecoration(
+                                        suffixIcon: Icon(
+                                          Icons.date_range,
+                                          color: accentYellow,
+                                          size: 30,
+                                        ),
+                                        // hintText: 'Session Date and Time',
+                                        contentPadding: EdgeInsets.fromLTRB(
+                                            30.0, 15.0, 20.0, 15.0),
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.white60,
+                                                width: 15.0),
+                                            borderRadius:
+                                                BorderRadius.circular(5.0)),
+                                      ),
+                                      initialValue: parseddateTime,
                                       onShowPicker:
                                           (context, currentValue) async {
-                                        return await showDatePicker(
-                                          context: context,
-                                          firstDate: DateTime(1900),
-                                          initialDate: DateTime.now(),
-                                          lastDate: DateTime(2100),
-                                        );
+                                        final date = await showDatePicker(
+                                            context: context,
+                                            firstDate: DateTime(1900),
+                                            initialDate:
+                                                currentValue ?? DateTime.now(),
+                                            lastDate: DateTime(2100));
+                                        if (date != null) {
+                                          final time = await showTimePicker(
+                                            context: context,
+                                            initialTime: TimeOfDay.fromDateTime(
+                                                currentValue ?? DateTime.now()),
+                                          );
+                                          return DateTimeField.combine(
+                                              date, time);
+                                        } else {
+                                          return currentValue;
+                                        }
                                       },
-                                      decoration: InputDecoration(
-                                          suffixIcon: Icon(
-                                            Icons.date_range,
-                                            color: accentYellow,
-                                          ),
-                                          contentPadding: EdgeInsets.fromLTRB(
-                                              30.0, 15.0, 20.0, 15.0),
-                                          border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.white60,
-                                                  width: 15.0),
-                                              borderRadius:
-                                                  BorderRadius.circular(5.0))),
-                                      resetIcon: null,
-                                      validator: textReviewValidation,
-                                      initialValue: parseddateTime,
-                                      onSaved: (val) {
-                                        sessionDate = val;
+                                      onSaved: (dateTime) {
+                                        selectedDate = dateTime;
                                       },
                                     ),
                                   ),
@@ -635,7 +651,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                     // 'state': '$stateValueChoose',
                     'ses_date':
                         '${formattedDate = DateFormat('dd-MM-yyyy').format(sessionDate)}',
-                    'time_stamp': sessionDate,
+                    'time_stamp': selectedDate,
                   }).then(
                     (value) => print('Success!'),
                   );
