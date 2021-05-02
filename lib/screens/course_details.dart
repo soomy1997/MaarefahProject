@@ -91,25 +91,7 @@ class _CourseDetailsState extends State<CourseDetails> {
   @override
   Widget build(BuildContext context) {
     print("from course details " + widget.isUserRegistered.toString());
-    void _sendToServer() {
-      // FirebaseFirestore.instance
-      //     .runTransaction((Transaction transaction) async {
-      //   CollectionReference reference =
-      //       FirebaseFirestore.instance.collection('registration');
-      //   await reference.add({
-      //     'ses_name': '${snapshot.data["ses_name"]}',
-      //     'image_url': '${snapshot.data["image_url"]}',
-      //     'l_name': '${_cUser.name}',
-      //     'tutor_name': '${snapshot.data["tutor_name"]}',
-      //     'ses_date': '${snapshot.data["ses_date"]}',
-      //     'session_time': '${snapshot.data["session_time"]}',
-      //     'sessionId': '${snapshot.data["sessionId"]}',
-      //     'course_name': '${snapshot.data['course_name']}',
-      //     'academic_level': '${_cUser.academicLevel}',
-      //     'uid': '${_cUser.uid}'
-      //   });
-      // });
-    }
+    void _sendToServer() {}
 
     return Scaffold(
         appBar: myAppBar1(

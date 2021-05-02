@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app_1/admin/admin_compnent/main_drawer.dart';
@@ -24,8 +25,10 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
   bool approvalstate = false;
 
   bool isStateSelected = false;
-
-  DateTime selectedDate = DateTime.now();
+  DateTime sessionDate;
+  final format = DateFormat("dd-MM-yyyy hh:mm a");
+  DateTime selectedDate ;
+ // = DateTime.now();
   String formattedDate;
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -50,6 +53,11 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return LinearProgressIndicator();
+            // TextEditingController sesDate = TextEditingController(
+            //     text: snapshot.data.docs.first.data()['time_stamp']);
+
+            var timestamp = snapshot.data.docs.first.data()['time_stamp'];
+            var parseddateTime = DateTime.parse(timestamp.toDate().toString());
 
             return Table(
               columnWidths: {
@@ -309,42 +317,42 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                 //             ],
                 //           )),
                 //     ]),
-                TableRow(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                                width: 1.0, color: Colors.grey.shade300))),
-                    children: [
-                      Container(
-                          padding: EdgeInsets.all(15),
-                          child: Text(
-                            'Suitable Days',
-                            style: h4,
-                          )),
-                      Container(
-                          padding: EdgeInsets.all(15),
-                          child: Text(
-                            snapshot.data.docs.first.data()["session_day"],
-                          )),
-                    ]),
-                TableRow(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                                width: 1.0, color: Colors.grey.shade300))),
-                    children: [
-                      Container(
-                          padding: EdgeInsets.all(15),
-                          child: Text(
-                            'Suitable Times',
-                            style: h4,
-                          )),
-                      Container(
-                          padding: EdgeInsets.all(15),
-                          child: Text(
-                            snapshot.data.docs.first.data()["session_time"],
-                          )),
-                    ]),
+                // TableRow(
+                //     decoration: BoxDecoration(
+                //         border: Border(
+                //             bottom: BorderSide(
+                //                 width: 1.0, color: Colors.grey.shade300))),
+                //     children: [
+                //       Container(
+                //           padding: EdgeInsets.all(15),
+                //           child: Text(
+                //             'Suitable Days',
+                //             style: h4,
+                //           )),
+                //       Container(
+                //           padding: EdgeInsets.all(15),
+                //           child: Text(
+                //             snapshot.data.docs.first.data()["session_day"],
+                //           )),
+                //     ]),
+                // TableRow(
+                //     decoration: BoxDecoration(
+                //         border: Border(
+                //             bottom: BorderSide(
+                //                 width: 1.0, color: Colors.grey.shade300))),
+                //     children: [
+                //       Container(
+                //           padding: EdgeInsets.all(15),
+                //           child: Text(
+                //             'Suitable Times',
+                //             style: h4,
+                //           )),
+                //       Container(
+                //           padding: EdgeInsets.all(15),
+                //           child: Text(
+                //             snapshot.data.docs.first.data()["session_time"],
+                //           )),
+                //     ]),
                 TableRow(
                     decoration: BoxDecoration(
                         border: Border(
@@ -365,24 +373,76 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                             )
                           ])),
                       Container(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(15),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(
-                                "${formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate)}"),
                             SizedBox(
-                              width: 20.0,
-                            ),
-                            MaterialButton(
-                              onPressed: () => _selectDate(context),
-                              child: Text(
-                                'Select date',
-                                style: TextStyle(color: accentYellow),
+                              width: 270,
+                              child: DateTimeField(
+                                format: format,
+                                validator: (date) =>
+                                    date == null ? 'Invalid date' : null,
+                                decoration: InputDecoration(
+                                  suffixIcon: Icon(
+                                    Icons.date_range,
+                                    color: accentYellow,
+                                    size: 30,
+                                  ),
+                                  // hintText: 'Session Date and Time',
+                                  contentPadding: EdgeInsets.fromLTRB(
+                                      30.0, 15.0, 20.0, 15.0),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white60, width: 15.0),
+                                      borderRadius: BorderRadius.circular(5.0)),
+                                ),
+                                initialValue: parseddateTime,
+                                onShowPicker: (context, currentValue) async {
+                                  final date = await showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime(1900),
+                                      initialDate:
+                                          currentValue ?? DateTime.now(),
+                                      lastDate: DateTime(2100));
+                                  if (date != null) {
+                                    final time = await showTimePicker(
+                                      context: context,
+                                      initialTime: TimeOfDay.fromDateTime(
+                                          currentValue ?? DateTime.now()),
+                                    );
+                                    return DateTimeField.combine(date, time);
+                                  } else {
+                                    return currentValue;
+                                  }
+                                },
+                                onSaved: (dateTime) {
+                                  selectedDate = dateTime;
+                                },
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
+                      // Container(
+                      //   padding: EdgeInsets.all(10),
+                      //   child: Row(
+                      //     children: [
+                      //       Text(
+                      //           "${formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate)}"),
+                      //       SizedBox(
+                      //         width: 20.0,
+                      //       ),
+                      //       MaterialButton(
+                      //         onPressed: () => _selectDate(context),
+                      //         child: Text(
+                      //           'Select date',
+                      //           style: TextStyle(color: accentYellow),
+                      //         ),
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
                     ]),
                 TableRow(
                     decoration: BoxDecoration(
@@ -431,6 +491,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                         'approved': 'yes',
                         'ses_date':
                             '${formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate)}',
+                        'time_stamp': selectedDate,
                       }).then(
                         (value) => print('Success!'),
                       );
