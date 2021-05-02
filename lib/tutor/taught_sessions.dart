@@ -63,13 +63,9 @@ class _TaughtSessionsState extends State<TaughtSessions> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppBar1(
+      appBar: myAppBar2(
         context,
         title: "Taught Sessions",
-        iconButton: IconButton(
-          icon: Icon(Icons.ios_share),
-          onPressed: () {},
-        ),
       ),
       body: Column(
         children: <Widget>[

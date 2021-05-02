@@ -99,10 +99,9 @@ class _SessionRequestPageState extends State<SessionRequestPage> {
               );
             },
             child: Text(
-              'More',
+              'View',
             ),
           ),
-          showEditIcon: true,
         ),
       ],
     );

@@ -192,7 +192,7 @@ class _SignUpPageState extends State<SignUpPage> {
             ));
           }
         },
-        child: Text("Get Started",
+        child: Text("Sign UP",
             textAlign: TextAlign.center, style: yellowButtonsTextStyle),
       ),
     );

@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomeScreenState extends State<HomePage> {
   //getting current user information
+
   OurUser _currentUser = OurUser();
   OurUser _cUser;
   OurUser get getCurrntUser => _currentUser;
@@ -38,10 +39,14 @@ class _HomeScreenState extends State<HomePage> {
   String sesName = "";
 
   Stream _data;
+
   Stream getDetails() {
+    DateTime selectedDate = DateTime.now();
     return FirebaseFirestore.instance
         .collection('session')
         .where('approved', isEqualTo: 'yes')
+        //.where("state", isEqualTo: 'shown')
+        // .where("ses_date", isNotEqualTo: '$selectedDate'.toString())
         .snapshots();
   }
 
@@ -69,14 +74,9 @@ class _HomeScreenState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: myAppBar3(
+      appBar: myAppBar4(
         context,
         title: '',
-        iconButton: IconButton(
-          icon: Icon(Icons.filter_alt_outlined),
-          iconSize: 40,
-          onPressed: () => (0),
-        ),
       ),
       body: Column(
         children: <Widget>[

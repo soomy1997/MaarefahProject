@@ -14,7 +14,7 @@ class _TabbedAppState extends State<TabbedApp> {
   List<Widget> _tabViews = <Widget>[
     TutorsList(),
     HomePage(),
-    NotificationPage(),
+    // NotificationPage(),
     ProfilePage()
   ];
 
@@ -35,10 +35,10 @@ class _TabbedAppState extends State<TabbedApp> {
             icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_none),
-            label: 'Notification',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.notifications_none),
+          //   label: 'Notification',
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
             label: 'Account',

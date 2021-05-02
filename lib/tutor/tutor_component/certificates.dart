@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:path_provider/path_provider.dart';
+//import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class Certificates extends StatelessWidget {
@@ -12,7 +12,7 @@ class Certificates extends StatelessWidget {
     return Scaffold(
       appBar: myAppBar2(
         context,
-        title: 'certificate',
+        title: 'Certificate',
       ),
       body: ListView(scrollDirection: Axis.vertical, children: <Widget>[
         Padding(
@@ -51,7 +51,7 @@ class Certificates extends StatelessWidget {
                                   height: 20,
                                 ),
                                 new Text(
-                                  'Lorem Ipsum',
+                                  'this certificate',
                                   style: new TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -70,22 +70,22 @@ class Certificates extends StatelessWidget {
                                         final status =
                                             await Permission.storage.request();
 
-                                        if (status.isGranted) {
-                                          final externalDir =
-                                              await getExternalStorageDirectory();
+                                        // if (status.isGranted) {
+                                        //   final externalDir =
+                                        //      await getExternalStorageDirectory();
 
-                                          final id =
-                                              await FlutterDownloader.enqueue(
-                                            url:
-                                                "https://firebasestorage.googleapis.com/v0/b/ma-arefah-app.appspot.com/o/certificates%2FVolunteer-Certificate.pdf?alt=media&token=1a9a5108-6ddb-4b37-ad08-2e6a3471d40f",
-                                            savedDir: externalDir.path,
-                                            fileName: "download",
-                                            showNotification: true,
-                                            openFileFromNotification: true,
-                                          );
-                                        } else {
-                                          print("Permission deined");
-                                        }
+                                        //  final id =
+                                        //       await FlutterDownloader.enqueue(
+                                        //     url:
+                                        //         "https://firebasestorage.googleapis.com/v0/b/ma-arefah-app.appspot.com/o/certificates%2FVolunteer-Certificate.pdf?alt=media&token=1a9a5108-6ddb-4b37-ad08-2e6a3471d40f",
+                                        //     savedDir: externalDir.path,
+                                        //     fileName: "download",
+                                        //     showNotification: true,
+                                        //     openFileFromNotification: true,
+                                        //   );
+                                        // } else {
+                                        //   print("Permission deined");
+                                        // }
                                       },
                                       label: Text(
                                         'DOWNLOAD',

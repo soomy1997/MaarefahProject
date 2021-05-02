@@ -49,16 +49,18 @@ String coursesValue;
 List coursesList = [
   "Object Oriented Programming 1",
   "Discreate Math",
-  "Operating Systems"
+  "Operating Systems",
+  "Busniess Management",
+  "Human Computer Interaction",
 ];
 
 String locationGroupValue = 'Online';
 String daysGroupValue = 'Sunday';
 String timeGroupValue = '8 PM';
 
-bool isLocationSelected = false;
-bool isDaySelected = false;
-bool isTimeSelected = false;
+// bool isLocationSelected = false;
+// bool isDaySelected = false;
+// bool isTimeSelected = false;
 
 bool buttonDisabled = false;
 
@@ -130,6 +132,7 @@ class _AddSessionPage extends State<AddSessionPage> {
             'image_url': '$url',
             'approved': 'no',
             'searchIndex': indexList,
+            'avatar_url': '${_cUser.avatarUrl}',
           });
         });
         Navigator.pushAndRemoveUntil(
@@ -156,11 +159,13 @@ class _AddSessionPage extends State<AddSessionPage> {
           minWidth: MediaQuery.of(context).size.width,
           padding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
           //disabledColor: Colors.grey,
-          onPressed: isLocationSelected && isDaySelected && isTimeSelected
-              ? () {
-                  _sendToServer();
-                }
-              : null,
+          onPressed:
+              // isLocationSelected && isDaySelected && isTimeSelected
+              //?
+              () {
+            _sendToServer();
+          },
+          // : null,
           child: Text("Add Now",
               textAlign: TextAlign.center, style: yellowButtonsTextStyle),
         ));
@@ -379,7 +384,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                             onChanged: (val) {
                               setState(() {
                                 locationGroupValue = val;
-                                isLocationSelected = true;
+                                // isLocationSelected = true;
                               });
                             }),
                         Text('Physical'),
@@ -391,7 +396,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                             onChanged: (val) {
                               setState(() {
                                 locationGroupValue = val;
-                                isLocationSelected = true;
+                                // isLocationSelected = true;
                               });
                             }),
                         Text('Online'),
@@ -466,7 +471,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                   height: 20.0,
                   width: double.infinity,
                   child: Text(
-                    "Suitable Tutoring Days",
+                    "Suitable Tutoring Day",
                     textAlign: TextAlign.left,
                     style: h4,
                   ),
@@ -497,7 +502,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                                     onChanged: (val) {
                                       setState(() {
                                         daysGroupValue = val;
-                                        isDaySelected = true;
+                                        // isDaySelected = true;
                                       });
                                     }),
                                 Text('Sunday'),
@@ -508,7 +513,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                                     onChanged: (val) {
                                       setState(() {
                                         daysGroupValue = val;
-                                        isDaySelected = true;
+                                        // isDaySelected = true;
                                       });
                                     }),
                                 Text('Monday'),
@@ -522,7 +527,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                                   onChanged: (val) {
                                     setState(() {
                                       daysGroupValue = val;
-                                      isDaySelected = true;
+                                      //isDaySelected = true;
                                     });
                                   }),
                               Text('Tuesday'),
@@ -533,7 +538,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                                   onChanged: (val) {
                                     setState(() {
                                       daysGroupValue = val;
-                                      isDaySelected = true;
+                                      // isDaySelected = true;
                                     });
                                   }),
                               Text('Wednesday'),
@@ -546,7 +551,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                                   onChanged: (val) {
                                     setState(() {
                                       daysGroupValue = val;
-                                      isDaySelected = true;
+                                      //isDaySelected = true;
                                     });
                                   }),
                               Text('Thursday'),
@@ -557,7 +562,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                                   onChanged: (val) {
                                     setState(() {
                                       daysGroupValue = val;
-                                      isDaySelected = true;
+                                      //isDaySelected = true;
                                     });
                                   }),
                               Text('Friday'),
@@ -570,7 +575,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                                   onChanged: (val) {
                                     setState(() {
                                       daysGroupValue = val;
-                                      isDaySelected = true;
+                                      // isDaySelected = true;
                                     });
                                   }),
                               Text('Saturday'),
@@ -612,7 +617,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                                     onChanged: (val) {
                                       setState(() {
                                         timeGroupValue = val;
-                                        isTimeSelected = true;
+                                        // isTimeSelected = true;
                                       });
                                     }),
                                 Text('6 PM'),
@@ -623,7 +628,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                                     onChanged: (val) {
                                       setState(() {
                                         timeGroupValue = val;
-                                        isTimeSelected = true;
+                                        // isTimeSelected = true;
                                       });
                                     }),
                                 Text('7 PM'),
@@ -637,7 +642,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                                   onChanged: (val) {
                                     setState(() {
                                       timeGroupValue = val;
-                                      isTimeSelected = true;
+                                      // isTimeSelected = true;
                                     });
                                   }),
                               Text('8 PM'),
@@ -648,7 +653,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                                   onChanged: (val) {
                                     setState(() {
                                       timeGroupValue = val;
-                                      isTimeSelected = true;
+                                      //isTimeSelected = true;
                                     });
                                   }),
                               Text('9 PM'),
