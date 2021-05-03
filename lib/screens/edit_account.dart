@@ -82,15 +82,19 @@ class _EditAccountPage extends State<EditAccountPage> {
               final action = await Dialogs.yesAbortDialog(context, 'Sure?',
                   'Are you sure you want to change your account informaion?');
               if (action == DialogAction.yes) {
+                //print('this is my name' + newName);
                 FirebaseFirestore.instance
                     .collection('users')
                     .where('uid', isEqualTo: _cUser.uid)
                     .get()
                     .then((value) => value.docs.forEach((element) {
                           element.reference.update({
-                            'name': '$newName',
-                            'email': '$newEmail',
-                            'academicLevel': '$newLevel',
+                            'name': newName == null ? _cUser.name : '$newName',
+                            'email':
+                                newEmail == null ? _cUser.email : '$newEmail',
+                            'academicLevel': newLevel == null
+                                ? _cUser.academicLevel
+                                : '$newLevel',
                           });
                         }));
                 Navigator.pop(context);

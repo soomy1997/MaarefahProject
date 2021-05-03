@@ -83,7 +83,7 @@ class _TaughtSessionsState extends State<TaughtSessions> {
                     .where('approved', isEqualTo: 'yes')
                     .snapshots(),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) return LinearProgressIndicator();
+                  if (!snapshot.hasData) return SizedBox();
                   return ListView.builder(
                     itemCount: snapshot.data.docs.length,
                     itemBuilder: (context, index) {

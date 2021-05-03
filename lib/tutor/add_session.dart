@@ -84,6 +84,7 @@ class _AddSessionPage extends State<AddSessionPage> {
   }
 
   final format = DateFormat("dd-MM-yyyy hh:mm a");
+
   DateTime selectedDate;
   // DateTime selectedDate = DateTime.now();
   // String formattedDate;
@@ -162,7 +163,7 @@ class _AddSessionPage extends State<AddSessionPage> {
             'tutor_PhoneNum': '${_cUser.phoneNum}',
             'tutor_email': '${_cUser.email}',
             'ses_period': sessionNumController.text,
-            'session_day': '',
+            'session_date': selectedDate.millisecondsSinceEpoch,
             'session_time': '',
             'image_url': '$url',
             'approved': 'no',
