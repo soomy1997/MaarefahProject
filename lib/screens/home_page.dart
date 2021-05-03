@@ -232,34 +232,34 @@ class _HomeScreenState extends State<HomePage> {
                                                           ),
                                                         ),
                                                       ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 15.0),
-                                                        child: Icon(
-                                                          Icons.access_time,
-                                                          size: 18,
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 5.0),
-                                                        child: Text(
-                                                          doc.data()[
-                                                              'session_time'],
-                                                          style: TextStyle(
-                                                            color: Colors
-                                                                .grey.shade800,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                      ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       const EdgeInsets
+                                                      //               .only(
+                                                      //           left: 15.0),
+                                                      //   child: Icon(
+                                                      //     Icons.access_time,
+                                                      //     size: 18,
+                                                      //   ),
+                                                      // ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       const EdgeInsets
+                                                      //               .only(
+                                                      //           left: 5.0),
+                                                      //   child: Text(
+                                                      //     doc.data()[
+                                                      //         'session_time'],
+                                                      //     style: TextStyle(
+                                                      //       color: Colors
+                                                      //           .grey.shade800,
+                                                      //       fontWeight:
+                                                      //           FontWeight
+                                                      //               .normal,
+                                                      //       fontSize: 14,
+                                                      //     ),
+                                                      //   ),
+                                                      // ),
                                                     ],
                                                   ),
                                                 ),

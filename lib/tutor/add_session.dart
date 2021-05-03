@@ -60,9 +60,6 @@ String locationGroupValue = 'Online';
 String daysGroupValue = 'Sunday';
 String timeGroupValue = '8 PM';
 
-// bool isLocationSelected = false;
-// bool isDaySelected = false;
-// bool isTimeSelected = false;
 
 bool buttonDisabled = false;
 
@@ -741,7 +738,7 @@ class _AddSessionPage extends State<AddSessionPage> {
                           context: context,
                           firstDate: DateTime(1900),
                           initialDate: currentValue ?? DateTime.now(),
-                          lastDate: DateTime(2100));
+                          lastDate: DateTime(2100),);
                       if (date != null) {
                         final time = await showTimePicker(
                           context: context,
