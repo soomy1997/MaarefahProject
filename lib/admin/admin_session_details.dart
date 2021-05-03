@@ -27,8 +27,8 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
   bool isStateSelected = false;
   DateTime sessionDate;
   final format = DateFormat("dd-MM-yyyy hh:mm a");
-  DateTime selectedDate ;
- // = DateTime.now();
+  DateTime selectedDate;
+  // = DateTime.now();
   String formattedDate;
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -489,8 +489,8 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                 .then((value) => value.docs.forEach((element) {
                       element.reference.update({
                         'approved': 'yes',
-                        'ses_date':
-                            '${formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate)}',
+                        // 'ses_date':
+                        //     '${formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate)}',
                         'time_stamp': selectedDate,
                       }).then(
                         (value) => print('Success!'),

@@ -32,7 +32,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
       sesssionRequirements,
       tutorName;
 
-  DateTime sessionDate;
+  DateTime sessionDate = DateTime.now();
   final format = DateFormat("dd-MM-yyyy hh:mm a");
   DateTime selectedDate;
 
@@ -444,21 +444,8 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                 )),
                             Container(
                                 padding: EdgeInsets.all(15),
-                                child: TextFormField(
-                                  obscureText: false,
-                                  validator: textAreaValidation2,
-                                  initialValue: snapshot.data.docs.first
-                                      .data()['tutor_name'],
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    suffixIcon: Icon(
-                                      Icons.edit,
-                                      size: 20,
-                                    ),
-                                  ),
-                                  onSaved: (value) {
-                                    tutorName = value;
-                                  },
+                                child: Text(
+                                  snapshot.data.docs.first.data()['tutor_name'],
                                 )),
                           ]),
                       // TableRow(
@@ -647,7 +634,6 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                     'ses_location': '$locationValueChoose',
                     'ses_requirement': '$sesssionRequirements',
                     'academic_level': '$levelValueChoose',
-                    'tutor_name': '$tutorName',
                     // 'state': '$stateValueChoose',
                     'ses_date':
                         '${formattedDate = DateFormat('dd-MM-yyyy').format(sessionDate)}',
