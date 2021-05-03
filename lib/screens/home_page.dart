@@ -212,83 +212,34 @@ class _HomeScreenState extends State<HomePage> {
                                                           fontSize: 14,
                                                         ),
                                                       ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 17.0),
-                                                      child: Text(
-                                                        'By: ' +
-                                                            doc.data()[
-                                                                'tutor_name'],
-                                                        style: TextStyle(
-                                                          color: primaryBlack,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 10.0),
-                                                      child: Row(
-                                                        children: [
-                                                          Icon(
-                                                            Icons
-                                                                .calendar_today_outlined,
-                                                            size: 18,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 5.0),
-                                                            child: Text(
-                                                              sesDate,
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .grey
-                                                                    .shade800,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                                fontSize: 14,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 15.0),
-                                                            child: Icon(
-                                                              Icons.access_time,
-                                                              size: 18,
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 5.0),
-                                                            child: Text(
-                                                              doc.data()[
-                                                                  'session_time'],
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .grey
-                                                                    .shade800,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                                fontSize: 14,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       const EdgeInsets
+                                                      //               .only(
+                                                      //           left: 15.0),
+                                                      //   child: Icon(
+                                                      //     Icons.access_time,
+                                                      //     size: 18,
+                                                      //   ),
+                                                      // ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       const EdgeInsets
+                                                      //               .only(
+                                                      //           left: 5.0),
+                                                      //   child: Text(
+                                                      //     doc.data()[
+                                                      //         'session_time'],
+                                                      //     style: TextStyle(
+                                                      //       color: Colors
+                                                      //           .grey.shade800,
+                                                      //       fontWeight:
+                                                      //           FontWeight
+                                                      //               .normal,
+                                                      //       fontSize: 14,
+                                                      //     ),
+                                                      //   ),
+                                                      // ),
                                                     ),
                                                   ],
                                                 ),
