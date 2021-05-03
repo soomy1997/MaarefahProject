@@ -58,13 +58,25 @@ class _RegisteredSessionsState extends State<RegisteredSessions> {
             //child: VerticalCards(),
             child: Container(
               width: MediaQuery.of(context).size.width,
-              child: StreamBuilder(
-                stream: FirebaseFirestore.instance
+              child: FutureBuilder(
+                future: FirebaseFirestore.instance
                     .collection('registration')
                     .where('uid', isEqualTo: _cUser.uid)
-                    .snapshots(),
+                    .get(),
                 builder: (context, snapshot) {
-                  if (snapshot.data != null) {
+                  if (!snapshot.hasData || snapshot.data.docs.length == 0) {
+                    print(" (9090) IT'S EMPTY");
+                    return Container(
+                      child: SizedBox(
+                        height: 100,
+                        child: Text(
+                          'You did not register in any session yet',
+                        ),
+                      ),
+                    );
+                  } else {
+                    print(" (9090) IT'S not empty " +
+                        snapshot.data.docs.length.toString());
                     return ListView.builder(
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (context, index) {
@@ -199,11 +211,6 @@ class _RegisteredSessionsState extends State<RegisteredSessions> {
                           ),
                         );
                       },
-                    );
-                  } else {
-                    return SizedBox(
-                      height: 100,
-                      child: Text('You did not register in any session yet'),
                     );
                   }
                 },

@@ -22,6 +22,7 @@ import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/tutor/taught_sessions.dart';
 
 class ProfilePage extends StatefulWidget {
+  static int loadData = 1; // This variable will be used to update the data
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -30,13 +31,22 @@ class _ProfilePageState extends State<ProfilePage> {
   OurUser _currentUser = OurUser();
   OurUser _cUser = OurUser();
 
-  Future<void> currentUserInfo() async {
+  Stream currentUserInfo() {
     User _firebaseUser = FirebaseAuth.instance.currentUser;
-    _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
+    // _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
 
-    setState(() {
-      _cUser = _currentUser;
-    });
+    // setState(() {
+    //   _cUser = _currentUser;
+    // });
+    //
+    // var currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
+
+    var currentUser = FirebaseFirestore.instance
+        .collection("users")
+        .doc(_firebaseUser.uid)
+        .snapshots();
+    // flip the value of the variable, since the data is fetched
+    return currentUser;
   }
 
   // String imageUrl;
@@ -84,11 +94,12 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    currentUserInfo();
+    //currentUserInfo();
   }
 
   @override
   Widget build(BuildContext context) {
+    print('Account is On...');
     return Scaffold(
       appBar: myAppBar4(
         context,
@@ -152,151 +163,333 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget tutorContainerElement() {
-    return Padding(
-      padding: const EdgeInsets.all(6),
-      child: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              customTutor(),
-              SizedBox(
-                height: 20,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        "Account",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )),
-                  ListTile(
-                      leading: Icon(
-                        Icons.photo_camera_front,
-                        color: Colors.blue[800],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(6),
+        child: StreamBuilder(
+            stream: currentUserInfo(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return SizedBox();
+              }
+
+              return Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      customTutor(snapshot.data),
+                      SizedBox(
+                        height: 20,
                       ),
-                      title: Text("My zoom link",
-                          style: TextStyle(
-                            fontSize: 16,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              margin: EdgeInsets.symmetric(horizontal: 10),
+                              child: Text(
+                                "Account",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )),
+                          ListTile(
+                              leading: Icon(
+                                Icons.photo_camera_front,
+                                color: Colors.blue[800],
+                              ),
+                              title: Text("My zoom link",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  )),
+                              onTap: () {
+                                const url =
+                                    "https://us04web.zoom.us/j/76518082507?pwd=TE5ISzJ1UEdPMlNTK05ETTdZa1JKUT09";
+                                // if (canLaunch(url) != null) launch(url);
+                              }),
+                          ListTile(
+                            leading: Icon(
+                              Icons.collections_bookmark_rounded,
+                              color: Colors.orange,
+                            ),
+                            title: Text("Taught sessions",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                )),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TaughtSessions()),
+                              );
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(
+                              Icons.ad_units,
+                              color: Colors.orange,
+                            ),
+                            title: Text("Registered Session",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                )),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          RegisteredSessions()));
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(
+                              Icons.lock,
+                              color: Colors.greenAccent,
+                            ),
+                            title: Text("Change Password",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                )),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChangePassword()),
+                              );
+                            },
+                          ),
+                          // ListTile(
+                          //   leading: Icon(Icons.card_membership_outlined,
+                          //       color: Colors.brown[200]),
+                          //   title: Text("Certifications",
+                          //       style: TextStyle(
+                          //         fontSize: 16,
+                          //       )),
+                          //   onTap: () {
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) => Certificates()),
+                          //     );
+                          //   },
+                          // ),
+                          Container(
+                              margin: EdgeInsets.symmetric(horizontal: 20),
+                              child: Text(
+                                "Support",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )),
+                          ListTile(
+                            leading: Icon(
+                              Icons.location_on_outlined,
+                              color: Colors.red,
+                            ),
+                            title: Text("About Us",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                )),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AboutPage()));
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(
+                              Icons.email,
+                              color: Colors.blue[200],
+                            ),
+                            title: Text("Contact Us",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                )),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Account()));
+                            },
+                          ),
+                        ],
+                      ),
+                      Container(
+                          padding: EdgeInsets.all(15.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                ElevatedButton.icon(
+                                  onPressed: () async {
+                                    CurrentUser _currentUser =
+                                        Provider.of<CurrentUser>(context,
+                                            listen: false);
+                                    String _returnString =
+                                        await _currentUser.signOut();
+                                    if (_returnString == 'success') {
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => OurRout(),
+                                        ),
+                                        (route) => false,
+                                      );
+                                    } else {}
+                                  },
+                                  icon: Icon(
+                                    Icons.logout,
+                                    color: whiteBG,
+                                  ),
+                                  label: Text(
+                                    "Sign Out",
+                                    style: yellowButtonsTextStyle,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: accentOrange,
+                                  ),
+                                ),
+                              ])),
+                    ],
+                  ),
+                ),
+              );
+            }),
+      ),
+    );
+  }
+
+  Widget learnerContainerElement() {
+    return Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: StreamBuilder<Object>(
+          stream: currentUserInfo(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return SizedBox();
+            }
+            return Container(
+              height: MediaQuery.of(context).size.height * .6,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                children: <Widget>[
+                  custom(snapshot.data),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                            "Account",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           )),
-                      onTap: () {
-                        const url =
-                            "https://us04web.zoom.us/j/76518082507?pwd=TE5ISzJ1UEdPMlNTK05ETTdZa1JKUT09";
-                        // if (canLaunch(url) != null) launch(url);
-                      }),
-                  ListTile(
-                    leading: Icon(
-                      Icons.collections_bookmark_rounded,
-                      color: Colors.orange,
-                    ),
-                    title: Text("Taught sessions",
-                        style: TextStyle(
-                          fontSize: 16,
-                        )),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => TaughtSessions()),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.ad_units,
-                      color: Colors.orange,
-                    ),
-                    title: Text("Registered Session",
-                        style: TextStyle(
-                          fontSize: 16,
-                        )),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisteredSessions()));
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.lock,
-                      color: Colors.greenAccent,
-                    ),
-                    title: Text("Change Password",
-                        style: TextStyle(
-                          fontSize: 16,
-                        )),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ChangePassword()),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.card_membership_outlined,
-                        color: Colors.brown[200]),
-                    title: Text("Certifications",
-                        style: TextStyle(
-                          fontSize: 16,
-                        )),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Certificates()),
-                      );
-                    },
+                      ListTile(
+                        leading: Icon(
+                          Icons.ad_units,
+                          color: Colors.orange,
+                        ),
+                        title: Text("Registered Session",
+                            style: TextStyle(
+                              fontSize: 16,
+                            )),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RegisteredSessions()));
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          Icons.lock,
+                          color: Colors.greenAccent,
+                        ),
+                        title: Text("Change Password",
+                            style: TextStyle(
+                              fontSize: 16,
+                            )),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChangePassword()),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          Icons.chat_bubble_outline,
+                          color: Colors.deepPurple,
+                        ),
+                        title: Text("Join Us as a tutor Session",
+                            style: TextStyle(
+                              fontSize: 16,
+                            )),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => JoinTutorPage()),
+                          );
+                        },
+                      ),
+                      Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                            "Support",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )),
+                      ListTile(
+                        leading: Icon(
+                          Icons.location_on_outlined,
+                          color: Colors.amber,
+                        ),
+                        title: Text("About Us",
+                            style: TextStyle(
+                              fontSize: 16,
+                            )),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AboutPage()));
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          Icons.email,
+                          color: Colors.blue[200],
+                        ),
+                        title: Text("Contact Us",
+                            style: TextStyle(
+                              fontSize: 16,
+                            )),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Account()));
+                        },
+                      ),
+                    ],
                   ),
                   Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
-                        "Support",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )),
-                  ListTile(
-                    leading: Icon(
-                      Icons.location_on_outlined,
-                      color: Colors.red,
-                    ),
-                    title: Text("About Us",
-                        style: TextStyle(
-                          fontSize: 16,
-                        )),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => AboutPage()));
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.email,
-                      color: Colors.blue[200],
-                    ),
-                    title: Text("Contact Us",
-                        style: TextStyle(
-                          fontSize: 16,
-                        )),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Account()));
-                    },
-                  ),
-                ],
-              ),
-              Container(
-                  padding: EdgeInsets.all(15.0),
-                  child: Row(
+                    padding: EdgeInsets.all(15.0),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton.icon(
@@ -327,164 +520,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             primary: accentOrange,
                           ),
                         ),
-                      ])),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget learnerContainerElement() {
-    return Padding(
-      padding: const EdgeInsets.all(6.0),
-      child: Container(
-        height: MediaQuery.of(context).size.height * .6,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          children: <Widget>[
-            custom(),
-            SizedBox(
-              height: 20,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      "Account",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
-                ListTile(
-                  leading: Icon(
-                    Icons.ad_units,
-                    color: Colors.orange,
-                  ),
-                  title: Text("Registered Session",
-                      style: TextStyle(
-                        fontSize: 16,
-                      )),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RegisteredSessions()));
-                  },
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.lock,
-                    color: Colors.greenAccent,
-                  ),
-                  title: Text("Change Password",
-                      style: TextStyle(
-                        fontSize: 16,
-                      )),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ChangePassword()),
-                    );
-                  },
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.chat_bubble_outline,
-                    color: Colors.deepPurple,
-                  ),
-                  title: Text("Join Us as a tutor Session",
-                      style: TextStyle(
-                        fontSize: 16,
-                      )),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => JoinTutorPage()),
-                    );
-                  },
-                ),
-                Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      "Support",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
-                ListTile(
-                  leading: Icon(
-                    Icons.location_on_outlined,
-                    color: Colors.amber,
-                  ),
-                  title: Text("About Us",
-                      style: TextStyle(
-                        fontSize: 16,
-                      )),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AboutPage()));
-                  },
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.email,
-                    color: Colors.blue[200],
-                  ),
-                  title: Text("Contact Us",
-                      style: TextStyle(
-                        fontSize: 16,
-                      )),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Account()));
-                  },
-                ),
-              ],
-            ),
-            Container(
-              padding: EdgeInsets.all(15.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () async {
-                      CurrentUser _currentUser =
-                          Provider.of<CurrentUser>(context, listen: false);
-                      String _returnString = await _currentUser.signOut();
-                      if (_returnString == 'success') {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => OurRout(),
-                          ),
-                          (route) => false,
-                        );
-                      } else {}
-                    },
-                    icon: Icon(
-                      Icons.logout,
-                      color: whiteBG,
-                    ),
-                    label: Text(
-                      "Sign Out",
-                      style: yellowButtonsTextStyle,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: accentOrange,
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
+            );
+          }),
     );
   }
 
@@ -514,7 +556,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ]);
   }
 
-  custom() {
+  custom(DocumentSnapshot user) {
     SizedBox st = SizedBox(
       height: 5,
     );
@@ -532,137 +574,147 @@ class _ProfilePageState extends State<ProfilePage> {
     //       OurUser users = CurrentUser().getCurrntUser;
     return Column(
       children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.height * 0.36,
-          width: MediaQuery.of(context).size.width * 0.9,
-          decoration: boxShadow(),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Center(
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: FloatingActionButton(
-                        elevation: 0,
-                        backgroundColor: Colors.grey[300],
-                        child: Column(
+        StreamBuilder<Object>(
+            stream: currentUserInfo(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return SizedBox();
+              }
+              return Container(
+                height: MediaQuery.of(context).size.height * 0.36,
+                width: MediaQuery.of(context).size.width * 0.9,
+                decoration: boxShadow(),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: FloatingActionButton(
+                              elevation: 0,
+                              backgroundColor: Colors.grey[300],
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.edit,
+                                    color: Colors.orange,
+                                    size: 12,
+                                  ),
+                                  Text(
+                                    "Edit",
+                                    style: TextStyle(
+                                        color: Colors.orange,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              onPressed: () async {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EditAccountPage()),
+                                );
+                                setState(() {});
+                              }),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              Icons.edit,
-                              color: Colors.orange,
-                              size: 12,
+                            Container(
+                              padding: EdgeInsets.only(left: 50),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: (url != null)
+                                    ? CircleAvatar(
+                                        backgroundColor: Colors.grey,
+                                        radius: 50,
+                                        child: Image.network(
+                                          url,
+                                          fit: BoxFit.fill,
+                                          width: double.infinity,
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          },
+                                        ))
+                                    : CircleAvatar(
+                                        backgroundColor: Colors.grey,
+                                        radius: 50,
+                                        backgroundImage:
+                                            NetworkImage(user['avatar_url']),
+                                      ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 60),
+                              child: IconButton(
+                                icon: Icon(Icons.camera_alt_rounded),
+                                onPressed: () {
+                                  uploadImage();
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                        st,
+                        Text(
+                          user['name'],
+                          style: h4,
+                        ),
+                        st,
+                        spacer,
+                        Divider(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Gender',
+                              style: h4,
                             ),
                             Text(
-                              "Edit",
-                              style: TextStyle(
-                                  color: Colors.orange,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
+                              'Level',
+                              style: h4,
+                            ),
+                            Text(
+                              'Email',
+                              style: h4,
                             ),
                           ],
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditAccountPage()),
-                          );
-                        }),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              user['gender'],
+                              style: h5,
+                            ),
+                            Text(
+                              user['academicLevel'],
+                              style: h5,
+                            ),
+                            Text(
+                              user['email'],
+                              style: h5,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(left: 50),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: (url != null)
-                              ? CircleAvatar(
-                                  backgroundColor: Colors.grey,
-                                  radius: 50,
-                                  child: Image.network(
-                                    url,
-                                    fit: BoxFit.fill,
-                                    width: double.infinity,
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return Center(
-                                          child: CircularProgressIndicator());
-                                    },
-                                  ))
-                              : CircleAvatar(
-                                  backgroundColor: Colors.grey,
-                                  radius: 50,
-                                  backgroundImage:
-                                      NetworkImage(_cUser.avatarUrl),
-                                ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 60),
-                        child: IconButton(
-                          icon: Icon(Icons.camera_alt_rounded),
-                          onPressed: () {
-                            uploadImage();
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                  st,
-                  Text(
-                    '${_cUser.name}',
-                    style: h4,
-                  ),
-                  st,
-                  spacer,
-                  Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Gender',
-                        style: h4,
-                      ),
-                      Text(
-                        'Level',
-                        style: h4,
-                      ),
-                      Text(
-                        'Email',
-                        style: h4,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '${_cUser.gender}',
-                        style: h5,
-                      ),
-                      Text(
-                        '                ${_cUser.academicLevel}',
-                        style: h5,
-                      ),
-                      Text(
-                        '${_cUser.email}',
-                        style: h5,
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
+                ),
+              );
+            }),
       ],
     );
   }
 
-  Widget customTutor() {
+  Widget customTutor(DocumentSnapshot user) {
     SizedBox st = SizedBox(
       height: 5,
     );
@@ -692,7 +744,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
 
     Text name = Text(
-      "${_cUser.name}",
+      user['name'],
       style: style,
     );
 
@@ -710,7 +762,7 @@ class _ProfilePageState extends State<ProfilePage> {
       style: styles,
     );
     Text genderValue = Text(
-      "${_cUser.gender}",
+      user['gender'],
       style: valueStyle,
     );
 
@@ -719,7 +771,7 @@ class _ProfilePageState extends State<ProfilePage> {
       style: styles,
     );
     Text acaValue = Text(
-      "${_cUser.academicLevel}",
+      user['academicLevel'],
       style: valueStyle,
     );
 
@@ -728,7 +780,7 @@ class _ProfilePageState extends State<ProfilePage> {
       style: styles,
     );
     Text emailValue = Text(
-      "${_cUser.email}",
+      user['email'],
       style: valueStyle,
     );
 
@@ -737,7 +789,7 @@ class _ProfilePageState extends State<ProfilePage> {
       style: styles,
     );
     Text phoneValue = Text(
-      "${_cUser.phoneNum}",
+      user['phoneNum'],
       style: valueStyle,
     );
 
@@ -831,7 +883,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           : CircleAvatar(
                               backgroundColor: Colors.grey,
                               radius: 50,
-                              backgroundImage: NetworkImage(_cUser.avatarUrl),
+                              backgroundImage: NetworkImage(user['avatar_url']),
                             ),
                     ),
                   ),
