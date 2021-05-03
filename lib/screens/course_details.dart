@@ -176,6 +176,8 @@ class _CourseDetailsState extends State<CourseDetails> {
                                     setState(() => FirebaseFirestore.instance
                                             .runTransaction((Transaction
                                                 transaction) async {
+                                          var random = new Random();
+
                                           CollectionReference reference =
                                               FirebaseFirestore.instance
                                                   .collection('registration');
@@ -197,7 +199,9 @@ class _CourseDetailsState extends State<CourseDetails> {
                                                 '${snapshot.data['course_name']}',
                                             'academic_level':
                                                 '${_cUser.academicLevel}',
-                                            'uid': '${_cUser.uid}'
+                                            'uid': '${_cUser.uid}',
+                                            'reg_id':
+                                                random.nextInt(100).toString(),
                                           });
                                         }));
                                     showDialog(
