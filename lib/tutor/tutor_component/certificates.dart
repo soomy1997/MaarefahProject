@@ -2,9 +2,6 @@ import 'package:flutter/rendering.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/utils/constants.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
-//import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class Certificates extends StatelessWidget {
   @override
@@ -67,8 +64,8 @@ class Certificates extends StatelessWidget {
                                     ),
                                     new TextButton.icon(
                                       onPressed: () async {
-                                        final status =
-                                            await Permission.storage.request();
+                                        // final status =
+                                        //     await Permission.storage.request();
 
                                         // if (status.isGranted) {
                                         //   final externalDir =

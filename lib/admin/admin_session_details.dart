@@ -3,7 +3,6 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app_1/admin/admin_compnent/main_drawer.dart';
-import 'package:flutter_app_1/admin/session_requests.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import '../component/dialogs.dart';
 import 'package:intl/intl.dart';
@@ -30,17 +29,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
   DateTime selectedDate;
   // = DateTime.now();
   String formattedDate;
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-      });
-  }
+ 
 
   Widget build(BuildContext context) {
     Widget table() {
@@ -268,91 +257,6 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                             snapshot.data.docs.first.data()["tutor_name"],
                           )),
                     ]),
-                // TableRow(
-                //     decoration: BoxDecoration(
-                //         border: Border(
-                //             bottom: BorderSide(
-                //                 width: 1.0, color: Colors.grey.shade300))),
-                //     children: [
-                //       Container(
-                //         padding: EdgeInsets.all(15),
-                //         child: Row(children: [
-                //           Text('State', style: h4),
-                //           SizedBox(
-                //             width: 5,
-                //           ),
-                //           Icon(
-                //             Icons.edit,
-                //             size: 20,
-                //             color: Colors.grey,
-                //           )
-                //         ]),
-                //       ),
-                //       Container(
-                //           padding: EdgeInsets.all(15),
-                //           child: Row(
-                //             children: [
-                //               Radio(
-                //                   value: 'shown',
-                //                   groupValue: stateGroupValue,
-                //                   activeColor: Colors.orange,
-                //                   onChanged: (val) {
-                //                     setState(() {
-                //                       stateGroupValue = val;
-                //                       isStateSelected = true;
-                //                     });
-                //                   }),
-                //               Text('Shown'),
-                //               Radio(
-                //                   value: 'hidden',
-                //                   groupValue: stateGroupValue,
-                //                   activeColor: Colors.orange,
-                //                   onChanged: (val) {
-                //                     setState(() {
-                //                       stateGroupValue = val;
-                //                       isStateSelected = true;
-                //                     });
-                //                   }),
-                //               Text('Hidden'),
-                //             ],
-                //           )),
-                //     ]),
-                // TableRow(
-                //     decoration: BoxDecoration(
-                //         border: Border(
-                //             bottom: BorderSide(
-                //                 width: 1.0, color: Colors.grey.shade300))),
-                //     children: [
-                //       Container(
-                //           padding: EdgeInsets.all(15),
-                //           child: Text(
-                //             'Suitable Days',
-                //             style: h4,
-                //           )),
-                //       Container(
-                //           padding: EdgeInsets.all(15),
-                //           child: Text(
-                //             snapshot.data.docs.first.data()["session_day"],
-                //           )),
-                //     ]),
-                // TableRow(
-                //     decoration: BoxDecoration(
-                //         border: Border(
-                //             bottom: BorderSide(
-                //                 width: 1.0, color: Colors.grey.shade300))),
-                //     children: [
-                //       Container(
-                //           padding: EdgeInsets.all(15),
-                //           child: Text(
-                //             'Suitable Times',
-                //             style: h4,
-                //           )),
-                //       Container(
-                //           padding: EdgeInsets.all(15),
-                //           child: Text(
-                //             snapshot.data.docs.first.data()["session_time"],
-                //           )),
-                //     ]),
                 TableRow(
                     decoration: BoxDecoration(
                         border: Border(
@@ -366,11 +270,6 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                             SizedBox(
                               width: 5,
                             ),
-                            Icon(
-                              Icons.edit,
-                              size: 20,
-                              color: Colors.grey,
-                            )
                           ])),
                       Container(
                         padding: EdgeInsets.all(15),
@@ -491,7 +390,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                         'approved': 'yes',
                         // 'ses_date':
                         //     '${formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate)}',
-                        'time_stamp': selectedDate,
+                        // 'time_stamp': selectedDate,
                       }).then(
                         (value) => print('Success!'),
                       );
@@ -499,12 +398,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
             setState(() {
               approvalstate = true;
             });
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SessionRequestPage(),
-              ),
-            );
+            Navigator.pop(context);
           } else {
             setState(() => null);
           }
@@ -536,12 +430,7 @@ class _SessionDetailsPage extends State<SessionDetailsPage> {
                 });
               });
             });
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SessionRequestPage(),
-              ),
-            );
+            Navigator.pop(context);
           } else {
             setState(() => null);
           }

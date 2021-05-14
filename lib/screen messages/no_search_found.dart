@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_1/main.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 
 class NoSearchFound extends StatefulWidget {

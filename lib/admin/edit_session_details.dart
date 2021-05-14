@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app_1/component/dialogs.dart';
-import 'package:flutter_app_1/admin/manage_session.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
@@ -43,6 +42,8 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
     'Operating Systems',
     'Java Programming: 2 Books in 1',
     "Human Computer Interaction",
+    "Busniess Management",
+    "Java Arrays",
   ];
   List levelList = ["4th", "5th", "6th", "7th", "8th", "9th", "10th"];
   List sessionTypes = ["College Courses", "Additional Skills Courses"];
@@ -448,94 +449,6 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                                   snapshot.data.docs.first.data()['tutor_name'],
                                 )),
                           ]),
-                      // TableRow(
-                      //     decoration: BoxDecoration(
-                      //         border: Border(
-                      //             bottom: BorderSide(
-                      //                 width: 1.0,
-                      //                 color: Colors.grey.shade300))),
-                      //     children: [
-                      //       Container(
-                      //           padding: EdgeInsets.all(15),
-                      //           child: Row(children: [
-                      //             Text('State', style: h4),
-                      //             SizedBox(
-                      //               width: 5,
-                      //             ),
-                      //           ])),
-                      //       Container(
-                      //           padding: EdgeInsets.fromLTRB(15, 10, 25, 10),
-                      //           child: DropdownButtonFormField(
-                      //             decoration:
-                      //                 InputDecoration(border: InputBorder.none),
-                      //             hint: Text('State'),
-                      //             icon: Icon(Icons.arrow_drop_down),
-                      //             style: h5,
-                      //             isExpanded: true,
-                      //             validator: (value) => value == null
-                      //                 ? '   This field is required'
-                      //                 : null,
-                      //             value:
-                      //                 snapshot.data.docs.first.data()['state'],
-                      //             onChanged: (newValue1) {
-                      //               setState(() {
-                      //                 stateValueChoose = newValue1;
-                      //               });
-                      //             },
-                      //             onSaved: (newValue1) {
-                      //               setState(() {
-                      //                 stateValueChoose = newValue1;
-                      //               });
-                      //             },
-                      //             items: statelList.map((valueItem1) {
-                      //               return DropdownMenuItem(
-                      //                 value: valueItem1,
-                      //                 child: Text(valueItem1,
-                      //                     style: TextStyle(fontSize: 16)),
-                      //               );
-                      //             }).toList(),
-                      //           )),
-                      //     ]),
-                      // TableRow(
-                      //     decoration: BoxDecoration(
-                      //         border: Border(
-                      //             bottom: BorderSide(
-                      //                 width: 1.0,
-                      //                 color: Colors.grey.shade300))),
-                      //     children: [
-                      //       Container(
-                      //           padding: EdgeInsets.all(15),
-                      //           child: Text(
-                      //             'Session Days',
-                      //             style: h4,
-                      //           )),
-                      //       Container(
-                      //           padding: EdgeInsets.all(15),
-                      //           child: Text(
-                      //             snapshot.data.docs.first
-                      //                 .data()['session_day'],
-                      //           )),
-                      //     ]),
-                      // TableRow(
-                      //     decoration: BoxDecoration(
-                      //         border: Border(
-                      //             bottom: BorderSide(
-                      //                 width: 1.0,
-                      //                 color: Colors.grey.shade300))),
-                      //     children: [
-                      //       Container(
-                      //           padding: EdgeInsets.all(15),
-                      //           child: Text(
-                      //             'Session Times',
-                      //             style: h4,
-                      //           )),
-                      //       Container(
-                      //           padding: EdgeInsets.all(15),
-                      //           child: Text(
-                      //             snapshot.data.docs.first
-                      //                 .data()['session_time'],
-                      //           )),
-                      //     ]),
                       TableRow(
                           decoration: BoxDecoration(
                               border: Border(
@@ -642,12 +555,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                     (value) => print('Success!'),
                   );
                 }));
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ManageSessionsPage(),
-          ),
-        );
+        Navigator.pop(context);
       } else {
         setState(() => null);
       }
@@ -697,12 +605,7 @@ class _EditSessionDetailsPage extends State<EditSessionDetailsPage> {
                   });
                 });
               });
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ManageSessionsPage(),
-                ),
-              );
+              Navigator.pop(context);
             } else {
               setState(() => null);
             }

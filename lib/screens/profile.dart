@@ -11,12 +11,11 @@ import 'package:flutter_app_1/screens/edit_account.dart';
 import 'package:flutter_app_1/screens/join_as_tutor.dart';
 import 'package:flutter_app_1/models/users.dart';
 import 'package:flutter_app_1/root/root.dart';
-import 'package:flutter_app_1/services/database.dart';
 import 'package:flutter_app_1/services/flutterfire.dart';
-import 'package:flutter_app_1/tutor/tutor_component/certificates.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'About.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'package:flutter_app_1/tutor/taught_sessions.dart';
@@ -28,18 +27,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  OurUser _currentUser = OurUser();
   OurUser _cUser = OurUser();
 
   Stream currentUserInfo() {
     User _firebaseUser = FirebaseAuth.instance.currentUser;
-    // _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
-
-    // setState(() {
-    //   _cUser = _currentUser;
-    // });
-    //
-    // var currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
 
     var currentUser = FirebaseFirestore.instance
         .collection("users")
@@ -163,203 +154,201 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget tutorContainerElement() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(6),
-        child: StreamBuilder(
-            stream: currentUserInfo(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return SizedBox();
-              }
+    return Padding(
+      padding: const EdgeInsets.all(6),
+      child: StreamBuilder(
+          stream: currentUserInfo(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return SizedBox();
+            }
 
-              return Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      customTutor(snapshot.data),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                              margin: EdgeInsets.symmetric(horizontal: 10),
-                              child: Text(
-                                "Account",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )),
-                          ListTile(
-                              leading: Icon(
-                                Icons.photo_camera_front,
-                                color: Colors.blue[800],
+            return Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    customTutor(snapshot.data),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              "Account",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
-                              title: Text("My zoom link",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                  )),
-                              onTap: () {
-                                const url =
-                                    "https://us04web.zoom.us/j/76518082507?pwd=TE5ISzJ1UEdPMlNTK05ETTdZa1JKUT09";
-                                // if (canLaunch(url) != null) launch(url);
-                              }),
-                          ListTile(
+                            )),
+                        ListTile(
                             leading: Icon(
-                              Icons.collections_bookmark_rounded,
-                              color: Colors.orange,
+                              Icons.photo_camera_front,
+                              color: Colors.blue[800],
                             ),
-                            title: Text("Taught sessions",
+                            title: Text("My zoom link",
                                 style: TextStyle(
                                   fontSize: 16,
                                 )),
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TaughtSessions()),
-                              );
-                            },
+                              const url =
+                                  "https://us04web.zoom.us/j/76518082507?pwd=TE5ISzJ1UEdPMlNTK05ETTdZa1JKUT09";
+                              if (canLaunch(url) != null) launch(url);
+                            }),
+                        ListTile(
+                          leading: Icon(
+                            Icons.collections_bookmark_rounded,
+                            color: Colors.orange,
                           ),
-                          ListTile(
-                            leading: Icon(
-                              Icons.ad_units,
-                              color: Colors.orange,
-                            ),
-                            title: Text("Registered Session",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                )),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          RegisteredSessions()));
-                            },
-                          ),
-                          ListTile(
-                            leading: Icon(
-                              Icons.lock,
-                              color: Colors.greenAccent,
-                            ),
-                            title: Text("Change Password",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                )),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ChangePassword()),
-                              );
-                            },
-                          ),
-                          // ListTile(
-                          //   leading: Icon(Icons.card_membership_outlined,
-                          //       color: Colors.brown[200]),
-                          //   title: Text("Certifications",
-                          //       style: TextStyle(
-                          //         fontSize: 16,
-                          //       )),
-                          //   onTap: () {
-                          //     Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) => Certificates()),
-                          //     );
-                          //   },
-                          // ),
-                          Container(
-                              margin: EdgeInsets.symmetric(horizontal: 20),
-                              child: Text(
-                                "Support",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          title: Text("Taught sessions",
+                              style: TextStyle(
+                                fontSize: 16,
                               )),
-                          ListTile(
-                            leading: Icon(
-                              Icons.location_on_outlined,
-                              color: Colors.red,
-                            ),
-                            title: Text("About Us",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                )),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AboutPage()));
-                            },
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TaughtSessions()),
+                            );
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(
+                            Icons.ad_units,
+                            color: Colors.orange,
                           ),
-                          ListTile(
-                            leading: Icon(
-                              Icons.email,
-                              color: Colors.blue[200],
-                            ),
-                            title: Text("Contact Us",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                )),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Account()));
-                            },
+                          title: Text("Registered Session",
+                              style: TextStyle(
+                                fontSize: 16,
+                              )),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        RegisteredSessions()));
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(
+                            Icons.lock,
+                            color: Colors.greenAccent,
                           ),
-                        ],
-                      ),
-                      Container(
-                          padding: EdgeInsets.all(15.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                ElevatedButton.icon(
-                                  onPressed: () async {
-                                    CurrentUser _currentUser =
-                                        Provider.of<CurrentUser>(context,
-                                            listen: false);
-                                    String _returnString =
-                                        await _currentUser.signOut();
-                                    if (_returnString == 'success') {
-                                      Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => OurRout(),
-                                        ),
-                                        (route) => false,
-                                      );
-                                    } else {}
-                                  },
-                                  icon: Icon(
-                                    Icons.logout,
-                                    color: whiteBG,
-                                  ),
-                                  label: Text(
-                                    "Sign Out",
-                                    style: yellowButtonsTextStyle,
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    primary: accentOrange,
-                                  ),
+                          title: Text("Change Password",
+                              style: TextStyle(
+                                fontSize: 16,
+                              )),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChangePassword()),
+                            );
+                          },
+                        ),
+                        // ListTile(
+                        //   leading: Icon(Icons.card_membership_outlined,
+                        //       color: Colors.brown[200]),
+                        //   title: Text("Certifications",
+                        //       style: TextStyle(
+                        //         fontSize: 16,
+                        //       )),
+                        //   onTap: () {
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (context) => Certificates()),
+                        //     );
+                        //   },
+                        // ),
+                        Container(
+                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              "Support",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
+                        ListTile(
+                          leading: Icon(
+                            Icons.location_on_outlined,
+                            color: Colors.red,
+                          ),
+                          title: Text("About Us",
+                              style: TextStyle(
+                                fontSize: 16,
+                              )),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AboutPage()));
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(
+                            Icons.email,
+                            color: Colors.blue[200],
+                          ),
+                          title: Text("Contact Us",
+                              style: TextStyle(
+                                fontSize: 16,
+                              )),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Account()));
+                          },
+                        ),
+                      ],
+                    ),
+                    Container(
+                        padding: EdgeInsets.all(15.0),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ElevatedButton.icon(
+                                onPressed: () async {
+                                  CurrentUser _currentUser =
+                                      Provider.of<CurrentUser>(context,
+                                          listen: false);
+                                  String _returnString =
+                                      await _currentUser.signOut();
+                                  if (_returnString == 'success') {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => OurRout(),
+                                      ),
+                                      (route) => false,
+                                    );
+                                  } else {}
+                                },
+                                icon: Icon(
+                                  Icons.logout,
+                                  color: whiteBG,
                                 ),
-                              ])),
-                    ],
-                  ),
+                                label: Text(
+                                  "Sign Out",
+                                  style: yellowButtonsTextStyle,
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  primary: accentOrange,
+                                ),
+                              ),
+                            ])),
+                  ],
                 ),
-              );
-            }),
-      ),
+              ),
+            );
+          }),
     );
   }
 
@@ -499,6 +488,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 listen: false);
                             String _returnString = await _currentUser.signOut();
                             if (_returnString == 'success') {
+
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
@@ -563,15 +553,7 @@ class _ProfilePageState extends State<ProfilePage> {
     SizedBox spacer = SizedBox(
       height: 15,
     );
-    // return StreamBuilder(
-    //     stream: FirebaseFirestore.instance.collection('users').snapshots(),
-    //     builder: (context, snapshot) {
-    //       if (!snapshot.hasData)
-    //         return Container(
-    //           alignment: FractionalOffset.center,
-    //           child: CircularProgressIndicator(),
-    //         );
-    //       OurUser users = CurrentUser().getCurrntUser;
+
     return Column(
       children: <Widget>[
         StreamBuilder<Object>(
@@ -695,6 +677,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               style: h5,
                             ),
                             Text(
+                              '            ',
+                            ),
+                            Text(
                               user['academicLevel'],
                               style: h5,
                             ),
@@ -737,25 +722,12 @@ class _ProfilePageState extends State<ProfilePage> {
       fontWeight: FontWeight.bold,
       fontSize: 16,
     );
-    TextStyle editStyle = TextStyle(
-      color: Colors.orange,
-      fontWeight: FontWeight.bold,
-      fontSize: 16,
-    );
 
     Text name = Text(
       user['name'],
       style: style,
     );
 
-    Text edit = Text(
-      "Edit",
-      style: editStyle,
-    );
-    // Text learner = Text(
-    //   "${_cUser.name}",
-    //   style: valueStyle,
-    // );
 
     Text gender = Text(
       "Gender",

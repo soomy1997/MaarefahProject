@@ -68,13 +68,14 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
   }
 
   Future<String> tutorNameByUid() async {
+    
     var sessions = await FirebaseFirestore.instance
         .collection("users")
         .where("uid", isEqualTo: widget.post)
         .limit(1)
         .get();
-    var tt_name = sessions.docs[0].data()['name'];
-    return tt_name;
+    var ttName = sessions.docs[0].data()['name'];
+    return ttName;
   }
 
   Future<DocumentSnapshot> getuserinformation() async {
@@ -86,7 +87,6 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
   }
 
   Future<int> getSessionsCount() async {
-    var tutorName = await tutorNameByUid();
 
     var sessions = await FirebaseFirestore.instance
         .collection("session")
@@ -98,7 +98,6 @@ class _MyTutorDetailsState extends State<MyTutorDetails> {
   }
 
   Future<int> getCountReviews() async {
-    var tutorName = await tutorNameByUid();
 
     var x = await FirebaseFirestore.instance
         .collection('ratings')

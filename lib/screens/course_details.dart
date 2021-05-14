@@ -23,16 +23,6 @@ class CourseDetails extends StatefulWidget {
   _CourseDetailsState createState() => _CourseDetailsState();
 }
 
-// Future<String> tutorNameByUid() async {
-//   var sessions = await FirebaseFirestore.instance
-//       .collection("users")
-//       .where("uid", isEqualTo: widget.post)
-//       .limit(1)
-//       .get();
-//   var tt_name = sessions.docs[0].data()['name'];
-//   return tt_name;
-// }
-
 class _CourseDetailsState extends State<CourseDetails> {
   Future<DocumentSnapshot> getSessioninformation() async {
     var sess = await FirebaseFirestore.instance
@@ -43,15 +33,6 @@ class _CourseDetailsState extends State<CourseDetails> {
     return sess.docs[0];
   }
 
-  // Future<String> sessionNameByUid() async {
-  //   var sessions = await FirebaseFirestore.instance
-  //       .collection("session")
-  //       .where("sessionId", isEqualTo: widget.post.data()['sessionId'])
-  //       .limit(1)
-  //       .get();
-  //   var tt_name = sessions.docs[0].data()['name'];
-  //   return tt_name;
-  // }
 
   navigateToTutorDetails(String post) {
     Navigator.push(
@@ -91,7 +72,6 @@ class _CourseDetailsState extends State<CourseDetails> {
   @override
   Widget build(BuildContext context) {
     print("from course details " + widget.isUserRegistered.toString());
-    void _sendToServer() {}
 
     return Scaffold(
         appBar: myAppBar1(

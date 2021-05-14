@@ -14,17 +14,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomePage> {
-  //getting current user information
 
+  //getting current user information
   OurUser _currentUser = OurUser();
-  OurUser _cUser;
   OurUser get getCurrntUser => _currentUser;
   Future<OurUser> getUserInfo() async {
     User _firebaseUser = FirebaseAuth.instance.currentUser;
     _currentUser = await OurDatabase().getuserInfo(_firebaseUser.uid);
-    // setState(() {
-    //   _cUser = _currentUser;
-    // });
     return _currentUser;
   }
 
@@ -39,9 +35,7 @@ class _HomeScreenState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String sesName = "";
 
-  Stream _data;
   getDetails() async {
-    print("this is sintance ");
     // DateTime _now = DateTime.now();
     // DateTime _start = DateTime(_now.day, _now.month, _now.year, 0, 0);
     // var x = Timestamp.fromDate(_start);
@@ -54,14 +48,18 @@ class _HomeScreenState extends State<HomePage> {
 
     // print('this is timestamp' +
     //     DateTime.fromMicrosecondsSinceEpoch(myvalue * 1000).toString());
-    print("this is sintance 2 ");
+
     var data = await FirebaseFirestore.instance
         .collection('session')
-        //.where('session_date', isGreaterThanOrEqualTo: 12)
+        //.where('time_stamp', isLessThanOrEqualTo: v)
         .where('approved', isEqualTo: "yes")
         .get();
+    // .where('session_date',
+    //     isGreaterThanOrEqualTo:
+    //         new DateTime.now().millisecondsSinceEpoch)
     // print("DOCUMENT SIZE IS LLLL: ");
     // print("this is sintance 3 ");
+
     return data;
   }
 
@@ -141,9 +139,6 @@ class _HomeScreenState extends State<HomePage> {
                           .collection('session')
                           .where("searchIndex", arrayContains: sesName)
                           .where("approved", isEqualTo: 'yes')
-                          // .where('session_date',
-                          //     isGreaterThanOrEqualTo:
-                          //         new DateTime.now().millisecondsSinceEpoch)
                           .get()
                       : getDetails(),
                   builder: (context, snapshot) {
@@ -158,9 +153,7 @@ class _HomeScreenState extends State<HomePage> {
                               itemBuilder: (context, index) {
                                 DocumentSnapshot doc =
                                     snapshot.data.docs[index];
-                                // var x =
-                                //     DateTime.parse(' ${doc.data()['time_stamp']}')
-                                //         .month;
+
                                 DateTime myDateTime =
                                     (doc.data()['time_stamp']).toDate();
                                 var sesDate = DateFormat.yMMMd()
@@ -212,34 +205,54 @@ class _HomeScreenState extends State<HomePage> {
                                                           fontSize: 14,
                                                         ),
                                                       ),
-                                                      // Padding(
-                                                      //   padding:
-                                                      //       const EdgeInsets
-                                                      //               .only(
-                                                      //           left: 15.0),
-                                                      //   child: Icon(
-                                                      //     Icons.access_time,
-                                                      //     size: 18,
-                                                      //   ),
-                                                      // ),
-                                                      // Padding(
-                                                      //   padding:
-                                                      //       const EdgeInsets
-                                                      //               .only(
-                                                      //           left: 5.0),
-                                                      //   child: Text(
-                                                      //     doc.data()[
-                                                      //         'session_time'],
-                                                      //     style: TextStyle(
-                                                      //       color: Colors
-                                                      //           .grey.shade800,
-                                                      //       fontWeight:
-                                                      //           FontWeight
-                                                      //               .normal,
-                                                      //       fontSize: 14,
-                                                      //     ),
-                                                      //   ),
-                                                      // ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 17.0),
+                                                      child: Text(
+                                                        'By: ' +
+                                                            doc.data()[
+                                                                'tutor_name'],
+                                                        style: TextStyle(
+                                                          color: primaryBlack,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 14,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 10.0),
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .calendar_today_outlined,
+                                                            size: 18,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 5.0),
+                                                            child: Text(
+                                                              sesDate,
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .shade800,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontSize: 14,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -247,8 +260,6 @@ class _HomeScreenState extends State<HomePage> {
                                             ],
                                           ),
                                           onTap: () async {
-                                            // print(
-                                            //     'this is timestamp' + x.toString());
                                             var user = await getUserInfo();
                                             print('session id ' +
                                                 snapshot.data
@@ -264,9 +275,6 @@ class _HomeScreenState extends State<HomePage> {
                                                         .docs[index]
                                                             ['sessionId']
                                                         .toString());
-
-                                            // print("IS USER REGSISTERED: " +
-                                            //     isUserRegistered.toString());
                                             navigateToCourseDetails(
                                                 snapshot.data.docs[index]
                                                     ['sessionId'],

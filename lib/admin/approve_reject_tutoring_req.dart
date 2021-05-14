@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/component/dialogs.dart';
-import 'package:flutter_app_1/admin/manage_tutoring_request.dart';
 import 'package:flutter_app_1/utils/constants.dart';
 import 'admin_compnent/main_drawer.dart';
 
@@ -139,7 +138,7 @@ class _ApproveRejTutoringReqState extends State<ApproveRejTutoringReq> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Builder(builder: (context) {
-                            return FlatButton(
+                            return MaterialButton(
                                 height: 50,
                                 minWidth: 180,
                                 shape: RoundedRectangleBorder(
@@ -173,13 +172,7 @@ class _ApproveRejTutoringReqState extends State<ApproveRejTutoringReq> {
                                               );
                                             }));
 
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            ManageTutoingRequest(),
-                                      ),
-                                    );
+                                    Navigator.pop(context);
                                   } else {
                                     setState(() => null);
                                   }
@@ -188,7 +181,7 @@ class _ApproveRejTutoringReqState extends State<ApproveRejTutoringReq> {
                           SizedBox(
                             width: 10,
                           ),
-                          FlatButton(
+                          MaterialButton(
                               height: 50,
                               minWidth: 180,
                               shape: RoundedRectangleBorder(
@@ -219,13 +212,7 @@ class _ApproveRejTutoringReqState extends State<ApproveRejTutoringReq> {
                                           );
                                         }),
                                       );
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ManageTutoingRequest(),
-                                    ),
-                                  );
+                                  Navigator.pop(context);
                                 } else {
                                   setState(() => null);
                                 }

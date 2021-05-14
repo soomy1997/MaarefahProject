@@ -21,6 +21,14 @@ class _AdminSignPageState extends State<AdminSignPage> {
   var password = "";
 
   var color = Colors.grey;
+// Initially password is obscure
+  bool _obscureText = true;
+  // Toggles the password show status
+  void _togglePasswordStatus() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
 
   void _loginUser(String email, String password, BuildContext context) async {
     CurrentAdmin _currentUser =
@@ -52,7 +60,7 @@ class _AdminSignPageState extends State<AdminSignPage> {
   @override
   Widget build(BuildContext context) {
     final passwordField = TextFormField(
-      obscureText: true,
+      obscureText: _obscureText,
       validator: (input) {
         if (input.isEmpty) {
           return "this field is required";
@@ -73,6 +81,12 @@ class _AdminSignPageState extends State<AdminSignPage> {
           prefixIcon: Icon(
             Icons.lock_outlined,
             color: color,
+          ),
+          suffixIcon: IconButton(
+            icon: Icon(
+              _obscureText ? Icons.visibility_off : Icons.visibility,
+            ),
+            onPressed: _togglePasswordStatus,
           ),
           contentPadding: EdgeInsets.fromLTRB(30.0, 15.0, 20.0, 15.0),
           hintText: "*******",
